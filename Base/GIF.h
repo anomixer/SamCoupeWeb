@@ -32,6 +32,7 @@ void Toggle(int flags);
 bool IsRecording();
 
 void AddFrame(const FrameBuffer& fb);
+const std::string& GetLastPath();
 }
 
 

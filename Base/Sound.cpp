@@ -105,6 +105,7 @@ void Sound::FrameUpdate(bool turbo)
     {
         frame_time = now;
     }
+#ifndef __EMSCRIPTEN__
     else if (!GetOption(audiosync) && GetOption(speed) == 100)
     {
         auto max_adjust = 0.01f;
@@ -112,6 +113,7 @@ void Sound::FrameUpdate(bool turbo)
         frame_time += duration_cast<microseconds>(one_frame * scale);
         std::this_thread::sleep_until(frame_time);
     }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////

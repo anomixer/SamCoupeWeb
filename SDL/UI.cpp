@@ -79,9 +79,12 @@ void UI::Exit(bool fReInit_/*=false*/)
 std::unique_ptr<IVideoBase> UI::CreateVideo()
 {
 #ifdef HAVE_OPENGL
-    if (auto backend = std::make_unique<SDL_GL3>(); backend->Init())
+    if (GetOption(usewebgl))
     {
-        return backend;
+        if (auto backend = std::make_unique<SDL_GL3>(); backend->Init())
+        {
+            return backend;
+        }
     }
 #endif
 

@@ -100,7 +100,14 @@ void Input::AcquireMouse(bool active)
     {
         SDL_ShowCursor(active ? SDL_DISABLE : SDL_ENABLE);
         Video::MouseRelative();
+
+#ifdef __EMSCRIPTEN__
+        // In WASM, use Relative Mouse Mode to trigger Pointer Lock.
+        // This is the only way to get reliable relative motion without warping.
+        SDL_SetRelativeMouseMode(active ? SDL_TRUE : SDL_FALSE);
+#else
         SDL_CaptureMouse(active ? SDL_TRUE : SDL_FALSE);
+#endif
     }
 
     fMouseActive = active;
@@ -476,13 +483,13 @@ void Input::Update()
 }
 
 
-int Input::MapChar(int nChar_, int* /*pnMods_*/)
+int Input::MapChar(int nChar_, int* pnMods_)
 {
-    // Regular characters details aren't known until the key press
-    if (nChar_ < HK_MIN)
-        return 0;
+    if (pnMods_)
+        *pnMods_ = 0;
 
-    if (nChar_ >= HK_MIN && nChar_ < HK_MAX)
+    // Regular characters are returned as-is
+    if (nChar_ < HK_MAX)
         return nChar_;
 
     return 0;

@@ -197,4 +197,10 @@ void AddFrame(const uint8_t* pb_, int nLen_)
     }
 }
 
+const std::string& GetLastPath()
+{
+    static std::string empty;
+    return (nFrames > 0) ? wav_path : empty;
+}
+
 } // namespace WAV

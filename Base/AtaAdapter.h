@@ -38,6 +38,10 @@ public:
     bool Attach(const std::string& disk_path, int nDevice_);
     virtual bool Attach(std::unique_ptr<HardDisk> disk, int nDevice_);
     virtual void Detach();
+    virtual void Flush() override;
+
+    bool IsModified(int nDevice_) const;
+    void ClearModified(int nDevice_);
 
 protected:
     uint16_t InWord(uint16_t wPort_);

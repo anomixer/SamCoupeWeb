@@ -28,4 +28,5 @@ void Toggle(bool fSegment_ = false);
 bool IsRecording();
 
 void AddFrame(const uint8_t* pb_, int nLen_);
+const std::string& GetLastPath();
 }

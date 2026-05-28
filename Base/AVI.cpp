@@ -578,4 +578,9 @@ void AddFrame(const uint8_t* buffer, unsigned int len)
     want_video = true;
 }
 
+const std::string& GetLastPath()
+{
+    return avi_path;
+}
+
 } // namespace AVI

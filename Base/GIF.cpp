@@ -477,6 +477,11 @@ void AddFrame(const FrameBuffer& fb)
     pgc->WriteDataBlocks(file, ww * wh, COLOUR_DEPTH);
 }
 
+const std::string& GetLastPath()
+{
+    return gif_path;
+}
+
 } // namespace GIF
 
 ////////////////////////////////////////////////////////////////////////////////

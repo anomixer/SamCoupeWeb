@@ -220,6 +220,18 @@ void SDL_GL3::ResizeWindow(int height) const
 
 std::pair<int, int> SDL_GL3::MouseRelative()
 {
+#ifdef __EMSCRIPTEN__
+    // In WASM, warping mouse to center is unreliable.
+    // Use Relative Mouse Mode (Pointer Lock) for smooth movement.
+    int dx = 0, dy = 0;
+    SDL_GetRelativeMouseState(&dx, &dy);
+
+    // Scaling factor based on display area
+    auto pix_x = static_cast<float>(m_rDisplay.w) / Frame::Width() * 2;
+    auto pix_y = static_cast<float>(m_rDisplay.h) / Frame::Height() * 2;
+
+    return { static_cast<int>(dx / pix_x), static_cast<int>(dy / pix_y) };
+#else
     SDL_Point mouse{};
     SDL_GetMouseState(&mouse.x, &mouse.y);
 
@@ -241,6 +253,7 @@ std::pair<int, int> SDL_GL3::MouseRelative()
     }
 
     return { dx_sam, dy_sam };
+#endif
 }
 
 void SDL_GL3::UpdatePalette()

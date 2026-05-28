@@ -33,4 +33,5 @@ bool IsRecording();
 
 void AddFrame(const FrameBuffer& fb);
 void AddFrame(const uint8_t* buffer, unsigned int len);
+const std::string& GetLastPath();
 }

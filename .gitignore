@@ -12,3 +12,7 @@ Thumbs.db
 /SimCoupe-*
 /build_*
 /Demos
+/emsdk
+/deps
+/emsdk-wasm
+scratch/

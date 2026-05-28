@@ -26,7 +26,7 @@
 
 constexpr auto MIN_LATENCY_FRAMES = 4;
 
-static SDL_AudioDeviceID dev;
+SDL_AudioDeviceID dev;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -67,7 +67,7 @@ float Audio::AddData(uint8_t* pData_, int len_bytes)
     auto buffer_frames = std::max(GetOption(latency), MIN_LATENCY_FRAMES);
     Uint32 buffer_size = SAMPLES_PER_FRAME * buffer_frames * BYTES_PER_SAMPLE;
 
-#if 1
+#ifndef __EMSCRIPTEN__
     while (SDL_GetQueuedAudioSize(dev) >= buffer_size)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -75,4 +75,9 @@ float Audio::AddData(uint8_t* pData_, int len_bytes)
 #endif
 
     return static_cast<float>(SDL_GetQueuedAudioSize(dev)) / buffer_size;
+}
+uint32_t Audio::GetQueuedSize()
+{
+    extern SDL_AudioDeviceID dev;
+    return dev ? SDL_GetQueuedAudioSize(dev) : 0;
 }
