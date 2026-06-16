@@ -2991,7 +2991,7 @@ bool BptView::OnMessage(int nMessage_, int nParam1_, int nParam2_)
     {
     case GM_BUTTONDBLCLK:
     {
-        int nIndex = (nParam2_ - m_nY) / ROW_HEIGHT;
+        int nIndex = m_nTopLine + (nParam2_ - m_nY) / ROW_HEIGHT;
 
         if (IsOver() && nIndex >= 0 && nIndex < m_nLines)
         {
