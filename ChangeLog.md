@@ -1,5 +1,11 @@
 # SimCoupe ChangeLog
 
+## Version 1.2.17 (2026-08-31)
+
+- fixed instruction trace showing wrong block register values (#111)
+- fixed issue disabling breakpoints when more than 22 were set
+- fixed window border colour being too light (#115)
+
 ## Version 1.2.16 (2026-05-25)
 
 - fixed bpu breakpoints being deleted on trigger (#99)

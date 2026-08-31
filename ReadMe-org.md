@@ -1,4 +1,4 @@
-# SimCoupe - A SAM Coupé Emulator
+﻿# SimCoupe - A SAM Coup├⌐ Emulator
 
 By Simon Owen (simon@simonowen.com)
 
@@ -11,7 +11,7 @@ By Simon Owen (simon@simonowen.com)
 
 ## Introduction
 
-SimCoupe emulates the SAM Coupé - a British Z80-based home computer released in
+SimCoupe emulates the SAM Coup├⌐ - a British Z80-based home computer released in
 1989 by Miles Gordon Technology.
 
 This version of SimCoupe was derived from Allan Skillman's SimCoupe 0.72 for DOS
@@ -65,7 +65,7 @@ See the [User Manual](Manual.md) for instructions on how to use SimCoupe.
 - Dr Andy Wright - Permission to distribute the SAM ROMs
 - Philip Kendall - Spectrum support library
 
-Special thanks to Andrew Collier, Edwin Blink, Chris Pile, Frode Tennebø, Steve
+Special thanks to Andrew Collier, Edwin Blink, Chris Pile, Frode Tenneb├╕, Steve
 Parry-Thomas and Robert Wilkinson, for their active roles during development.
 Thanks also to the sam-users mailing list, and everyone who sent feedback.
 
