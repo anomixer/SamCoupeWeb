@@ -340,8 +340,16 @@ void SDL_GL3::UpdatePalette()
     std::transform(
         palette.begin(), palette.end(), std::back_inserter(gl_palette),
         [&](COLOUR& c) {
+#ifdef __EMSCRIPTEN__
+            // The RGBA8 palette texture must be opaque: its alpha flows through
+            // to the canvas, and WebKit (Safari) composites alpha=0 as invisible.
+            return RGB2Native(
+                c.red, c.green, c.blue, 0xff,
+                0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+#else
             return RGB2Native(
                 c.red, c.green, c.blue, 0x000000ff, 0x0000ff00, 0x00ff0000);
+#endif
         });
 
     glActiveTexture(GL_TEXTURE0);
