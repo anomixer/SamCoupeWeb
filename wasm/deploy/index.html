@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SamCoupeWeb</title>
+    <title>SamCoupeWeb v1.2.17 WOS Edition</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         :root {
@@ -477,6 +477,839 @@
         .modal-btn.primary:hover {
             background: #005a9e;
         }
+
+        /* ── Software Library (World of SAM) ─────────────────────────── */
+        .menu-logo-btn {
+            padding: 0 8px 0 12px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .menu-logo-btn img {
+            height: 22px;
+            display: block;
+            padding: 1px 5px;
+            background: #eef1f5;
+            border-radius: 3px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .45);
+            transition: background .15s;
+        }
+
+        .menu-logo-btn:hover {
+            background-color: var(--menu-hover);
+        }
+
+        .menu-logo-btn:hover img {
+            background: #fff;
+        }
+
+        .library-panel {
+            position: absolute;
+            inset: 0;
+            z-index: 400;
+            display: none;
+            flex-direction: column;
+            background: linear-gradient(180deg, #151517 0%, #0f0f11 100%);
+            color: #e6e6e8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .library-panel.active {
+            display: flex;
+        }
+
+        .lib-header {
+            flex: 0 0 42px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 0 10px;
+            background: #202024;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .lib-crumb {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex: 1 1 auto;
+            min-width: 0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .lib-back {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 3px;
+            color: #9fd4ff;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .lib-back:hover {
+            background: #303038;
+        }
+
+        .lib-back.is-hidden {
+            display: none;
+        }
+
+        .lib-crumb-title {
+            flex: 0 0 auto;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .lib-tools {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lib-sorts {
+            display: flex;
+            gap: 4px;
+        }
+
+        .lib-sort-btn {
+            padding: 3px 9px;
+            font-size: 11px;
+            color: #cfd3d8;
+            background: #2b2b31;
+            border: 1px solid #3a3a42;
+            border-radius: 3px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .lib-sort-btn:hover {
+            background: #36363f;
+        }
+
+        .lib-sort-btn.is-active {
+            background: var(--menu-accent);
+            border-color: var(--menu-accent);
+            color: #fff;
+        }
+
+        .lib-site-link {
+            font-size: 11px;
+            color: #7f8a96;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .lib-site-link:hover {
+            color: #9fd4ff;
+            text-decoration: underline;
+        }
+
+        .lib-close {
+            width: 26px;
+            height: 26px;
+            padding: 0;
+            font-size: 13px;
+            color: #cfd3d8;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .lib-close:hover {
+            background: #3a2a2a;
+            color: #ff9e9e;
+        }
+
+        .lib-stage {
+            position: relative;
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        /* Category cards */
+        .lib-categories {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            padding: 16px;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .lib-cat-card {
+            --cat-accent: #33a0ff;
+            position: relative;
+            overflow: hidden;
+            padding: 0;
+            border: 1px solid #38383e;
+            border-radius: 6px;
+            background: radial-gradient(120% 100% at 18% 0%, #1c2a3a 0%, #141820 55%, #0e1013 100%);
+            color: #fff;
+            text-align: left;
+            cursor: pointer;
+            transition: transform .15s, border-color .15s, box-shadow .15s;
+        }
+
+        .lib-cat-demos {
+            --cat-accent: #b06cff;
+            background: radial-gradient(120% 100% at 18% 0%, #2a1e3c 0%, #171422 55%, #0e1013 100%);
+        }
+
+        .lib-cat-utilities {
+            --cat-accent: #35c48a;
+            background: radial-gradient(120% 100% at 18% 0%, #142c22 0%, #141b18 55%, #0e1013 100%);
+        }
+
+        .lib-cat-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--cat-accent);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .55);
+        }
+
+        .lib-cat-art {
+            position: absolute;
+            inset: -2px;
+            background-size: cover;
+            background-position: center;
+            opacity: .5;
+            filter: saturate(1.15);
+            transform: scale(1.04);
+        }
+
+        .lib-cat-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, .05) 0%, rgba(0, 0, 0, .45) 55%, rgba(0, 0, 0, .88) 100%);
+        }
+
+        .lib-cat-body {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            gap: 4px;
+            height: 100%;
+            box-sizing: border-box;
+            padding: 18px;
+        }
+
+        .lib-cat-name {
+            font-size: 34px;
+            font-weight: 700;
+            letter-spacing: .5px;
+            text-shadow: 0 2px 14px rgba(0, 0, 0, .8);
+        }
+
+        .lib-cat-count {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--cat-accent);
+            text-transform: uppercase;
+            letter-spacing: .6px;
+        }
+
+        .lib-cat-note {
+            font-size: 11px;
+            color: #9a9aa2;
+        }
+
+        /* Title cards */
+        .lib-grid {
+            display: grid;
+            grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+            grid-template-rows: repeat(var(--rows, 2), minmax(0, 1fr));
+            gap: 12px;
+            padding: 12px;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .lib-card {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            min-width: 0;
+            padding: 0;
+            border: 1px solid #35353b;
+            border-radius: 5px;
+            background: #1c1c20;
+            color: #e6e6e8;
+            text-align: left;
+            cursor: pointer;
+            text-decoration: none;
+            overflow: hidden;
+            transition: border-color .12s, transform .12s, box-shadow .12s;
+        }
+
+        .lib-card:hover {
+            border-color: #0aa0ff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, .5);
+        }
+
+        .lib-card-shot {
+            flex: 1 1 auto;
+            min-height: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .lib-card-shot img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            image-rendering: pixelated;
+        }
+
+        .lib-card-shot.no-art {
+            background: repeating-linear-gradient(45deg, #17171b, #17171b 8px, #1f1f24 8px, #1f1f24 16px);
+        }
+
+        .lib-card-shot.no-art::after {
+            content: 'SAM';
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #2c2c33;
+        }
+
+        .lib-card-meta {
+            flex: 0 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 5px;
+            padding: 6px 8px;
+            background: #232329;
+            border-top: 1px solid #33333a;
+        }
+
+        .lib-card-title {
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.25;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .lib-card-year {
+            font-size: 11px;
+            color: #8fb8d8;
+            white-space: nowrap;
+        }
+
+        .lib-card-badge {
+            margin-left: auto;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            color: #ffb4b4;
+            background: rgba(255, 80, 80, .12);
+            border: 1px solid rgba(255, 120, 120, .35);
+            border-radius: 3px;
+            padding: 1px 5px;
+            white-space: nowrap;
+        }
+
+        .lib-card.is-unavailable {
+            opacity: .55;
+        }
+
+        .lib-card.is-unavailable .lib-card-shot img {
+            filter: grayscale(.7);
+        }
+
+        /* Pager */
+        .lib-footer {
+            flex: 0 0 52px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 0 12px;
+            background: #202024;
+            border-top: 1px solid var(--border);
+        }
+
+        .lib-nav {
+            width: 36px;
+            height: 30px;
+            font-size: 18px;
+            line-height: 1;
+            color: #cfd3d8;
+            background: #2b2b31;
+            border: 1px solid #3a3a42;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .lib-nav:hover:not(:disabled) {
+            background: #36363f;
+            border-color: #0aa0ff;
+        }
+
+        .lib-nav:disabled {
+            opacity: .3;
+            cursor: default;
+        }
+
+        .lib-pages {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .lib-page-label {
+            font-size: 11px;
+            color: #9a9aa2;
+            white-space: nowrap;
+        }
+
+        .lib-page-tabs {
+            display: flex;
+            gap: 4px;
+        }
+
+        .lib-page-tab {
+            min-width: 26px;
+            height: 24px;
+            padding: 0 6px;
+            font-size: 11px;
+            color: #cfd3d8;
+            background: #2b2b31;
+            border: 1px solid #3a3a42;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .lib-page-tab:hover {
+            background: #36363f;
+        }
+
+        .lib-page-tab.is-current {
+            background: var(--menu-accent);
+            border-color: var(--menu-accent);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .lib-page-gap {
+            color: #666;
+            font-size: 11px;
+            padding: 0 2px;
+        }
+
+        .lib-count {
+            flex: 0 0 auto;
+            font-size: 11px;
+            font-weight: 400;
+            color: #8f9aa6;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Title filter, sitting right of "Games 213 titles" */
+        .lib-search {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex: 1 1 200px;
+            min-width: 150px;
+            max-width: 640px;
+            height: 26px;
+            margin-left: 10px;
+            padding: 0 8px;
+            background: #17171b;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            transition: border-color .15s, box-shadow .15s;
+        }
+
+        .lib-search.is-hidden {
+            display: none;
+        }
+
+        .lib-search:focus-within {
+            border-color: #4a90d9;
+            box-shadow: 0 0 0 1px rgba(74, 144, 217, .35);
+        }
+
+        .lib-search-glass {
+            position: relative;
+            flex: 0 0 auto;
+            width: 10px;
+            height: 10px;
+            border: 1.5px solid #7c8794;
+            border-radius: 50%;
+        }
+
+        .lib-search-glass::after {
+            content: '';
+            position: absolute;
+            right: -4px;
+            bottom: -4px;
+            width: 6px;
+            height: 1.5px;
+            background: #7c8794;
+            transform: rotate(45deg);
+        }
+
+        .lib-search:focus-within .lib-search-glass,
+        .lib-search:focus-within .lib-search-glass::after {
+            border-color: #9fd4ff;
+            background-color: #9fd4ff;
+        }
+
+        .lib-search-input {
+            flex: 1 1 auto;
+            min-width: 0;
+            height: 24px;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: #e8eaee;
+            font-family: inherit;
+            font-size: 12px;
+            outline: none;
+        }
+
+        .lib-search-input::placeholder {
+            color: #6f7a87;
+        }
+
+        .lib-search-clear {
+            flex: 0 0 auto;
+            width: 18px;
+            height: 18px;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            background: transparent;
+            color: #8f9aa6;
+            font-size: 11px;
+            line-height: 1;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .15s, color .15s;
+        }
+
+        .lib-search.has-text .lib-search-clear {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lib-search-clear:hover {
+            color: #fff;
+            background: #2c2c33;
+        }
+
+        .lib-empty {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 40px 20px;
+            color: #9aa5b1;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .lib-empty-clear {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: #26262c;
+            color: #cfe3f7;
+            font-family: inherit;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .lib-empty-clear:hover {
+            background: #31313a;
+        }
+
+        /* In-panel file chooser */
+        .lib-dialog {
+            position: absolute;
+            inset: 0;
+            z-index: 20;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, .65);
+        }
+
+        .lib-dialog.active {
+            display: flex;
+        }
+
+        .lib-dialog-box {
+            display: flex;
+            flex-direction: column;
+            width: min(560px, 90%);
+            max-height: 80%;
+            background: #232329;
+            border: 1px solid #3d3d46;
+            border-radius: 6px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .6);
+            overflow: hidden;
+        }
+
+        .lib-dialog-title {
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            background: #2b2b33;
+            border-bottom: 1px solid #3a3a42;
+        }
+
+        .lib-dialog-body {
+            overflow-y: auto;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .lib-dialog-hint {
+            font-size: 11px;
+            color: #9a9aa2;
+            padding: 0 2px 4px;
+        }
+
+        .lib-dialog-file {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 8px 10px;
+            font-size: 12px;
+            color: #e6e6e8;
+            background: #2b2b31;
+            border: 1px solid #3a3a42;
+            border-radius: 4px;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .lib-dialog-file:hover {
+            border-color: #0aa0ff;
+            background: #31313a;
+        }
+
+        .lib-dialog-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .lib-dialog-ext {
+            flex: 0 0 auto;
+            font-size: 10px;
+            color: #8fb8d8;
+            border: 1px solid #3d5a70;
+            border-radius: 3px;
+            padding: 1px 5px;
+        }
+
+        .lib-dialog-cancel {
+            margin: 10px;
+            padding: 6px 14px;
+            align-self: flex-end;
+            font-size: 12px;
+            color: #cfd3d8;
+            background: #2b2b31;
+            border: 1px solid #3a3a42;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .lib-dialog-cancel:hover {
+            background: #36363f;
+        }
+
+        /* Launch progress banner: bright, blinking, centred at the top. */
+        .lib-toast {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            z-index: 430;
+            max-width: calc(100% - 40px);
+            padding: 9px 20px;
+            transform: translate(-50%, -6px);
+            border: 1px solid rgba(110, 205, 255, .35);
+            border-radius: 999px;
+            background: linear-gradient(180deg, rgba(21, 48, 78, .95), rgba(8, 18, 32, .95));
+            color: #eaf8ff;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: .2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .16s ease, transform .16s ease;
+        }
+
+        .lib-toast.active {
+            opacity: 1;
+            transform: translate(-50%, 0);
+            animation: lib-toast-glow 1.05s ease-in-out infinite alternate;
+        }
+
+        .lib-toast::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            margin-right: 9px;
+            border-radius: 50%;
+            vertical-align: 1px;
+            background: #6fd7ff;
+            box-shadow: 0 0 10px #6fd7ff, 0 0 18px rgba(110, 215, 255, .8);
+            animation: lib-toast-dot .9s ease-in-out infinite alternate;
+        }
+
+        @keyframes lib-toast-glow {
+            from {
+                text-shadow: 0 0 6px rgba(140, 225, 255, .65), 0 0 14px rgba(70, 170, 255, .35);
+                border-color: rgba(110, 205, 255, .35);
+                box-shadow: 0 0 10px rgba(70, 170, 255, .25), 0 10px 26px rgba(0, 0, 0, .55);
+            }
+
+            to {
+                text-shadow: 0 0 10px rgba(200, 245, 255, 1), 0 0 24px rgba(90, 200, 255, .85);
+                border-color: rgba(160, 225, 255, .85);
+                box-shadow: 0 0 22px rgba(90, 190, 255, .55), 0 10px 26px rgba(0, 0, 0, .55);
+            }
+        }
+
+        @keyframes lib-toast-dot {
+            from {
+                opacity: .35;
+                transform: scale(.75);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1.15);
+            }
+        }
+
+        .lib-toast.is-error {
+            color: #ffe6e6;
+            border-color: rgba(255, 120, 120, .55);
+            background: linear-gradient(180deg, rgba(80, 26, 26, .95), rgba(30, 10, 10, .95));
+        }
+
+        .lib-toast.is-error::before {
+            background: #ff8b8b;
+            box-shadow: 0 0 10px #ff8b8b, 0 0 18px rgba(255, 130, 130, .8);
+        }
+
+        .lib-toast.is-error.active {
+            animation: lib-toast-glow-error 1.05s ease-in-out infinite alternate;
+        }
+
+        @keyframes lib-toast-glow-error {
+            from {
+                text-shadow: 0 0 6px rgba(255, 180, 180, .6);
+            }
+
+            to {
+                text-shadow: 0 0 12px rgba(255, 220, 220, 1), 0 0 24px rgba(255, 120, 120, .8);
+            }
+        }
+
+        .hidden-view {
+            display: none !important;
+        }
+
+        @media (max-width: 760px) {
+            .lib-categories {
+                grid-template-columns: 1fr;
+                overflow-y: auto;
+            }
+
+            .lib-cat-card {
+                min-height: 140px;
+            }
+
+            .lib-cat-name {
+                font-size: 24px;
+            }
+
+            .lib-site-link {
+                display: none;
+            }
+
+            /* Two rows on phones: crumbs + filter, then the sort buttons. */
+            .lib-header {
+                flex-wrap: wrap;
+                row-gap: 6px;
+                padding: 6px 10px;
+            }
+
+            .lib-crumb {
+                flex: 1 1 100%;
+            }
+
+            .lib-tools {
+                flex: 1 1 100%;
+                justify-content: space-between;
+            }
+
+            .lib-search {
+                flex: 1 1 120px;
+                min-width: 120px;
+                max-width: none;
+                margin-left: 6px;
+                padding: 0 6px;
+            }
+
+            .lib-sort-btn {
+                padding: 3px 7px;
+            }
+
+            .lib-count {
+                font-size: 10px;
+            }
+
+            .lib-toast {
+                top: 48px;
+                max-width: calc(100% - 20px);
+                padding: 7px 14px;
+                font-size: 13px;
+                white-space: normal;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 
@@ -540,6 +1373,13 @@
                 </div>
                 <div class="dropdown-item" onclick="insertDiskFromUrl(2)">Insert Tape from URL...</div>
                 <div class="dropdown-item" id="eject-tape" onclick="ejectMedia(2)">Eject Tape</div>
+                <div class="dropdown-divider"></div>
+                <div class="dropdown-item-header">Save to Local Disk:</div>
+                <div class="dropdown-item disabled" id="save-d1" onclick="saveMedia(0)">Save Disk 1...</div>
+                <div class="dropdown-item disabled" id="save-pri" onclick="saveMedia(1)">Save Disk 2 / Pri. Disk...</div>
+                <div class="dropdown-item disabled secondary-section" id="save-sec" onclick="saveMedia(3)">Save Sec. Disk...
+                </div>
+                <div class="dropdown-item disabled" id="save-tape" onclick="saveMedia(2)">Save Tape...</div>
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item"
                     onclick="customConfirm('Close SamCoupeWeb?', 'Exit', () => { window.open('', '_self', ''); window.close(); setTimeout(()=>{window.location.href='about:blank';}, 100); });">
@@ -701,11 +1541,59 @@
                 <div class="dropdown-item" onclick="showAbout()">About SamCoupeWeb...</div>
             </div>
         </div>
+        <div class="menu-item menu-logo-btn" onclick="SamLibrary.toggle()"
+            title="World of SAM Software Library" aria-label="World of SAM Software Library">
+            <img src="https://www.worldofsam.org/themes/custom/worldofsam/images/logo.png"
+                alt="World of SAM" referrerpolicy="no-referrer">
+        </div>
     </div>
 
     <div class="main-workspace">
         <div class="canvas-container">
             <canvas id="canvas" width="512" height="192" tabindex="0" oncontextmenu="event.preventDefault()"></canvas>
+        </div>
+
+        <!-- ── Software Library (World of SAM) ─────────────────────────── -->
+        <div id="library-panel" class="library-panel" aria-hidden="true">
+            <div class="lib-header">
+                <div class="lib-crumb">
+                    <span class="lib-back is-hidden" id="lib-back" title="Back to categories">‹</span>
+                    <span class="lib-crumb-title" id="lib-crumb-title">World of SAM Library</span>
+                    <span class="lib-count" id="lib-count"></span>
+                    <div class="lib-search is-hidden" id="lib-search-wrap">
+                        <span class="lib-search-glass" aria-hidden="true"></span>
+                        <input class="lib-search-input" id="lib-search" type="text" inputmode="search"
+                            placeholder="Search titles" autocomplete="off" spellcheck="false"
+                            aria-label="Search titles in this category">
+                        <button class="lib-search-clear" id="lib-search-clear" type="button"
+                            title="Clear search (Esc)" aria-label="Clear search">&#10005;</button>
+                    </div>
+                </div>
+                <div class="lib-tools">
+                    <div class="lib-sorts hidden-view" id="lib-sorts"></div>
+                    <a class="lib-site-link" href="https://www.worldofsam.org/products" target="_blank"
+                        rel="noopener">worldofsam.org ↗</a>
+                    <button class="lib-close" id="lib-close" title="Close (Esc)">✕</button>
+                </div>
+            </div>
+            <div class="lib-toast" id="lib-toast" role="status" aria-live="polite"></div>
+            <div class="lib-stage" id="lib-stage">
+                <div class="lib-categories" id="lib-categories"></div>
+                <div class="lib-grid hidden-view" id="lib-grid"></div>
+
+                <div class="lib-dialog" id="lib-dialog">
+                    <div class="lib-dialog-box">
+                        <div class="lib-dialog-title" id="lib-dialog-title">Choose image</div>
+                        <div class="lib-dialog-body" id="lib-dialog-body"></div>
+                        <button class="lib-dialog-cancel" id="lib-dialog-cancel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="lib-footer" id="lib-footer">
+                <button class="lib-nav" id="lib-prev" title="Previous page">‹</button>
+                <div class="lib-pages" id="lib-pages"></div>
+                <button class="lib-nav" id="lib-next" title="Next page">›</button>
+            </div>
         </div>
     </div>
 
@@ -737,9 +1625,11 @@
                     <img src="logo.png" style="height:40px; vertical-align:middle;">
                 </div>
                 <div style="border-top: 1px solid #ccc; margin: 10px 0; padding-top: 10px;"></div>
-                <h2 style="margin:0;">SamCoupeWeb v1.2.17 Web version</h2>
+                <h2 style="margin:0;">SamCoupeWeb v1.2.17 WOS Edition</h2>
                 <p><a href="https://github.com/anomixer/SamCoupeWeb"
                         target="_blank">https://github.com/anomixer/SamCoupeWeb</a></p>
+                <p style="margin:5px 0;">Software Library data &amp; screenshots from
+                    <a href="https://www.worldofsam.org" target="_blank">World of SAM</a></p>
                 <p style="margin:5px 0;">CORS Proxy by <a href="https://corsfix.com" target="_blank">Corsfix</a></p>
 
                 <div class="credits">
@@ -1009,10 +1899,12 @@
                         isVeryFirstRun = false;
                     }
                     overlay.classList.add('hidden');
-                    showAbout();
-                    setTimeout(() => {
-                        closeAbout();
-                    }, 3000);
+                    if (!(window.SamLibrary && document.getElementById('library-panel').classList.contains('active'))) {
+                        showAbout();
+                        setTimeout(() => {
+                            closeAbout();
+                        }, 3000);
+                    }
 
                     // Process URL parameters
                     function processUrlParams() {
@@ -1030,6 +1922,9 @@
 
                     // Start UI sync immediately
                     startUiSync();
+
+                    // Resume a library launch that was waiting for an interface switch
+                    if (window.SamLibrary) window.SamLibrary.onEngineReady();
                 }
             },
             canvas: (function () {
@@ -1264,6 +2159,14 @@
                     if (mediaNames[2]) ejectTape.classList.remove('disabled');
                     else ejectTape.classList.add('disabled');
                 }
+
+                // Grey out Save items for empty drives
+                [['save-d1', 0], ['save-pri', 1], ['save-sec', 3], ['save-tape', 2]].forEach(function (pair) {
+                    const saveItem = document.getElementById(pair[0]);
+                    if (!saveItem) return;
+                    if (mediaNames[pair[1]]) saveItem.classList.remove('disabled');
+                    else saveItem.classList.add('disabled');
+                });
 
                 // Recording items
                 const stopAvi = document.getElementById('stop-avi');
@@ -1525,9 +2428,48 @@
                 a.click();
                 window.URL.revokeObjectURL(url);
                 document.body.removeChild(a);
+                return true;
             } catch (e) {
                 console.error("Failed to download VFS file:", e);
+                return false;
             }
+        }
+
+        // Write the image currently mounted in a drive back to the Downloads folder.
+        // Cloud titles live in the in-memory VFS, so this is how edits (saved games,
+        // disk writes) survive a page reload.
+        function saveMedia(type) {
+            var name = mediaNames[type];
+            if (!name) {
+                statusLeft.innerText = 'Nothing inserted in that drive';
+                return;
+            }
+
+            var isDisk = (type === 0 || type === 1 || type === 3);
+            if (isDisk) {
+                try { Module.ccall('EMS_FlushDisk', null, ['number'], [type]); } catch (e) { console.error(e); }
+            }
+
+            var path = '/tmp/' + name;
+            var exists = true;
+            try { FS.readFile(path); } catch (e) { exists = false; }
+
+            if (!exists) {
+                statusLeft.innerText = 'Cannot save ' + name + ': image is no longer in memory';
+                customAlert('The image for ' + name + ' is no longer in memory, so there is nothing to save.',
+                    'Save Failed');
+                return;
+            }
+
+            if (downloadVfsFile(path)) {
+                if (isDisk) {
+                    try { Module.ccall('EMS_ClearDiskModified', null, ['number'], [type]); } catch (e) { }
+                }
+                statusLeft.innerText = 'Saved ' + name + ' to your Downloads folder';
+            } else {
+                statusLeft.innerText = 'Failed to save ' + name;
+            }
+            updateMenuChecks();
         }
 
         function openFilePicker(type) {
@@ -1616,10 +2558,23 @@
                     // Try 1: Direct
                     response = await fetch(url);
                 } catch (e) {
-                    console.warn("Direct fetch failed, trying CORS proxy (corsfix.com)...", e);
-                    // Try 2: Proxy - Use raw URL as corsfix expects it
-                    const proxyUrl = 'https://proxy.corsfix.com/?' + url;
-                    response = await fetch(proxyUrl, { headers: { "x-corsfix-cache": "1h" } });
+                    console.warn("Direct fetch failed, trying CORS proxies...", e);
+                    // Try 2: Corsfix first (cached, streams large HDFs), then a
+                    // second proxy for hosts that Corsfix cannot pull (500).
+                    const proxies = [
+                        { url: 'https://proxy.corsfix.com/?' + url, headers: { "x-corsfix-cache": "1h" } },
+                        { url: 'https://api.cors.lol/?url=' + encodeURIComponent(url), headers: {} }
+                    ];
+                    let lastErr = e;
+                    for (const p of proxies) {
+                        try {
+                            const r = await fetch(p.url, { headers: p.headers });
+                            if (!r.ok) throw new Error('HTTP ' + r.status);
+                            response = r;
+                            break;
+                        } catch (err) { lastErr = err; }
+                    }
+                    if (!response) throw lastErr;
                 }
 
                 if (!response.ok) throw new Error('Network response was not ok');
@@ -1903,6 +2858,9 @@
         }, 1000);
 
     </script>
+    <!-- Bump this date whenever library-data.js or library.js changes. -->
+    <script src="library-data.js?v=2026-11-12"></script>
+    <script src="library.js?v=2026-11-12"></script>
     <script async src="samcoupeweb.js"></script>
 </body>
 

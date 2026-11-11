@@ -1,0 +1,68 @@
+[
+  {
+    "u": "/products/triltex",
+    "note": "TOSEC (Internet Archive) - individual file extracted from the Sam Coupé TOSEC archive",
+    "files": [
+      {
+        "n": "Triltex (1991)(Fred Software).zip",
+        "u": "https://archive.org/download/Sam_Coupe_TOSEC_2012_04_23/Sam_Coupe_TOSEC_2012_04_23.zip/Sam%20Coupe%5BTOSEC%5D/MGT%20Sam%20Coupe%20-%20Games%20-%20%5BDSK%5D%20(TOSEC-v2008-12-21_CM)/Triltex%20(1991)(Fred%20Software).zip",
+        "t": "zip"
+      }
+    ]
+  },
+  {
+    "u": "/products/entro-2",
+    "note": "TOSEC (Internet Archive) - individual file extracted from the Sam Coupé TOSEC archive",
+    "files": [
+      {
+        "n": "Entro 2 (1992)(Entropy)(PD).zip",
+        "u": "https://archive.org/download/Sam_Coupe_TOSEC_2012_04_23/Sam_Coupe_TOSEC_2012_04_23.zip/Sam%20Coupe%5BTOSEC%5D/MGT%20Sam%20Coupe%20-%20Demos%20-%20%5BDSK%5D%20(TOSEC-v2008-12-21_CM)/Entro%202%20(1992)(Entropy)(PD).zip",
+        "t": "zip"
+      }
+    ]
+  },
+  {
+    "u": "/products/scfiler",
+    "note": "TOSEC (Internet Archive) - individual file extracted from the Sam Coupé TOSEC archive",
+    "files": [
+      {
+        "n": "SC Filer v2.0 (1991)(Steve's Software).zip",
+        "u": "https://archive.org/download/Sam_Coupe_TOSEC_2012_04_23/Sam_Coupe_TOSEC_2012_04_23.zip/Sam%20Coupe%5BTOSEC%5D/MGT%20Sam%20Coupe%20-%20Applications%20-%20%5BDSK%5D%20(TOSEC-v2008-12-21_CM)/SC%20Filer%20v2.0%20(1991)(Steve's%20Software).zip",
+        "t": "zip"
+      }
+    ]
+  },
+  {
+    "u": "/products/spectrum-emulator",
+    "note": "TOSEC (Internet Archive) - individual file extracted from the Sam Coupé TOSEC archive",
+    "files": [
+      {
+        "n": "Spectrum Emulator (1990-09-04)(-).zip",
+        "u": "https://archive.org/download/Sam_Coupe_TOSEC_2012_04_23/Sam_Coupe_TOSEC_2012_04_23.zip/Sam%20Coupe%5BTOSEC%5D/MGT%20Sam%20Coupe%20-%20Applications%20-%20%5BDSK%5D%20(TOSEC-v2008-12-21_CM)/Spectrum%20Emulator%20(1990-09-04)(-).zip",
+        "t": "zip"
+      }
+    ]
+  },
+  {
+    "u": "/products/jetpac",
+    "note": "Official Outsoftware download, mirrored here because outsoftware.it answers the CORS proxy with HTTP 500",
+    "files": [
+      {
+        "n": "jetpac-sam-coupe.zip",
+        "u": "media/jetpac-sam-coupe.zip",
+        "t": "zip"
+      }
+    ]
+  },
+  {
+    "u": "/products/maniac-mansion",
+    "note": "Official Outsoftware download, mirrored here because outsoftware.it answers the CORS proxy with HTTP 500",
+    "files": [
+      {
+        "n": "maniac-mansion-sam-coupe.zip",
+        "u": "media/maniac-mansion-sam-coupe.zip",
+        "t": "zip"
+      }
+    ]
+  }
+]
