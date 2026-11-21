@@ -394,7 +394,7 @@ static bool UpdateKeyTable(MAPPED_KEY* asKeys_, int nKey_, int nMods_, int nChar
             asKeys_[i].nKey = nKey_;
 
             // Only update modifiers for non-matrix keys (asSamKeys, asSpectrumKeys)
-            if (asKeys_ != asKeyMatrix && nChar_ >= HK_MIN)
+            if (asKeys_ != asKeyMatrix)
                 asKeys_[i].nMods = nMods_;
 
             return true;
