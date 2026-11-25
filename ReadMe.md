@@ -116,14 +116,14 @@ Then open your browser and navigate to `http://localhost:8000`.
 - **Save on Eject Protection**: Added a data protection layer that detects disk modifications. When ejecting a modified disk or hard disk image, the emulator prompts the user to download the updated image, ensuring that in-game progress or code changes are never lost.
 - **Save Any Mounted Image**: **File ▸ Save Disk 1 / Save Disk 2 · Pri. Disk / Save Sec. Disk / Save Tape** flush the image from the virtual file system and download it immediately, so cloud-mounted titles (World of SAM library, URL loading) can be kept locally; the entries grey out for empty drives and a successful save clears the modified flag.
 - **Mouse Stabilization (Pointer Lock)**: Deeply integrated the **Pointer Lock API** to solve the long-standing "jumping cursor" bug found in the original executable. Provides a perfectly smooth and precise control experience regardless of window scaling.
-- **World of SAM Software Library (WOS Edition)**: The **World of SAM** logo on the right of the menu bar opens a built-in catalogue of **465 titles** (Games / Demos / Utilities). Browse screenshot cards, sort and page through them, then click a title to download its disk image on demand (through the Corsfix proxy), mount it and auto-boot it — no local files or additional server required.
+- **World of SAM Software Library (WOS Edition)**: The **World of SAM** logo on the right of the menu bar opens a built-in catalogue of **481 titles** (Games / Demos / Utilities). Browse screenshot cards, sort and page through them, then click a title to download its disk image on demand (through the Corsfix proxy), mount it and auto-boot it — no local files or additional server required.
 
 ### World of SAM Software Library (WOS Edition)
 
 v1.2.17 adds a native browser for the [World of SAM](https://www.worldofsam.org/products) archive, so the emulator can start software without any local media:
 
 - **Entry point**: the World of SAM logo button at the right end of the menu bar (after `Help`). Clicking it again (or `Esc`) closes the library.
-- **Categories**: three large cards — **Games** (`field_category_target_id=3`), **Demos** (`4`) and **Utilities** (`5`) — each with its live title count.
+- **Categories**: three large cards — **Games**, **Demos** and **Utilities** (World of SAM's API categories) — each with its live title count.
 - **App list**: screenshot cards showing the title and release year in the World of SAM style, e.g. `13 out (2002)`. Sort with **A→Z**, **Z→A**, **Old→New** and **New→Old**; the layout fits as many cards as the window can hold. A **search box** beside the category count filters the current list as you type (`coupe` also finds `Coupé`), shows `matches / total titles`, offers *Show all* when nothing matches, and `/` focuses it (`Esc` clears, `Enter` starts the first match).
 - **Paging**: the bottom bar mirrors the World of SAM pager (`‹` previous, page tabs, `›` next, plus an `n / total` counter). The breadcrumb at the top-left (`‹ Games`) returns to the categories.
 - **Launching a title**: clicking a card downloads the image through the **Corsfix** proxy and then:
@@ -133,9 +133,9 @@ v1.2.17 adds a native browser for the [World of SAM](https://www.worldofsam.org/
   - `.zip` / `.7z` / `.gz` → extracted in-browser with `7z-wasm` first, then routed by the inner extension.
   - Products offering several images open a small picker inside the library.
   - The interface follows the media: `.hdf` switches to **AtomLite**, and picking a floppy or tape title afterwards switches back to **Floppy** and ejects the hard disk, so the previously attached HDF can no longer hijack the boot. The image is kept in IndexedDB across that reload (downloaded once), and unsaved hard-disk changes are offered for saving first.
-- **Recovering off-site images**: when a product page only links out (Google Drive, Dropbox, GitHub releases, archive.org) the generator resolves those links to the real `.dsk` / `.mgt` / `.zip`, scans the rest of the product page for media attachments, and verifies every archive actually contains a disk image before listing it. A small curated map ([tools/library-recovery.json](tools/library-recovery.json)) adds exact-match TOSEC images for titles whose own download field is missing. This made 11 more titles playable in v1.2.17 (e.g. Bubble Bobble, King's Valley, Prince of Persia, Cross Lib, Triltex, SC_FILER).
-- Titles that World of SAM marks as **copyright restricted** are dimmed and tagged **Restricted ↗**; other products with no hosted image show **No download ↗**. Both are still links: clicking one opens that product's World of SAM page in a new tab instead of launching anything in the emulator. While the library is open the emulator is paused; it resumes as soon as the selected title boots. Big images show download progress (`57% (19.3 / 33.9 MB)`), and `.hdf` titles switch to AtomLite, reload once, then attach the image to Primary Master automatically.
-- The catalogue is generated offline from worldofsam.org and shipped as [wasm/deploy/library-data.js](wasm/deploy/library-data.js). Refresh it any time with `node tools/build-library.mjs` (no extra dependencies; takes about 20 seconds).
+- **Catalogue source**: the generator reads World of SAM's **JSON API** (`/api/products.json` plus per-product details) instead of scraping HTML. 398 of the 481 titles have a playable image. A small hand-maintained list ([tools/library-extra.json](tools/library-extra.json)) covers titles the API does not return, including 10 with playable images from Google Drive, Dropbox, GitHub releases, archive.org and the publisher's own site. Copyright-restricted titles are **filtered out entirely** rather than shown as locked; products with no hosted image show **No download ↗** and link to their World of SAM page.
+- **About link and expiry**: after a title boots, an **About this software…** link appears in the status bar and points to that title's World of SAM product page. The bundled catalogue is an expiring snapshot: opening the library warns once when it is over 14 days old, and a failed download offers the product page as a fallback. While the library is open the emulator is paused; it resumes as soon as the selected title boots. Big images show download progress (`57% (19.3 / 33.9 MB)`), and `.hdf` titles switch to AtomLite, reload once, then attach the image to Primary Master automatically.
+- **Refreshing / local setup**: the snapshot is shipped as [wasm/deploy/library-data.js](wasm/deploy/library-data.js) and regenerated weekly in CI. Rebuild it any time with `node tools/build-library.mjs` (no dependencies, ~20 s). Two Outsoftware downloads are not committed; `node tools/prefetch-media.mjs` fetches them at build time and is also called from `Run.bat` / `run.sh` before starting the local server.
 
 ### Cloud Loading Syntax
 You can load software directly via URL parameters. This will automatically download, mount, and **Auto-Boot** the emulator:
@@ -319,14 +319,14 @@ python -m http.server --directory wasm/deploy
 - **非阻塞式自定義模態視窗**: 將所有會導致執行中斷的瀏覽器原生彈窗 (`alert`, `confirm`, `prompt`) 替換為自定義 UI 系統。確保使用者在處理選單指令或錯誤提示時，模擬器的畫面與音效依然能在背景流暢運作。
 - **退出磁碟存檔提示**: 針對 WASM 虛擬環境實作了資料保護層。當使用者退出被修改過的磁碟或硬碟影像時，系統會自動彈出提示詢問是否存檔，確保遊戲進度或程式修改不會遺失。
 - **滑鼠操控穩定化 (Pointer Lock)**: 深度整合 **Pointer Lock API**，徹底修復了原版執行檔在特定縮放模式下下游標「亂跳」或噴走的長年 Bug。無論畫布如何縮放，都能提供極致流暢且精確的遊戲操控體驗。
-- **World of SAM 軟體圖書館 (WOS Edition)**: 選單列右側新增 **World of SAM** 標誌按鈕，開啟內建的 **465 個標題** 目錄（Games / Demos / Utilities）。可直接瀏覽截圖卡片、排序與翻頁，點擊標題即透過 Corsfix 代理下載磁碟影像並自動掛載開機，完全不需要本機檔案或額外伺服器。
+- **World of SAM 軟體圖書館 (WOS Edition)**: 選單列右側新增 **World of SAM** 標誌按鈕，開啟內建的 **481 個標題** 目錄（Games / Demos / Utilities）。可直接瀏覽截圖卡片、排序與翻頁，點擊標題即透過 Corsfix 代理下載磁碟影像並自動掛載開機，完全不需要本機檔案或額外伺服器。
 
 ### World of SAM 軟體圖書館 (WOS Edition)
 
 v1.2.17 為模擬器加入了 [World of SAM](https://www.worldofsam.org/products) 網站的內建瀏覽器，無需任何本機媒體即可直接啟動軟體：
 
 - **進入方式**: 選單列最右側（`Help` 之後）的 World of SAM 標誌按鈕；再次點擊或按 `Esc` 可關閉圖書館。
-- **分類**: 三張大型卡片 — **Games** (`field_category_target_id=3`)、**Demos** (`4`)、**Utilities** (`5`)，並顯示各分類的標題數量。
+- **分類**: 三張大型卡片 — **Games**、**Demos**、**Utilities**（World of SAM API 的分類），並顯示各分類的標題數量。
 - **應用程式列表**: 仿 World of SAM 的截圖卡片，顯示標題與發行年份，例如 `13 out (2002)`；提供 **A→Z**、**Z→A**、**Old→New**、**New→Old** 四種排序，卡片數量會依視窗大小自動填滿畫面。分類標題數右側的 **搜尋框** 可即時篩選目前清單（`coupe` 也能找到 `Coupé`），並顯示 `符合數 / 總數 titles`；沒有結果時提供 *Show all*，按 `/` 聚焦、`Esc` 清除、`Enter` 啟動第一筆。
 - **翻頁**: 底部列對齊 World of SAM 的分頁器（`‹` 上一頁、頁碼頁籤、`›` 下一頁，加上 `n / total` 計數）；左上角麵包屑（`‹ Games`）可回到分類。
 - **啟動標題**: 點擊卡片後，系統會透過 **Corsfix** 代理下載影像，接著：
@@ -336,9 +336,9 @@ v1.2.17 為模擬器加入了 [World of SAM](https://www.worldofsam.org/products
   - `.zip` / `.7z` / `.gz` → 先以 `7z-wasm` 在瀏覽器內解壓，再依內部副檔名掛載。
   - 若產品提供多個影像檔，會在圖書館內彈出選擇視窗。
   - 介面一律跟著媒體走：`.hdf` 切到 **AtomLite**，之後再挑磁片或錄音帶標題會**切回 Floppy** 並卸下硬碟，先前掛著的 HDF 就不會再搶走去開機；影像會暫存在 IndexedDB 中跨重載續用（只下載一次），若硬碟有未存的變更會先詢問是否存檔。
-- **找回外部連結的影像**: 當產品頁只有外部連結（Google Drive、Dropbox、GitHub release、archive.org）時，產生器會解析出真正的 `.dsk` / `.mgt` / `.zip`，掃描產品頁其他媒體附件，並確認壓縮檔內真的含有磁碟影像才收錄；若產品頁只連到發行商自己的下載頁（例如 Outsoftware 的 Jetpac／Maniac Mansion），會再往外走一跳抓取真正的檔案，GitHub 的檔案頁也會轉成 raw 下載。為了避免收錯，外部檔案必須與標題有詞彙交集，且會實際探測 content-type 排除 HTML 假檔。[tools/library-recovery.json](tools/library-recovery.json) 另補上精確匹配的 TOSEC 影像。v1.2.17 因此多救回 15 個可玩標題（例如 Bubble Bobble、King's Valley、Prince of Persia、Cross Lib、Triltex、SC_FILER、Jetpac、Maniac Mansion、Pac-Sam、Snaper），目錄為 331/465 筆有媒體。
-- World of SAM 標示為 **版權限制** 的標題會淡化並標記 **Restricted ↗**，其他沒有提供影像的產品則標 **No download ↗**；兩者仍是連結，點擊會另開新分頁前往該作品的 World of SAM 頁面，而不會在模擬器裡嘗試啟動。圖書館開啟時模擬器會暫停，選定標題開機後立即恢復。
-- 目錄資料由 worldofsam.org 離線產生，隨專案附帶於 [wasm/deploy/library-data.js](wasm/deploy/library-data.js)；可執行 `node tools/build-library.mjs` 隨時重新產生（無需額外套件，約 20 秒）。
+- **目錄來源**: 產生器讀取 World of SAM 的 **JSON API**（`/api/products.json` 與各產品的詳細資料），不再解析 HTML。481 筆中有 398 筆具備可開機影像。API 沒收錄的標題由小型手工清單 [tools/library-extra.json](tools/library-extra.json) 補上，其中 10 筆可玩（來自 Google Drive、Dropbox、GitHub release、archive.org 與發行商官網）。版權限制的標題會**直接濾除**，不再顯示鎖定卡片；沒有提供影像的產品標示 **No download ↗**，點擊會另開新分頁前往其 World of SAM 頁面。
+- **About 連結與時效**: 標題開機後，狀態列右側會出現 **About this software…** 連結，指向該作品的 World of SAM 產品頁。內建目錄是有時效的快照：超過 14 天開啟圖書館時會提示一次，下載失敗時也會提供產品頁連結。圖書館開啟時模擬器會暫停，選定標題開機後立即恢復。
+- **更新與本機設定**: 快照隨專案附帶於 [wasm/deploy/library-data.js](wasm/deploy/library-data.js)，CI 每週重新產生；也可執行 `node tools/build-library.mjs` 隨時更新（無需額外套件，約 20 秒）。兩個 Outsoftware 下載檔不進版本控制，改由 `node tools/prefetch-media.mjs` 在建置時抓取；`Run.bat` / `run.sh` 啟動本機伺服器前也會先執行它。
 
 
 ### 雲端載入語法範例

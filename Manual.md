@@ -23,7 +23,7 @@ SamCoupeWeb supports multiple ways to load media:
     *   `?d1=[URL]` - Mount Disk 1 and Auto-Boot.
     *   `?tape=[URL]` - Mount Tape and Auto-Boot.
     *   `?interface=atomlite&d2=[URL]` - Mount Hard Disk (.hdf) to AtomLite interface.
-*   **Built-in Library**: Click the **World of SAM** logo at the right end of the menu bar to browse 465 titles and boot them without any local file (see section 7).
+*   **Built-in Library**: Click the **World of SAM** logo at the right end of the menu bar to browse 481 titles and boot them without any local file (see section 7).
 
 ### 3. Controls & Interaction
 *   **Menu Bar**: Located at the top, providing access to:
@@ -59,15 +59,15 @@ Since the emulator runs in a Virtual File System (VFS), "saving" works different
 *   **WebGL Acceleration**: Enabled by default for 60fps-like smoothness. If you see a black screen, disable it via `View -> Use WebGL Acceleration`.
 
 ### 7. World of SAM Software Library (v1.2.17 WOS Edition)
-The **World of SAM** logo at the right end of the menu bar opens a library of **465 titles**, so nothing has to be downloaded beforehand:
+The **World of SAM** logo at the right end of the menu bar opens a library of **481 titles**, so nothing has to be downloaded beforehand:
 
 1. Pick a category: **Games**, **Demos** or **Utilities**. The breadcrumb at the top-left (`‹ Games`) takes you back.
-2. Choose a card: each shows a screenshot, the title and its release year (e.g. `13 out (2002)`). Sort with `A→Z`, `Z→A`, `Old→New` or `New→Old`, and page with `‹`, the page tabs and `›` in the bottom bar (`←`/`→` also work). The **search box** right of the category count (e.g. `Games 213 titles`) filters the list as you type — `/` focuses it, `Esc` clears it, `Enter` starts the first match, and it matches without accents (`coupe` finds `Coupé`).
+2. Choose a card: each shows a screenshot, the title and its release year (e.g. `13 out (2002)`). Sort with `A→Z`, `Z→A`, `Old→New` or `New→Old`, and page with `‹`, the page tabs and `›` in the bottom bar (`←`/`→` also work). The **search box** right of the category count (e.g. `Games 210 titles`) filters the list as you type — `/` focuses it, `Esc` clears it, `Enter` starts the first match, and it matches without accents (`coupe` finds `Coupé`).
 3. Click a card: the image is downloaded through the Corsfix proxy and auto-booted — `.dsk`/`.mgt`/`.sad` in **Disk 1**, `.tap`/`.tzx` on **tape**, `.hdf` on the **AtomLite Primary Master** (the emulator switches interface and re-boots), and `.zip` archives are unpacked in the browser first. The interface always follows the media: a hard-disk title switches to AtomLite, while picking a floppy or tape title after one switches back to **Floppy** and ejects the hard disk (so the previous HDF can no longer hijack the boot). If that hard disk has unsaved changes you are asked to save it first.
 4. If a product offers several images, a picker appears; the second disk of a 2-disk set is mounted in Disk 2.
-5. **331 of the 465 titles have a playable image** (15 of them recovered from links that the World of SAM page only points to: Google Drive, Dropbox, GitHub releases, archive.org and one outbound hop to a publisher's own download page, e.g. Jetpac on outsoftware.it). Generated card data rejects look-alike files (manuals, source drops, blank/ZX images), and the site's 53 copyright-restricted titles stay locked and are labelled **Restricted ↗**.
+5. **398 of the 481 titles have a playable image**. The catalogue is built from World of SAM's JSON API, plus a small hand-maintained list for titles the API does not list (Google Drive, Dropbox, GitHub releases, archive.org). Copyright-restricted titles are filtered out completely instead of being shown as locked.
 
-`Esc` (or the logo again) closes the library; the emulator is paused while it is open and resumes when the selected title boots. Cards tagged **Restricted ↗** are marked as copyright-restricted by World of SAM; products with no hosted image show **No download ↗**. Both open that product's page on worldofsam.org in a new tab (middle-click works too). Cloud images live in memory only, so if you want to keep one, use **File ▸ Save Disk 1** (or the matching drive) after it boots. While a title loads, a bright blinking banner at the top of the library reports `Downloading…`, `Extracting…` and `Booting…` (failures are shown in red).
+`Esc` (or the logo again) closes the library; the emulator is paused while it is open and resumes when the selected title boots. Products with no hosted image show **No download ↗** and open that product's page on worldofsam.org in a new tab (middle-click works too). After a title boots, an **About this software…** link appears in the status bar and points back to its World of SAM product page. The bundled catalogue is an expiring snapshot: opening the library warns once when it is over 14 days old, and a failed download offers the product page as a fallback; a weekly CI job regenerates it. Cloud images live in memory only, so if you want to keep one, use **File ▸ Save Disk 1** (or the matching drive) after it boots. While a title loads, a bright blinking banner at the top of the library reports `Downloading…`, `Extracting…` and `Booting…` (failures are shown in red).
 
 ---
 
@@ -88,7 +88,7 @@ SamCoupeWeb 提供多種直覺的載入方式：
     *   `?d1=[網址]` - 自動下載、掛載磁碟 1 並引導。
     *   `?tape=[網址]` - 自動載入錄音帶。
     *   `?interface=atomlite&d2=[網址]` - 掛載 HDF 硬碟影像至 AtomLite 介面。
-*   **內建圖書館**：點擊選單列最右側的 **World of SAM** 標誌，即可瀏覽 465 個標題並直接開機，無需任何本機檔案（詳見第 7 節）。
+*   **內建圖書館**：點擊選單列最右側的 **World of SAM** 標誌，即可瀏覽 481 個標題並直接開機，無需任何本機檔案（詳見第 7 節）。
 
 ### 3. 操作與互動
 *   **上方選單列**：
@@ -124,15 +124,15 @@ SamCoupeWeb 提供多種直覺的載入方式：
 *   **WebGL 硬體加速**：預設開啟。若遇到黑屏，請透過 `View` 選單取消勾選以改用軟體渲染。
 
 ### 7. World of SAM 軟體圖書館 (v1.2.17 WOS Edition)
-選單列最右側的 **World of SAM** 標誌按鈕會開啟內建的圖書館，收錄 **465 個標題**，不必事先下載任何檔案：
+選單列最右側的 **World of SAM** 標誌按鈕會開啟內建的圖書館，收錄 **481 個標題**，不必事先下載任何檔案：
 
 1. 選擇分類：**Games**、**Demos** 或 **Utilities**；左上角麵包屑（`‹ Games`）可回到分類。
-2. 挑選卡片：每張卡片顯示截圖、標題與發行年份（例如 `13 out (2002)`）。可用 `A→Z`、`Z→A`、`Old→New`、`New→Old` 排序，底部以 `‹`、頁碼頁籤、`›` 翻頁（`←`/`→` 亦可）。分類標題數（例如 `Games 213 titles`）右側的 **搜尋框** 會隨輸入即時篩選，`/` 聚焦、`Esc` 清除、`Enter` 啟動第一筆；比對忽略重音符號（`coupe` 可找到 `Coupé`）。
+2. 挑選卡片：每張卡片顯示截圖、標題與發行年份（例如 `13 out (2002)`）。可用 `A→Z`、`Z→A`、`Old→New`、`New→Old` 排序，底部以 `‹`、頁碼頁籤、`›` 翻頁（`←`/`→` 亦可）。分類標題數（例如 `Games 210 titles`）右側的 **搜尋框** 會隨輸入即時篩選，`/` 聚焦、`Esc` 清除、`Enter` 啟動第一筆；比對忽略重音符號（`coupe` 可找到 `Coupé`）。
 3. 點擊卡片：系統會透過 Corsfix 代理下載影像並自動開機 — `.dsk`/`.mgt`/`.sad` 掛入**磁碟 1**、`.tap`/`.tzx` 掛入**錄音帶**、`.hdf` 掛入 **AtomLite Primary Master**（模擬器會自動切換介面並重載），`.zip` 則先在瀏覽器內解壓。介面一律跟著媒體走：硬碟標題切到 AtomLite，之後再挑磁片或錄音帶標題會**切回 Floppy** 並卸下硬碟（先前掛著的 HDF 就不會再搶走去開機）；若該硬碟有未存的變更，會先問你要不要存檔。
 4. 若產品提供多個影像，會彈出選擇視窗；雙磁片組合的第二片會掛入磁碟 2。
-5. **465 個標題中有 331 個具備可開機影像**（其中 15 個是從 World of SAM 頁面僅張貼的連結救回：Google Drive、Dropbox、GitHub release、archive.org，以及再往外一跳的發行商下載頁，例如 outsoftware.it 的 Jetpac）。產生器會排除山寨檔（手冊、原始碼、空白或 ZX 專用影像）；站方列為版權限制的 53 個標題仍維持鎖定並標示 **Restricted ↗**。
+5. **481 個標題中有 398 個具備可開機影像**。目錄由 World of SAM 的 JSON API 產生，另以一份小型手工清單補上 API 沒收錄的標題（Google Drive、Dropbox、GitHub release、archive.org）。版權限制的標題會直接從目錄中濾除，不再以鎖定卡片顯示。
 
-按 `Esc`（或再次點擊標誌）關閉圖書館；開啟期間模擬器會暫停，選定標題開機後恢復。標示 **Restricted ↗** 的卡片代表 World of SAM 將其列為版權限制，其他沒有可下載影像的產品則標示 **No download ↗**；兩者都會另開新分頁前往該作品的 World of SAM 頁面（中鍵點擊亦可）。雲端影像只存在記憶體，想留一份的話，開機後用 **File ▸ Save Disk 1**（或對應的磁碟機）即可存回本機。載入期間，圖書館正上方會以發光、閃爍的提示顯示 `Downloading…`、`Extracting…`、`Booting…`（失敗時轉為紅光）。
+按 `Esc`（或再次點擊標誌）關閉圖書館；開啟期間模擬器會暫停，選定標題開機後恢復。沒有可下載影像的產品標示 **No download ↗**，點擊會另開新分頁前往該作品的 World of SAM 頁面（中鍵點擊亦可）；標題開機後，狀態列右側會出現 **About this software…** 連結，可直接回到該作品的 World of SAM 頁面。內建目錄是有時效的快照：超過 14 天開啟圖書館時會提示一次，下載失敗時也會提供產品頁連結；CI 每週會重新產生。雲端影像只存在記憶體，想留一份的話，開機後用 **File ▸ Save Disk 1**（或對應的磁碟機）即可存回本機。載入期間，圖書館正上方會以發光、閃爍的提示顯示 `Downloading…`、`Extracting…`、`Booting…`（失敗時轉為紅光）。
 
 ---
 

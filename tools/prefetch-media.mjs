@@ -1,0 +1,72 @@
+#!/usr/bin/env node
+/**
+ * Prefetch third-party media referenced by the software library.
+ *
+ * Two World of SAM entries link out to Outsoftware's own download page rather
+ * than attaching a file. That site sends no Access-Control-Allow-Origin header,
+ * and the CORS proxies cannot fetch it, so a browser cannot read those ZIPs.
+ * Fetch them here at build time instead (there is no CORS outside a browser)
+ * and place them beside the static site as a short-lived cache. This is a
+ * prefetch of the publisher's own downloads, not a copy of World of SAM material.
+ *
+ * Run automatically in the Pages workflow; run locally before serving
+ * wasm/deploy if you want those two titles to be playable:
+ *
+ *   node tools/prefetch-media.mjs
+ *
+ * Node 18+ (global fetch). No dependencies.
+ */
+
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const HERE = dirname(fileURLToPath(import.meta.url));
+const ROOT = resolve(HERE, '..');
+const LIST = join(HERE, 'prefetch-media.json');
+const UA = 'SamCoupeWeb-Media-Prefetch/1.0 (+https://github.com/anomixer/SamCoupeWeb)';
+const RETRIES = 3;
+
+const entries = JSON.parse(readFileSync(LIST, 'utf8'));
+let failed = 0;
+
+for (const entry of entries) {
+  const target = resolve(ROOT, entry.path);
+  let lastErr;
+
+  for (let attempt = 1; attempt <= RETRIES; attempt++) {
+    try {
+      const res = await fetch(entry.url, {
+        headers: { 'User-Agent': UA },
+        signal: AbortSignal.timeout(60000),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = Buffer.from(await res.arrayBuffer());
+      if (data.length < 1000) throw new Error(`suspiciously small response (${data.length} bytes)`);
+      mkdirSync(dirname(target), { recursive: true });
+      writeFileSync(target, data);
+      console.log(`Prefetched ${entry.path}: ${data.length} bytes`);
+      lastErr = null;
+      break;
+    } catch (e) {
+      lastErr = e;
+      if (attempt < RETRIES) await new Promise(r => setTimeout(r, 1000 * attempt));
+    }
+  }
+
+  if (lastErr) {
+    if (existsSync(target)) {
+      // A local, previously fetched copy is still usable; CI has none, so a
+      // persistent failure there is reported below rather than silently shipped.
+      console.warn(`WARN  ${entry.path}: refresh failed (${lastErr.message}); keeping existing copy`);
+    } else {
+      console.error(`FAIL  ${entry.path}: ${lastErr.message}`);
+      failed++;
+    }
+  }
+}
+
+if (failed) {
+  console.error(`${failed} prefetch(es) failed; the library entries will have no playable image.`);
+  process.exit(1);
+}

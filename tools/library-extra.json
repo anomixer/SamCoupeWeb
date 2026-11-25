@@ -1,0 +1,957 @@
+[
+    {
+        "t":  "Atomic Man",
+        "y":  null,
+        "c":  "games",
+        "u":  "/products/atomic-man",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Bombs Away",
+        "y":  1994,
+        "c":  "games",
+        "u":  "/products/bombs-away",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Castle - Jupiter",
+        "y":  null,
+        "c":  "games",
+        "u":  "/products/castle-jupiter",
+        "s":  "https://www.worldofsam.org/sites/default/files/2023-02/simc0020.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "City Centre Cycling",
+        "y":  1991,
+        "c":  "games",
+        "u":  "/products/city-centre-cycling",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Conquest",
+        "y":  1997,
+        "c":  "games",
+        "u":  "/products/conquest",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Cosmos Cruiser",
+        "y":  1991,
+        "c":  "games",
+        "u":  "/products/cosmos-cruiser",
+        "s":  "https://www.worldofsam.org/sites/default/files/2021-10/cosmos%20cruiser%20-%20loading%20screen.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Craft",
+        "y":  null,
+        "c":  "games",
+        "u":  "/products/craft",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/simc0019_0.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Cybernaut",
+        "y":  2018,
+        "c":  "games",
+        "u":  "/products/cybernaut",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-07/simc0071.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Deep Probe",
+        "y":  null,
+        "c":  "games",
+        "u":  "/products/deep-probe",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "ISAAC",
+        "y":  null,
+        "c":  "games",
+        "u":  "/products/isaac",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/isaac-sam.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Jetpac",
+        "y":  2026,
+        "c":  "games",
+        "u":  "/products/jetpac",
+        "s":  "https://www.worldofsam.org/sites/default/files/2026-09/%7B7EF7C4DD-D242-462D-8250-C0B47A8FAB09%7D.png",
+        "d":  [
+                  {
+                      "n":  "jetpac-sam-coupe.zip",
+                      "u":  "media/jetpac-sam-coupe.zip",
+                      "t":  "zip"
+                  }
+              ]
+    },
+    {
+        "t":  "King\u0027s Valley",
+        "y":  2026,
+        "c":  "games",
+        "u":  "/products/kings-valley",
+        "s":  "https://www.worldofsam.org/sites/default/files/2026-09/%7B124F7C2C-3A6E-4A6C-873E-424FD0A1B50C%7D.png",
+        "d":  [
+                  {
+                      "n":  "King-s_Valley-Mode_4.mgt",
+                      "u":  "https://www.dropbox.com/scl/fi/tk3flj8xfgoq9jdxwu1qh/King-s_Valley-Mode_4.mgt?rlkey=r3f2jr9zsy7kxe33u1ijo2w44\u0026dl=1",
+                      "t":  "mgt"
+                  }
+              ]
+    },
+    {
+        "t":  "Kung Fu Manager",
+        "y":  1991,
+        "c":  "games",
+        "u":  "/products/kung-fu-manager",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Leisure Suit Larry in the Land of the Lounge Lizards",
+        "y":  null,
+        "c":  "games",
+        "u":  "/products/leisure-suit-larry-land-lounge-lizards",
+        "s":  "https://www.worldofsam.org/sites/default/files/2021-05/simc0031.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Maniac Mansion",
+        "y":  2026,
+        "c":  "games",
+        "u":  "/products/maniac-mansion",
+        "s":  "https://www.worldofsam.org/sites/default/files/2026-09/%7BF09F219B-3609-46E3-A1C7-7996F81027F6%7D.png",
+        "d":  [
+                  {
+                      "n":  "maniac-mansion-sam-coupe.zip",
+                      "u":  "media/maniac-mansion-sam-coupe.zip",
+                      "t":  "zip"
+                  }
+              ]
+    },
+    {
+        "t":  "Manic Mansion",
+        "y":  null,
+        "c":  "games",
+        "u":  "/products/manic-mansion",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Money Bags 2",
+        "y":  null,
+        "c":  "games",
+        "u":  "/products/money-bags-2",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/Money%20Bags%202%20-%20title%20screen.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Murder most foul",
+        "y":  null,
+        "c":  "games",
+        "u":  "/products/murder-most-foul",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Pac-Sam Video Tutorial Series",
+        "y":  2023,
+        "c":  "games",
+        "u":  "/products/pac-sam-video-tutorial-series",
+        "s":  "https://www.worldofsam.org/sites/default/files/2023-04/Pac-Sam.jpg",
+        "d":  [
+                  {
+                      "n":  "PacSam.dsk",
+                      "u":  "https://raw.githubusercontent.com/APB-Developer/Pac-Sam/master/PacSam.dsk",
+                      "t":  "dsk"
+                  }
+              ]
+    },
+    {
+        "t":  "Pang",
+        "y":  2015,
+        "c":  "games",
+        "u":  "/products/pang",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/snap0025.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Pitlane",
+        "y":  null,
+        "c":  "games",
+        "u":  "/products/pitlane",
+        "s":  "https://www.worldofsam.org/sites/default/files/2021-02/simc0014.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Retros",
+        "y":  1996,
+        "c":  "games",
+        "u":  "/products/retros",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/snap0160.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Sam Coupé Compatible",
+        "y":  null,
+        "c":  "games",
+        "u":  "/products/sam-coupe-compatible",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "SAM Go",
+        "y":  null,
+        "c":  "games",
+        "u":  "/products/sam-go",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "SAMtipede",
+        "y":  2004,
+        "c":  "games",
+        "u":  "/products/samtipede",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Snakemania",
+        "y":  1992,
+        "c":  "games",
+        "u":  "/products/snakemania",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/simc0022.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "SpamCo Adventure",
+        "y":  1992,
+        "c":  "games",
+        "u":  "/products/spamco-adventure",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-07/spamco-1.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Stratosphere",
+        "y":  null,
+        "c":  "games",
+        "u":  "/products/stratosphere",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/snap0002_5.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Super Byke Championship",
+        "y":  1995,
+        "c":  "games",
+        "u":  "/products/super-byke-championship",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Superball",
+        "y":  1992,
+        "c":  "games",
+        "u":  "/products/superball",
+        "s":  "https://www.worldofsam.org/sites/default/files/2025-12/simc0400.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "The Lower Caverns",
+        "y":  2025,
+        "c":  "games",
+        "u":  "/products/lower-caverns",
+        "s":  "https://www.worldofsam.org/sites/default/files/2022-06/lc.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "The Pheaton Effect",
+        "y":  null,
+        "c":  "games",
+        "u":  "/products/pheaton-effect",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Treasure Island Dizzy",
+        "y":  2018,
+        "c":  "games",
+        "u":  "/products/treasure-island-dizzy",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/Capture_0.PNG",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Triltex",
+        "y":  1995,
+        "c":  "games",
+        "u":  "/products/triltex",
+        "s":  "",
+        "d":  [
+                  {
+                      "n":  "Triltex (1991)(Fred Software).zip",
+                      "u":  "https://archive.org/download/Sam_Coupe_TOSEC_2012_04_23/Sam_Coupe_TOSEC_2012_04_23.zip/Sam%20Coupe%5BTOSEC%5D/MGT%20Sam%20Coupe%20-%20Games%20-%20%5BDSK%5D%20(TOSEC-v2008-12-21_CM)/Triltex%20(1991)(Fred%20Software).zip",
+                      "t":  "zip"
+                  }
+              ]
+    },
+    {
+        "t":  "Wonderland",
+        "y":  1996,
+        "c":  "games",
+        "u":  "/products/wonderland",
+        "s":  "https://www.worldofsam.org/sites/default/files/2026-04/simc0507.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "ZX Spectrum 48K and 128K Game Conversions",
+        "y":  null,
+        "c":  "games",
+        "u":  "/products/zx-spectrum-48k-and-128k-game-conversions",
+        "s":  "https://www.worldofsam.org/sites/default/files/2026-09/simc0606_0.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "AJ Incorporates",
+        "y":  null,
+        "c":  "demos",
+        "u":  "/products/aj-incorporates",
+        "s":  "https://www.worldofsam.org/sites/default/files/2020-07/simc0386%20-%20Copy.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Blink Disks",
+        "y":  null,
+        "c":  "demos",
+        "u":  "/products/blink-disks",
+        "s":  "https://www.worldofsam.org/sites/default/files/2024-08/samimage.gif",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Bob Demo",
+        "y":  null,
+        "c":  "demos",
+        "u":  "/products/bob-demo",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/snap0001_3.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Entro 2",
+        "y":  1992,
+        "c":  "demos",
+        "u":  "/products/entro-2",
+        "s":  "https://www.worldofsam.org/sites/default/files/2020-12/entro2main.png",
+        "d":  [
+                  {
+                      "n":  "Entro 2 (1992)(Entropy)(PD).zip",
+                      "u":  "https://archive.org/download/Sam_Coupe_TOSEC_2012_04_23/Sam_Coupe_TOSEC_2012_04_23.zip/Sam%20Coupe%5BTOSEC%5D/MGT%20Sam%20Coupe%20-%20Demos%20-%20%5BDSK%5D%20(TOSEC-v2008-12-21_CM)/Entro%202%20(1992)(Entropy)(PD).zip",
+                      "t":  "zip"
+                  }
+              ]
+    },
+    {
+        "t":  "MGT Demo",
+        "y":  null,
+        "c":  "demos",
+        "u":  "/products/mgt-demo",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/snap0102.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "B-DOS",
+        "y":  1998,
+        "c":  "utilities",
+        "u":  "/products/b-dos",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/snap0075%5B1%5D.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "BorderTron 3000",
+        "y":  2012,
+        "c":  "utilities",
+        "u":  "/products/bordertron-3000",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/simc0216.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Campion Assembler and Tools",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/campion-assembler-and-tools",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "CD2 Tape to Sam Disc",
+        "y":  1991,
+        "c":  "utilities",
+        "u":  "/products/cd2-tape-sam-disc",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Comet2TXT",
+        "y":  2025,
+        "c":  "utilities",
+        "u":  "/products/comet2txt",
+        "s":  "https://www.worldofsam.org/sites/default/files/2026-07/logo-small.8998e9d1.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Cross Lib",
+        "y":  2018,
+        "c":  "utilities",
+        "u":  "/products/cross-lib",
+        "s":  "https://www.worldofsam.org/sites/default/files/2021-08/logo_2.jpg",
+        "d":  [
+                  {
+                      "n":  "Xhorde_samcoupe.dsk",
+                      "u":  "https://github.com/Fabrizio-Caruso/CROSS-LIB/releases/download/XHorde1.0/Xhorde_samcoupe.dsk",
+                      "t":  "dsk"
+                  },
+                  {
+                      "n":  "Xsnake_samcoupe.dsk",
+                      "u":  "https://github.com/Fabrizio-Caruso/CROSS-LIB/releases/download/XSnake2.0/Xsnake_samcoupe.dsk",
+                      "t":  "dsk"
+                  },
+                  {
+                      "n":  "Xbomber_samcoupe.dsk",
+                      "u":  "https://github.com/Fabrizio-Caruso/CROSS-LIB/releases/download/XBomber/Xbomber_samcoupe.dsk",
+                      "t":  "dsk"
+                  },
+                  {
+                      "n":  "Xshoot_samcoupe.dsk",
+                      "u":  "https://github.com/Fabrizio-Caruso/CROSS-LIB/releases/download/XShootRebuild/Xshoot_samcoupe.dsk",
+                      "t":  "dsk"
+                  },
+                  {
+                      "n":  "Xchase_samcoupe.dsk",
+                      "u":  "https://github.com/Fabrizio-Caruso/CROSS-LIB/releases/download/XChase/Xchase_samcoupe.dsk",
+                      "t":  "dsk"
+                  }
+              ]
+    },
+    {
+        "t":  "CT2 Tape Backup Utility",
+        "y":  1992,
+        "c":  "utilities",
+        "u":  "/products/ct2-tape-backup-utility",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "FDOS CP/M Public Domain Library",
+        "y":  1991,
+        "c":  "utilities",
+        "u":  "/products/fdos-cpm-public-domain-library",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/snap0145.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "File Card - Filing Cabinet",
+        "y":  1991,
+        "c":  "utilities",
+        "u":  "/products/file-card-filing-cabinet",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "File Manager",
+        "y":  1992,
+        "c":  "utilities",
+        "u":  "/products/file-manager",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "ForthCoupe",
+        "y":  2013,
+        "c":  "utilities",
+        "u":  "/products/forthcoupe",
+        "s":  "https://www.worldofsam.org/sites/default/files/2022-05/201301300330_forthcoupe_words.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "GI_Mon",
+        "y":  1994,
+        "c":  "utilities",
+        "u":  "/products/gimon",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/GI_Mon.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Jam Assembler",
+        "y":  2008,
+        "c":  "utilities",
+        "u":  "/products/jam-assembler",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/jamasssc.jpg",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "LERM SamDisk",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/lerm-samdisk",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "LogiCAD",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/logicad",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "MakeTZX",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/maketzx",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-09/mtzx2.gif",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "MGTman",
+        "y":  2021,
+        "c":  "utilities",
+        "u":  "/products/mgtman",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Nevs Lucky Dip",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/nevs-lucky-dip",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Notable",
+        "y":  1990,
+        "c":  "utilities",
+        "u":  "/products/notable",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Primary Maths One",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/primary-maths-one",
+        "s":  "https://www.worldofsam.org/sites/default/files/2021-11/simc0001.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Protracker Effects",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/protracker-effects",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "pyz80",
+        "y":  2004,
+        "c":  "utilities",
+        "u":  "/products/pyz80",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Quazar Studio",
+        "y":  1996,
+        "c":  "utilities",
+        "u":  "/products/quazar-studio",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Quazar Video Construction Kit",
+        "y":  1995,
+        "c":  "utilities",
+        "u":  "/products/quazar-video-construction-kit",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "SAASound",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/saasound",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "SAM Print",
+        "y":  1992,
+        "c":  "utilities",
+        "u":  "/products/sam-print",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "SAM Soundtracker",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/sam-soundtracker",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Sam Utils",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/sam-utils",
+        "s":  "https://www.worldofsam.org/sites/default/files/2026-11/Untitled.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "SAM2_GB",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/sam2gb",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "SAMdisk Utility",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/samdisk-utility",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "SamPlay",
+        "y":  1998,
+        "c":  "utilities",
+        "u":  "/products/samplay",
+        "s":  "https://www.worldofsam.org/sites/default/files/2026-09/samplay.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "SAMSprite",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/samsprite",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "SC_CLIPART",
+        "y":  1995,
+        "c":  "utilities",
+        "u":  "/products/scclipart",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "SC_FILER",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/scfiler",
+        "s":  "",
+        "d":  [
+                  {
+                      "n":  "SC Filer v2.0 (1991)(Steve\u0027s Software).zip",
+                      "u":  "https://archive.org/download/Sam_Coupe_TOSEC_2012_04_23/Sam_Coupe_TOSEC_2012_04_23.zip/Sam%20Coupe%5BTOSEC%5D/MGT%20Sam%20Coupe%20-%20Applications%20-%20%5BDSK%5D%20(TOSEC-v2008-12-21_CM)/SC%20Filer%20v2.0%20(1991)(Steve\u0027s%20Software).zip",
+                      "t":  "zip"
+                  }
+              ]
+    },
+    {
+        "t":  "SCADM",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/scadm",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/30711944_1897305040279812_4583425324609211106_n.jpg",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Seiko RC-1000 data manager",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/seiko-rc-1000-data-manager",
+        "s":  "https://www.worldofsam.org/sites/default/files/2021-05/Seiko-RC-1000-Wrist-Terminal.jpg",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "SimCoupe",
+        "y":  1996,
+        "c":  "utilities",
+        "u":  "/products/simcoupe",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/simcoupe_0.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Snaper",
+        "y":  2010,
+        "c":  "utilities",
+        "u":  "/products/snaper",
+        "s":  "https://www.worldofsam.org/sites/default/files/2020-10/snaper03-1.png",
+        "d":  [
+                  {
+                      "n":  "snaper-2010-v0_3.zip",
+                      "u":  "https://velesoft.speccy.cz/samcoupe/snaper/snaper-2010-v0_3.zip",
+                      "t":  "zip"
+                  },
+                  {
+                      "n":  "snaper-2010-v0_3(disk2).zip",
+                      "u":  "https://velesoft.speccy.cz/samcoupe/snaper/snaper-2010-v0_3(disk2).zip",
+                      "t":  "zip"
+                  }
+              ]
+    },
+    {
+        "t":  "Speccy",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/speccy",
+        "s":  "https://www.worldofsam.org/sites/default/files/2021-03/speccy58.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Spectrum emulator",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/spectrum-emulator",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/simc0157.png",
+        "d":  [
+                  {
+                      "n":  "Spectrum Emulator (1990-09-04)(-).zip",
+                      "u":  "https://archive.org/download/Sam_Coupe_TOSEC_2012_04_23/Sam_Coupe_TOSEC_2012_04_23.zip/Sam%20Coupe%5BTOSEC%5D/MGT%20Sam%20Coupe%20-%20Applications%20-%20%5BDSK%5D%20(TOSEC-v2008-12-21_CM)/Spectrum%20Emulator%20(1990-09-04)(-).zip",
+                      "t":  "zip"
+                  }
+              ]
+    },
+    {
+        "t":  "Stylish Images",
+        "y":  1993,
+        "c":  "utilities",
+        "u":  "/products/stylish-images",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "SymbOS",
+        "y":  2026,
+        "c":  "utilities",
+        "u":  "/products/symbos",
+        "s":  "https://www.worldofsam.org/sites/default/files/2026-09/symlogo3.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "tap2hdf",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/tap2hdf",
+        "s":  "https://www.worldofsam.org/sites/default/files/2018-05/snap0000_7.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Teledisk",
+        "y":  1988,
+        "c":  "utilities",
+        "u":  "/products/teledisk",
+        "s":  "https://www.worldofsam.org/sites/default/files/2020-08/tdtitle.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "X128",
+        "y":  2024,
+        "c":  "utilities",
+        "u":  "/products/x128",
+        "s":  "https://www.worldofsam.org/sites/default/files/2025-09/sampoptitle.png",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Z88DK",
+        "y":  null,
+        "c":  "utilities",
+        "u":  "/products/z88dk",
+        "s":  "https://www.worldofsam.org/sites/default/files/2021-03/logo.gif",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "Zeus Assembler",
+        "y":  1995,
+        "c":  "utilities",
+        "u":  "/products/zeus-assembler",
+        "s":  "",
+        "d":  [
+
+              ]
+    },
+    {
+        "t":  "ZX81 Emulator",
+        "y":  1999,
+        "c":  "utilities",
+        "u":  "/products/zx81-emulator",
+        "s":  "",
+        "d":  [
+
+              ]
+    }
+]

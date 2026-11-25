@@ -1,0 +1,12 @@
+[
+  {
+    "path": "wasm/deploy/media/jetpac-sam-coupe.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/2026/10/jetpac-sam-coupe.zip",
+    "note": "Outsoftware's official Jetpac download; linked from https://www.worldofsam.org/products/jetpac"
+  },
+  {
+    "path": "wasm/deploy/media/maniac-mansion-sam-coupe.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/2026/10/maniac-mansion-sam-coupe.zip",
+    "note": "Outsoftware's official Maniac Mansion download; linked from https://www.worldofsam.org/products/maniac-mansion"
+  }
+]

@@ -25,6 +25,9 @@
     var PRODUCT_BASE = 'https://www.worldofsam.org';
     var PENDING_KEY = 'samcoupeweb_pending_launch';
     var SORT_KEY = 'samcoupeweb_library_sort';
+    // World of SAM warns that its file/image URLs may change without notice.
+    // The bundled catalogue is a snapshot, so stop trusting it after this long.
+    var DATA_MAX_AGE_DAYS = 14;
 
     var ARROW = '\u2192';
     var ELLIPSIS = '\u2026';
@@ -71,6 +74,29 @@
 
     function setGlobalStatus(text) {
         try { if (typeof statusLeft !== 'undefined' && statusLeft) statusLeft.innerText = text; } catch (e) { }
+    }
+
+    // World of SAM asked for a way back to the product page after a title has
+    // booted - the page carries the history and usage instructions. This is
+    // only shown for software launched in the current page load; a reload with
+    // an .hdf title still in flight re-establishes it from the pending launch.
+    function setAboutSoftware(url) {
+        var el = byId('stat-about');
+        if (!el) return;
+        if (url) {
+            el.href = url;
+            el.hidden = false;
+        } else {
+            el.hidden = true;
+            el.removeAttribute('href');
+        }
+    }
+
+    function catalogueAgeDays() {
+        var generated = window.SAM_LIBRARY && window.SAM_LIBRARY.generated;
+        if (!generated) return 0;
+        var days = Math.floor((Date.now() - Date.parse(generated)) / 86400000);
+        return isFinite(days) && days > 0 ? days : 0;
     }
 
     // Accent-insensitive so "coupe" finds "Coupé" and "o" finds "ö".
@@ -517,6 +543,15 @@
         els.panel.setAttribute('aria-hidden', 'false');
         hideToast();
 
+        // The snapshot holds World of SAM's internal file URLs, which are not
+        // guaranteed to stay valid. Warn once when it is getting old so a failed
+        // download is not a complete surprise.
+        var age = catalogueAgeDays();
+        if (age >= DATA_MAX_AGE_DAYS && !state.staleWarned) {
+            state.staleWarned = true;
+            showToast('Catalogue snapshot is ' + age + ' days old - if a download fails, open the World of SAM page for that title.');
+        }
+
         // A launch that is still finishing must not yank the panel shut again.
         if (closeTimer) { window.clearTimeout(closeTimer); closeTimer = null; }
 
@@ -814,6 +849,7 @@
         var pending = {
             at: Date.now(),
             title: item && item.t,
+            url: productUrl(item),
             file: file,
             src: opts.src || null,
             iface: iface,
@@ -898,6 +934,9 @@
             return;
         }
 
+        var aboutUrl = productUrl(item);
+        setAboutSoftware(aboutUrl);
+
         var ext = (file.t || '').toLowerCase();
         var isArchive = /^(zip|7z|gz)$/.test(ext);
         var currentItf = parseInt(localStorage.getItem('samcoupeweb_interface') || '0');
@@ -978,9 +1017,16 @@
             }
         } catch (e) {
             console.error('Library load failed:', e);
-            showToast('Download failed: ' + e.message, true);
+            setAboutSoftware('');
+            // World of SAM does not guarantee its file URLs stay stable; when a
+            // cached link dies, point straight at the durable product page.
+            var detail = aboutUrl
+                ? '<br><br>The file link may have changed. <a href="' + escapeHtml(aboutUrl) +
+                  '" target="_blank" rel="noopener noreferrer">Open the World of SAM page</a> for this title.'
+                : '';
+            showToast('Download failed: ' + e.message + (aboutUrl ? ' - check the World of SAM page' : ''), true);
             if (typeof customAlert === 'function') {
-                customAlert('Failed to download this title from worldofsam.org (CORS proxy).<br>Please try again in a moment.', 'Download Failed');
+                customAlert('Failed to download this title from worldofsam.org.<br>Please try again in a moment.' + detail, 'Download Failed');
             }
         } finally {
             state.busy = false;
@@ -1040,7 +1086,8 @@
         if (!pending || !pending.file || !pending.file.u) return;
         if (Date.now() - (pending.at || 0) > PENDING_DEFAULT_LIFETIME) return; // stale
 
-        var item = { t: pending.title || pending.file.n, y: null, d: [pending.file] };
+        var item = { t: pending.title || pending.file.n, y: null, u: pending.url || '', d: [pending.file] };
+        setAboutSoftware(productUrl(item));
         var fallback = function () { launchFile(item, pending.src || pending.file); };
 
         window.setTimeout(function () {
@@ -1233,6 +1280,9 @@
         bind();
         if (!els.panel) return;
         buildSortButtons();
+        // A fresh page load has no software running, so never show a link to
+        // whatever was played in a previous visit (or a restored tab).
+        if (!state.engineReady) setAboutSoftware('');
         if (engineReady()) state.engineReady = true;
     }
 
@@ -1254,6 +1304,8 @@
         playFile: function (item, file) {
             if (item && file) launchFile(item, file);
         },
+        // Hide the "About this software" link when the user loads other media.
+        clearAbout: function () { setAboutSoftware(''); },
         onEngineReady: function () {
             state.engineReady = true;
             consumePendingLaunch();

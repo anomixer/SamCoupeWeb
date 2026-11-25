@@ -16,3 +16,5 @@ Thumbs.db
 /deps
 /emsdk-wasm
 scratch/
+# Fetched at build time by tools/prefetch-media.mjs, not committed.
+/wasm/deploy/media/

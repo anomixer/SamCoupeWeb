@@ -3,6 +3,10 @@ name: Deploy SamCoupeWeb to Pages
 on:
   push:
     branches: ["main"]
+  # World of SAM warns its internal file/image URLs can change without notice.
+  # Rebuild the catalogue snapshot every week so cached links expire quickly.
+  schedule:
+    - cron: '0 3 * * 1'
   workflow_dispatch:
 
 permissions:
@@ -33,6 +37,12 @@ jobs:
         run: |
           chmod +x package/make_wasm_release.sh
           ./package/make_wasm_release.sh
+
+      - name: Refresh World of SAM catalogue
+        run: node tools/build-library.mjs
+
+      - name: Prefetch Outsoftware downloads
+        run: node tools/prefetch-media.mjs
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

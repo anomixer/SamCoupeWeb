@@ -184,6 +184,20 @@
 
         #status-right {
             justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .stat-about {
+            color: #9cdcfe;
+            text-decoration: none;
+        }
+
+        .stat-about:hover {
+            text-decoration: underline;
+        }
+
+        .stat-about[hidden] {
+            display: none;
         }
 
         .stat-item {
@@ -1606,6 +1620,7 @@
             <span id="stat-tape" class="stat-item">Tape: Empty</span>
         </div>
         <div id="status-right">
+            <a id="stat-about" hidden target="_blank" rel="noopener noreferrer" title="Read about this software at World of SAM">About this software&hellip;</a>
             <span id="stat-fps">50 FPS</span>
         </div>
     </div>
@@ -1628,8 +1643,8 @@
                 <h2 style="margin:0;">SamCoupeWeb v1.2.17 WOS Edition</h2>
                 <p><a href="https://github.com/anomixer/SamCoupeWeb"
                         target="_blank">https://github.com/anomixer/SamCoupeWeb</a></p>
-                <p style="margin:5px 0;">Software Library data &amp; screenshots from
-                    <a href="https://www.worldofsam.org" target="_blank">World of SAM</a></p>
+                <p style="margin:5px 0;">Software Library data &amp; screenshots from:<br>
+                    <a href="https://www.worldofsam.org" target="_blank">World of SAM</a> (Thanks to: <a href="https://www.worldofsam.org/people/andrew-collier" target="_blank">Andrew Collier</a>)</p>
                 <p style="margin:5px 0;">CORS Proxy by <a href="https://corsfix.com" target="_blank">Corsfix</a></p>
 
                 <div class="credits">
@@ -1667,6 +1682,10 @@
         var overlay = document.getElementById('loading-overlay');
         var fileInput = document.getElementById('file-input');
         var targetType = 0; // 0: D1, 1: D2, 2: Tape
+
+        function clearAboutSoftware() {
+            try { if (window.SamLibrary && window.SamLibrary.clearAbout) window.SamLibrary.clearAbout(); } catch (e) { }
+        }
 
         // Action IDs from Actions.h
         var Action = {
@@ -1740,6 +1759,7 @@
             var file = e.dataTransfer.files[0];
             if (!file) return;
 
+            clearAboutSoftware();
             statusLeft.innerText = 'Processing dropped file: ' + file.name;
 
             let filename = file.name;
@@ -2492,6 +2512,7 @@
             var savedInterface = parseInt(localStorage.getItem('samcoupeweb_interface') || "0");
 
             const performEject = () => {
+                clearAboutSoftware();
                 if (type === 0 || type === 1 || type === 3) {
                     Module.ccall('EMS_EjectDisk', null, ['number'], [type]);
                 } else {
@@ -2550,6 +2571,7 @@
 
         async function loadFromUrl(type, url) {
             if (!url) return;
+            clearAboutSoftware();
             statusLeft.innerText = 'Downloading from URL...';
             statusLeft.classList.add('status-loading');
             try {
@@ -2691,6 +2713,7 @@
             var file = e.target.files[0];
             if (!file) return;
 
+            clearAboutSoftware();
             statusLeft.innerText = 'Processing file: ' + file.name;
 
             let data;
@@ -2859,8 +2882,8 @@
 
     </script>
     <!-- Bump this date whenever library-data.js or library.js changes. -->
-    <script src="library-data.js?v=2026-11-12"></script>
-    <script src="library.js?v=2026-11-12"></script>
+    <script src="library-data.js?v=2026-11-25b"></script>
+    <script src="library.js?v=2026-11-25b"></script>
     <script async src="samcoupeweb.js"></script>
 </body>
 

@@ -373,3 +373,32 @@
 
 **Status**: v1.2.17 WOS Edition 完成，World of SAM 目錄瀏覽與雲端開機流程全面上線。
 
+---
+
+## 19. 2026-11-12～11-25：Andrew Collier (@shadowphiar) 的三個 PR
+
+11/11 WOS Edition 上線後，Andrew 陸續回報並送出三個小修正。三個 PR 最後都是 **closed 未 merge**；patch 均以手動方式套用到 main，commit message 保留 `Co-Authored-By: Andrew Collier <git@intensity.org.uk>`，沒有帶入任何 bot 產生器 trailer。
+
+- **[#1](https://github.com/anomixer/SamCoupeWeb/pull/1) Fix spelling of Dave Hooper in About box credits**（11-12 關閉）：About 視窗把 SAA 1099 音效晶片模擬者 `Dave Hooper` 誤寫成 `Dave Hopper`，改成與 `ReadMe-org.md` / `SDL/OSX/Credits.html` 等一致的拼法；純 HTML 改動，不需重建 WASM。
+- **[#2](https://github.com/anomixer/SamCoupeWeb/pull/2) Fix black screen in Safari when WebGL acceleration is enabled**（11-12 關閉）：`SDL_GL3::UpdatePalette()` 在 Emscripten 路徑把調色盤上傳為 `GL_RGBA8`，但用 `RGB2Native` 把 alpha 包成 0，WebKit 判定全透明而成黑畫面（Chromium 仍會合成顏色所以沒發現）。改成 `__EMSCRIPTEN__` 路徑 alpha = 255，原生路徑不變；修改 `wasm/src/SDL20_GL3.cpp`，由 Pages workflow 重建 WASM。
+- **[#3](https://github.com/anomixer/SamCoupeWeb/pull/3) Fix shifted symbols sticking after Shift+key (e.g. # instead of 3)**（11-21 開啟、11-25 02:09 本地時間關閉）：`Base/Keyboard.cpp` 的 `UpdateKeyTable` 只對非字元鍵（`nChar_ >= HK_MIN`）記錄 host modifiers，導致 Shift+3 學到 `#` 後，放開 Shift 再按 3 仍出現 `#`。改為對所有非矩陣映射（`asSamKeys` / `asSpectrumKeys`）記錄修飾鍵，基礎矩陣仍排除以保留 Shift+方向鍵行為。
+- 前兩筆落在 commit `c79bc7b`（「Fix Safari WebGL transparency and Dave Hooper credit」），第三筆併入 11-25 的 squash commit（見 §20）；只取 patch，不帶進 PR 描述裡的 bot 生成說明。
+- 11/18 起 Andrew 另就 World of SAM 授權與 API 使用來信討論（見 §20），後續也把 About 的致謝對象連結到他的 WOS 個人頁。
+
+---
+
+## 20. 2026-11-25：WOS API 合規、預取與目錄時效
+
+依 World of SAM（Andrew Collier 11/18 來信）的要求調整圖書館。本節取代 §18 中關於產生方式、筆數與 Outsoftware 鏡像的舊敘述。
+
+- **改用 JSON API**：`tools/build-library.mjs` 重寫為只讀 `/api/products.json` + `/api/products/<nid>.json`（詳細端點回傳的是單元素陣列），不再解析 HTML。API 共 594 筆，其中 Game / Demo / Utility 392 筆。
+- **版權限制標題直接隱藏**：API 的 `copyrights` 為空者不收；§18 的 `Restricted ↗` 卡片已消失，不繞過也不展示鎖定項目。
+- **手工保留清單**：`tools/library-extra.json` 收錄 89 筆 API 沒有的舊標題（Games 36 / Demos 5 / Utilities 48），其中 10 筆可玩；`tools/library-recovery.json` 僅留作溯源。修正 `Sam Coup矇 Compatible` → `Sam Coupé Compatible`。
+- **現行目錄**：481 筆、398 筆可玩、0 筆限制，格式 mgt 185 / dsk 282 / zip 52。
+- **Outsoftware 改為建置時預取**：該站沒有 CORS 標頭，Corsfix 對它回 500、cors.lol 回 429，瀏覽器無法直接抓。新增 `tools/prefetch-media.mjs` + `tools/prefetch-media.json`，在 CI、`Run.bat`、`run.sh` 部署／啟動前抓取發行商官方 ZIP 到 `wasm/deploy/media/`（已加入 `.gitignore`，不再提交 binaries）。Maniac Mansion 因此從舊 Mode_3 更新到 Mode_4。
+- **About this software…**：開機後狀態列右側連結到該作品的 WOS 產品頁；只在本頁載入真的啟動過標題時出現（不再用 sessionStorage 還原，避免全新進入顯示上次標題）；`.hdf` 切介面重載則由 pending launch 重新建立。About 視窗的 「Thanks to: Andrew Collier」 連到他的 WOS 個人頁。
+- **過期政策**：快照超過 14 天會在開啟圖書館時提示一次；下載失敗時改提供產品頁連結；`deploy.yml` 每週一 cron 重新產生目錄並預取媒體。
+- **驗證**：本機煙霧 0/30、About／時效 0/11、線上 0/9；當天所有變更 squash 成單一 commit 並 force push。
+
+**Status**: WOS API 合規與目錄更新完成， ReadMe.md / Manual.md 已同步至 481 / 398。
+
