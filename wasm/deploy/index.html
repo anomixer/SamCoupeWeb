@@ -312,6 +312,11 @@
             display: none;
         }
 
+        #standby-divider[hidden],
+        #standby-list[hidden] {
+            display: none;
+        }
+
         .secondary-section.hidden {
             display: none;
         }
@@ -1395,6 +1400,8 @@
                 </div>
                 <div class="dropdown-item" onclick="insertDiskFromUrl(0)">Insert Disk 1 from URL...</div>
                 <div class="dropdown-item" id="eject-d1" onclick="ejectMedia(0)">Eject Disk 1</div>
+                <div class="dropdown-divider" id="standby-divider" hidden></div>
+                <div id="standby-list" hidden></div>
 
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item-header">Disk 2 Type:</div>
@@ -1727,6 +1734,7 @@
 
         function clearAboutSoftware() {
             try { if (window.SamLibrary && window.SamLibrary.clearAbout) window.SamLibrary.clearAbout(); } catch (e) { }
+            try { if (window.SamLibrary && window.SamLibrary.clearStandby) window.SamLibrary.clearStandby(); } catch (e) { }
         }
 
         // Action IDs from Actions.h
@@ -2924,9 +2932,9 @@
 
     </script>
     <!-- Bump this date whenever a library data file or library.js changes. -->
-    <script src="library-data.js?v=2026-11-26"></script>
-    <script src="outsoftware-data.js?v=2026-11-26"></script>
-    <script src="library.js?v=2026-11-26"></script>
+    <script src="library-data.js?v=2026-11-26b"></script>
+    <script src="outsoftware-data.js?v=2026-11-26b"></script>
+    <script src="library.js?v=2026-11-26b"></script>
     <script async src="samcoupeweb.js"></script>
 </body>
 

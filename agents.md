@@ -413,9 +413,11 @@
 - **預取**：`tools/prefetch-media.mjs` 改為讀取兩份清單（`prefetch-media.json` + `prefetch-outsoftware.json`），支援 `optional` 項目；`deploy.yml` 加一步 `node tools/build-outsoftware.mjs`，其餘流程不變。本機已實際抓下 32 個 ZIP 到 `wasm/deploy/media/outsoftware/`（`.gitignore` 已覆蓋）。
 - **雙資料源面板**：`library.js` 加入 `SOURCES.wos` / `SOURCES.outsoftware` 與 `state.source`；`openPanel(key)` / `togglePanel(key)` 可就地切換資料源、品牌文字、站點連結與 `experimental` 標記。所有寫死的 `window.SAM_LIBRARY`、`worldofsam.org`、`World of SAM` 訊息改走 `currentData()` / `sourceHost()` / `state.source`。同一按鈕再點一次才關閉，點另一顆則直接切換。
 - **多磁片修正**：`extractArchive(name, data, sortDisks)` 對 Outsoftware 的壓縮檔做自然排序，讓 **Disc 1** 先開機；第二個映像以 `extra.bytes` 記住，經過 `floppyCompanion` / `loadSecondaryDisk` 自動掛到 **D2**。WOS 原有的單檔與多檔行為不變。
+- **Stand-by 托盤（仿 apple2ts）**：解壓時把所有 `.mgt/.dsk/.sad/.tap/.tzx/.hdf` 影像保留在 `result.disks`，啟動後放進 `standby[drive]`（每磁碟機一份，含 bytes / dirty / activeIndex）；`File` 選單的 `#standby-list` 會列出影像、打勾目前片，點選即呼叫 `swapStandbyDisk()`，`insertMedia(..., {boot:false})` 只掛片不開機。換片前 `syncActiveDisk()` 會 `EMS_FlushDisk` 並把修改過的 bytes 留在新舊 entry 裡（引擎沒有 set-modified export，所以 dirty 由托盤自己記並用 `*` 顯示）。`clearAboutSoftware()` 同時呼叫 `SamLibrary.clearStandby()`，退出／拖入／URL 載入都會清空托盤。
+- **Monkey Island 開機修正**：該 ZIP 的 MGT 第一個目錄項目是 `type=0x04` / `SYSTEM`、沒有 auto-exec 旗標；引擎的 `EMS_Boot()` 在 READKEY 注入 `BOOT` 的時機太早，SAMDOS 回 `94 Wrong file type, 0:1`。啟動器偵測到此情況時改用 `EMS_Reset()` + 延遲 1.2 秒後由頁面送出合成 `BOOT⏎` 按鍵（純 JS，不需重建 WASM），實測已出現「MONKEY ISLAND SAM」載入畫面；第二片改在 2.8 秒後才掛入 D2。
 - **UI**：選單列 WOS logo 右邊加 Outsoftware 文字徽章；面板標題列多一個 `experimental` 小標記，站點連結隨資料源切換。快取參數統一 bump 到 `2026-11-26`。
 - **文件**：`ReadMe.md` / `Manual.md` 中英都加了「Experimental Outsoftware Library」小節，並明確註記「尚未併入 main」。
-- **驗證**：新增 17 項無頭瀏覽器檢查 `0 failed`（資料源切換、32 筆目錄、DENIED 排除、搜尋 `tetris` 得 2 筆、Tetris 從本機快取開機、About 連結指向 Outsoftware、Monkey Island 的 Disc 1/Disc 2、按鈕 toggle、WOS 回復）；原有煙霧 `0/30`、About／時效 `0/11` 全部通過，WOS 目錄仍是 481 / 398。
+- **驗證**：新增 17 項無頭瀏覽器檢查 `0 failed`（資料源切換、32 筆目錄、DENIED 排除、搜尋 `tetris` 得 2 筆、Tetris 從本機快取開機、About 連結指向 Outsoftware、Monkey Island 的 Disc 1/Disc 2、按鈕 toggle、WOS 回復）；另加 stand-by 換片測試 12 項 `0 failed`（3/6 片托盤、換片不重開機、退出清空、WOS 不受影響），並以截圖確認 Monkey Island 出現載入畫面（不再有 `94 Wrong file type`）。原有煙霧 `0/30`、About／時效 `0/11` 全部通過，WOS 目錄仍是 481 / 398。
 
 **Status**: 實驗功能完成並提交在 `swlib/outsw` 分支；等使用者確認才會考慮合併或推送。
 

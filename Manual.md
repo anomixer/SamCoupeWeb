@@ -75,7 +75,7 @@ The **World of SAM** logo at the right end of the menu bar opens a library of **
 
 The **Outsoftware** badge to the right of the World of SAM logo opens the same panel with a second catalogue: **32 SAM Coupé games** from [Outsoftware](https://outsoftware.it/games/#sam-coupe). Everything in section 7 applies — search, sort, paging, multi-image picker, the "About this software…" link (pointing at the Outsoftware info page) and saving the mounted image. Click the World of SAM logo to switch back; click the active badge (or press `Esc`) to close.
 
-Titles the publisher marks **DENIED** are excluded. Because that site has no CORS headers, its ZIPs are prefetched from the publisher's own URLs at build time (or by `Run.bat` / `run.sh`) into a gitignored cache; no images or disks are committed. Multi-disk archives boot **Disc 1** and mount **Disc 2** automatically.
+Titles the publisher marks **DENIED** are excluded. Because that site has no CORS headers, its ZIPs are prefetched from the publisher's own URLs at build time (or by `Run.bat` / `run.sh`) into a gitignored cache; no images or disks are committed. Multi-disk archives boot **Disc 1** and mount **Disc 2** automatically. To use the remaining disks (for example Disc 3 of Monkey Island or disks 3–6 of Wolfenstein 3D), open **File ▸ Disk 1 stand-by disks** and choose an image; it is inserted into D1 without rebooting. The checked item is the one currently inserted. Any edits to the previous disk are flushed into memory before the swap, but ejecting the drive clears the tray — save first if you need to keep them. Monkey Island's SYSTEM-type boot disk is started with an explicit `BOOT` typed by the launcher.
 
 ---
 
@@ -148,7 +148,7 @@ SamCoupeWeb 提供多種直覺的載入方式：
 
 World of SAM 標誌右邊的 **Outsoftware** 按鈕會用同一個面板開啟第二份目錄：[Outsoftware](https://outsoftware.it/games/#sam-coupe) 的 **32 款 SAM Coupé 遊戲**。第 7 節的功能都通用 — 搜尋、排序、翻頁、多影像選擇、「About this software…」連結（指向 Outsoftware 資訊頁）以及存回掛載中的影像。點 World of SAM 標誌可切回去；再點一次同一個按鈕或按 `Esc` 可關閉。
 
-發行商標示 **DENIED** 的標題已排除。該站沒有 CORS 標頭，因此 ZIP 會在建置時（或 `Run.bat` / `run.sh` 啟動時）從發行商自己的網址預取到不進版本控制的快取目錄；沒有提交任何影像或磁片。多磁片壓縮檔會以 **Disc 1** 開機並自動掛入 **Disc 2**。
+發行商標示 **DENIED** 的標題已排除。該站沒有 CORS 標頭，因此 ZIP 會在建置時（或 `Run.bat` / `run.sh` 啟動時）從發行商自己的網址預取到不進版本控制的快取目錄；沒有提交任何影像或磁片。多磁片壓縮檔會以 **Disc 1** 開機並自動掛入 **Disc 2**。要用剩下的磁片（例如 Monkey Island 的 Disc 3、Wolfenstein 3D 的第 3～6 片），請開 **File ▸ Disk 1 stand-by disks** 選擇影像，會直接換入 D1 而不重新開機；打勾的是目前插入的那片。換片前對舊片的修改會先存到記憶體，但退出磁碟會清空托盤 — 要保留請先存檔。Monkey Island 的 SYSTEM 開機片會由啟動器自動輸入 `BOOT`。
 
 ---
 
