@@ -402,3 +402,20 @@
 
 **Status**: WOS API 合規與目錄更新完成， ReadMe.md / Manual.md 已同步至 481 / 398。
 
+---
+
+## 21. 2026-11-26：實驗性 Outsoftware 圖書館（`swlib/outsw` 分支，尚未併入 main）
+
+使用者要求「先寫到 `swlib/outsw` 分支」，所以所有改動都在該分支，**`main` 完全沒動、也沒有 force push**。延續 §20 的決定：WOS 圖書館不混進 Outsoftware，也不跟 Andrew 提這件事。
+
+- **可行性調查**：`https://outsoftware.it/games/` 的 `#sam-coupe` 區段有 32 款遊戲，每款都有截圖、格式（`Mode 4 · MGT`）、直接 ZIP 與 Info 頁；32 個 ZIP 全部 HTTP 200，合計 6.91 MiB。ZIP 內含 1～6 個 `.mgt`。Gallery 另外列的 Everyone's a Wally、Tony、Stevedore 被發行商標為 **DENIED**（且沒有 ZIP），一律排除。
+- **新增產生器**：`tools/build-outsoftware.mjs` 只在伺服器端讀取發行商自己的目錄頁，產出 `wasm/deploy/outsoftware-data.js`（`window.OUTSOFTWARE_LIBRARY`，32 筆 / Games 32）與 `tools/prefetch-outsoftware.json`（32 個官方 ZIP URL，`optional: true`）。不解析 HTML 以外的來源、不提交任何 binaries。
+- **預取**：`tools/prefetch-media.mjs` 改為讀取兩份清單（`prefetch-media.json` + `prefetch-outsoftware.json`），支援 `optional` 項目；`deploy.yml` 加一步 `node tools/build-outsoftware.mjs`，其餘流程不變。本機已實際抓下 32 個 ZIP 到 `wasm/deploy/media/outsoftware/`（`.gitignore` 已覆蓋）。
+- **雙資料源面板**：`library.js` 加入 `SOURCES.wos` / `SOURCES.outsoftware` 與 `state.source`；`openPanel(key)` / `togglePanel(key)` 可就地切換資料源、品牌文字、站點連結與 `experimental` 標記。所有寫死的 `window.SAM_LIBRARY`、`worldofsam.org`、`World of SAM` 訊息改走 `currentData()` / `sourceHost()` / `state.source`。同一按鈕再點一次才關閉，點另一顆則直接切換。
+- **多磁片修正**：`extractArchive(name, data, sortDisks)` 對 Outsoftware 的壓縮檔做自然排序，讓 **Disc 1** 先開機；第二個映像以 `extra.bytes` 記住，經過 `floppyCompanion` / `loadSecondaryDisk` 自動掛到 **D2**。WOS 原有的單檔與多檔行為不變。
+- **UI**：選單列 WOS logo 右邊加 Outsoftware 文字徽章；面板標題列多一個 `experimental` 小標記，站點連結隨資料源切換。快取參數統一 bump 到 `2026-11-26`。
+- **文件**：`ReadMe.md` / `Manual.md` 中英都加了「Experimental Outsoftware Library」小節，並明確註記「尚未併入 main」。
+- **驗證**：新增 17 項無頭瀏覽器檢查 `0 failed`（資料源切換、32 筆目錄、DENIED 排除、搜尋 `tetris` 得 2 筆、Tetris 從本機快取開機、About 連結指向 Outsoftware、Monkey Island 的 Disc 1/Disc 2、按鈕 toggle、WOS 回復）；原有煙霧 `0/30`、About／時效 `0/11` 全部通過，WOS 目錄仍是 481 / 398。
+
+**Status**: 實驗功能完成並提交在 `swlib/outsw` 分支；等使用者確認才會考慮合併或推送。
+

@@ -41,6 +41,9 @@ jobs:
       - name: Refresh World of SAM catalogue
         run: node tools/build-library.mjs
 
+      - name: Refresh experimental Outsoftware catalogue
+        run: node tools/build-outsoftware.mjs
+
       - name: Prefetch Outsoftware downloads
         run: node tools/prefetch-media.mjs
 

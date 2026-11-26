@@ -1,14 +1,15 @@
 /**
- * SamCoupeWeb Software Library (v1.2.17 WOS Edition)
+ * SamCoupeWeb Software Library
  * ---------------------------------------------------------------------------
- * Browses the World of SAM catalogue (bundled as window.SAM_LIBRARY by
- * tools/build-library.mjs) inside the emulator workspace and launches the
- * selected title straight from worldofsam.org (CORS proxy: Corsfix).
+ * Browses one of two bundled catalogues inside the emulator workspace:
+ *   - World of SAM (window.SAM_LIBRARY, by tools/build-library.mjs)
+ *   - Outsoftware SAM Coupé (window.OUTSOFTWARE_LIBRARY, experimental)
+ * and launches the selected title (CORS proxy: Corsfix, or prefetched media).
  *
  * Views:
- *   categories -> Games / Demos / Utilities cards
+ *   categories -> category cards
  *   list       -> screenshot cards, A-Z / Z-A / Old-New sorting, paged like
- *                 the World of SAM site (bottom page tabs + prev/next).
+ *                 the source site (bottom page tabs + prev/next).
  *
  * Launching:
  *   .mgt / .dsk / .sad  -> floppy, Disk 1 (a second image in a 2-disk set is
@@ -23,6 +24,7 @@
     var CORS_PROXY = 'https://proxy.corsfix.com/?';
     var CORS_PROXY_FALLBACK = 'https://api.cors.lol/?url=';
     var PRODUCT_BASE = 'https://www.worldofsam.org';
+    var OUTSOFTWARE_BASE = 'https://outsoftware.it';
     var PENDING_KEY = 'samcoupeweb_pending_launch';
     var SORT_KEY = 'samcoupeweb_library_sort';
     // World of SAM warns that its file/image URLs may change without notice.
@@ -39,6 +41,35 @@
         { id: 'new', label: 'New ' + ARROW + ' Old' }
     ];
 
+    // Both catalogues share one panel. Switching sources only swaps the data,
+    // branding and the durable page URL; sorting/paging/search state is shared.
+    var SOURCES = {
+        wos: {
+            key: 'wos',
+            label: 'World of SAM',
+            host: 'www.worldofsam.org',
+            siteUrl: 'https://www.worldofsam.org/products',
+            siteLabel: 'worldofsam.org ↗',
+            base: PRODUCT_BASE,
+            regen: 'node tools/build-library.mjs',
+            aboutTitle: 'Read about this software at World of SAM',
+            note: 'World of SAM collection',
+            empty: 'World of SAM does not host a downloadable image for this title (copyright restricted or not archived).'
+        },
+        outsoftware: {
+            key: 'outsoftware',
+            label: 'Outsoftware',
+            host: 'outsoftware.it',
+            siteUrl: 'https://outsoftware.it/games/#sam-coupe',
+            siteLabel: 'outsoftware.it ↗',
+            base: OUTSOFTWARE_BASE,
+            regen: 'node tools/build-outsoftware.mjs',
+            aboutTitle: 'Read about this software at Outsoftware (experimental library)',
+            note: 'Outsoftware SAM Coupé conversions (experimental)',
+            empty: 'Outsoftware does not offer a downloadable image for this title (the release was denied by the publisher).'
+        }
+    };
+
     var state = {
         view: 'closed',   // closed | categories | list
         category: null,
@@ -52,7 +83,8 @@
         rows: 2,
         pageSize: 8,
         engineReady: false,
-        busy: false
+        busy: false,
+        source: SOURCES.wos
     };
 
     var pausedBeforeLibrary = null;
@@ -65,7 +97,18 @@
     /* ------------------------------------------------------------------ */
 
     function byId(id) { return document.getElementById(id); }
-    function hasData() { return !!(window.SAM_LIBRARY && Array.isArray(window.SAM_LIBRARY.items)); }
+    function currentData() { return state.source.key === 'outsoftware' ? window.OUTSOFTWARE_LIBRARY : window.SAM_LIBRARY; }
+    function hasData() { var data = currentData(); return !!(data && Array.isArray(data.items)); }
+
+    function aboutTitleFor(url) {
+        return url && /outsoftware\.it/i.test(url)
+            ? SOURCES.outsoftware.aboutTitle : SOURCES.wos.aboutTitle;
+    }
+
+    function sourceHost(url) {
+        if (url && /outsoftware\.it/i.test(url)) return SOURCES.outsoftware.host;
+        return state.source.host;
+    }
     function engineReady() { return (typeof isEngineReady !== 'undefined') && isEngineReady === true; }
 
     function setStatus(text) {
@@ -85,6 +128,7 @@
         if (!el) return;
         if (url) {
             el.href = url;
+            el.title = aboutTitleFor(url);
             el.hidden = false;
         } else {
             el.hidden = true;
@@ -93,7 +137,8 @@
     }
 
     function catalogueAgeDays() {
-        var generated = window.SAM_LIBRARY && window.SAM_LIBRARY.generated;
+        var data = currentData();
+        var generated = data && data.generated;
         if (!generated) return 0;
         var days = Math.floor((Date.now() - Date.parse(generated)) / 86400000);
         return isFinite(days) && days > 0 ? days : 0;
@@ -161,7 +206,7 @@
     }
 
     function categoryOf(key) {
-        return (window.SAM_LIBRARY.categories || []).find(function (c) { return c.key === key; }) || { key: key, label: key };
+        return (currentData().categories || []).find(function (c) { return c.key === key; }) || { key: key, label: key };
     }
 
     function formatLabel(item) {
@@ -262,7 +307,7 @@
     }
 
     function renderCategories() {
-        var lib = window.SAM_LIBRARY;
+        var lib = currentData();
         els.categories.innerHTML = '';
 
         (lib.categories || []).forEach(function (cat) {
@@ -293,7 +338,7 @@
 
             var note = document.createElement('span');
             note.className = 'lib-cat-note';
-            note.textContent = 'World of SAM collection';
+            note.textContent = state.source.note;
 
             body.appendChild(name);
             body.appendChild(count);
@@ -309,7 +354,7 @@
         els.footer.style.display = 'none';
         els.sorts.classList.add('hidden-view');
         els.back.classList.add('is-hidden');
-        els.crumbTitle.textContent = 'World of SAM Library';
+        els.crumbTitle.textContent = state.source.label + ' Library';
         setQuery('');
         setSearchVisible(false);
         setStatus('');
@@ -325,7 +370,7 @@
         els.grid.classList.remove('hidden-view');
         els.footer.style.display = 'flex';
 
-        var source = (window.SAM_LIBRARY.items || []).filter(function (i) { return i.c === state.category; });
+        var source = (currentData().items || []).filter(function (i) { return i.c === state.category; });
         var total = source.length;
         if (state.query) {
             source = source.filter(function (i) { return matchesQuery(i, state.query); });
@@ -391,8 +436,8 @@
             card.rel = 'noopener noreferrer';
             card.className = 'lib-card is-unavailable lib-card-link';
             card.title = formatLabel(item) + (restricted
-                ? ' - not distributed (copyrights declined); opens the World of SAM product page'
-                : ' - no downloadable media; opens the World of SAM product page');
+                ? ' - not distributed (copyrights declined); opens the ' + state.source.label + ' product page'
+                : ' - no downloadable media; opens the ' + state.source.label + ' product page');
         } else {
             card = document.createElement('button');
             card.type = 'button';
@@ -531,14 +576,22 @@
         renderList();
     }
 
-    function openPanel() {
+    function openPanel(key) {
+        var requested = SOURCES[key] || SOURCES.wos;
+        state.source = requested;
+        if (els.siteLink) {
+            els.siteLink.href = requested.siteUrl;
+            els.siteLink.textContent = requested.siteLabel;
+        }
+        if (els.badge) els.badge.hidden = requested.key !== 'outsoftware';
         if (!hasData()) {
-            var msg = 'Library data is missing. Regenerate it with: node tools/build-library.mjs';
+            var msg = 'Library data is missing. Regenerate it with: ' + requested.regen;
             if (typeof customAlert === 'function') customAlert(msg, 'Library Data Missing');
             else alert(msg);
             return;
         }
 
+        var wasActive = els.panel.classList.contains('active');
         els.panel.classList.add('active');
         els.panel.setAttribute('aria-hidden', 'false');
         hideToast();
@@ -549,7 +602,7 @@
         var age = catalogueAgeDays();
         if (age >= DATA_MAX_AGE_DAYS && !state.staleWarned) {
             state.staleWarned = true;
-            showToast('Catalogue snapshot is ' + age + ' days old - if a download fails, open the World of SAM page for that title.');
+            showToast('Catalogue snapshot is ' + age + ' days old - if a download fails, open the ' + state.source.label + ' page for that title.');
         }
 
         // A launch that is still finishing must not yank the panel shut again.
@@ -561,8 +614,10 @@
             if (about && about.style.display === 'block' && typeof closeAbout === 'function') closeAbout();
         } catch (e) { /* ignore */ }
 
-        pausedBeforeLibrary = engineReady() ? getEngineOption('pause') : null;
-        if (engineReady() && !pausedBeforeLibrary) setEnginePause(true);
+        if (!wasActive) {
+            pausedBeforeLibrary = engineReady() ? getEngineOption('pause') : null;
+            if (engineReady() && !pausedBeforeLibrary) setEnginePause(true);
+        }
 
         showCategories();
     }
@@ -580,9 +635,10 @@
         try { document.getElementById('canvas').focus(); } catch (e) { }
     }
 
-    function togglePanel() {
-        if (els.panel && els.panel.classList.contains('active')) closePanel();
-        else openPanel();
+    function togglePanel(key) {
+        var requested = SOURCES[key] || SOURCES.wos;
+        if (els.panel && els.panel.classList.contains('active') && state.source.key === requested.key) closePanel();
+        else openPanel(requested.key);
     }
 
     /* ------------------------------------------------------------------ */
@@ -771,7 +827,7 @@
         throw lastErr || new Error('download failed');
     }
 
-    async function extractArchive(name, data) {
+    async function extractArchive(name, data, sortDisks) {
         var ext = (name.match(/\.(7z|zip|gz)$/i) || [, 'zip'])[1].toLowerCase();
         var mod = await import('https://cdn.jsdelivr.net/npm/7z-wasm@1.2.0/+esm');
         var SevenZipWasm = mod.default || mod;
@@ -781,14 +837,21 @@
         sevenZip.FS.writeFile(archiveName, data);
         sevenZip.callMain(['e', archiveName, '-y']);
 
-        var entries = sevenZip.FS.readdir('/');
-        var found = entries.find(function (entry) {
+        var entries = sevenZip.FS.readdir('/').filter(function (entry) {
             return entry !== '.' && entry !== '..' && entry !== archiveName &&
                 !sevenZip.FS.isDir(sevenZip.FS.stat(entry).mode);
         });
-        if (!found) throw new Error('Archive contains no files');
-
-        return { name: found, data: sevenZip.FS.readFile(found) };
+        if (!entries.length) throw new Error('Archive contains no files');
+        if (sortDisks) entries.sort(function (a, b) {
+            return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+        });
+        var found = entries[0];
+        var result = { name: found, data: sevenZip.FS.readFile(found) };
+        // Outsoftware multi-disk archives: keep the next image for Disk 2.
+        if (sortDisks && entries.length > 1) {
+            result.extra = { n: entries[1], u: '', t: 'mgt', bytes: sevenZip.FS.readFile(entries[1]) };
+        }
+        return result;
     }
 
     function updateMediaLabel(drive, name) {
@@ -892,8 +955,8 @@
         return 0;
     }
 
-    function switchToFloppyFor(item, file, data, srcFile) {
-        var extra = floppyCompanion(item, file);
+    function switchToFloppyFor(item, file, data, srcFile, extraDisk) {
+        var extra = extraDisk || floppyCompanion(item, file);
         var pending = { n: file.n, u: file.u, t: (file.t || 'dsk') };
         var finish = function () {
             switchInterface(item, pending, {
@@ -938,6 +1001,7 @@
         setAboutSoftware(aboutUrl);
 
         var ext = (file.t || '').toLowerCase();
+        var extraDisk = null;
         var isArchive = /^(zip|7z|gz)$/.test(ext);
         var currentItf = parseInt(localStorage.getItem('samcoupeweb_interface') || '0');
 
@@ -948,7 +1012,7 @@
 
         if (state.busy) return;
         state.busy = true;
-        showToast('Downloading ' + file.n + ' from worldofsam.org\u2026');
+        showToast('Downloading ' + file.n + ' from ' + sourceHost(aboutUrl) + ELLIPSIS);
 
         try {
             var lastPct = -1;
@@ -972,7 +1036,8 @@
 
             if (isArchive) {
                 showToast('Extracting ' + name + '\u2026');
-                var extracted = await extractArchive(name, data);
+                var extracted = await extractArchive(name, data, state.source.key === 'outsoftware');
+                extraDisk = extracted.extra || null;
                 name = extracted.name;
                 data = extracted.data;
                 innerExt = (name.match(/\.([a-z0-9]+)$/i) || [, ''])[1].toLowerCase();
@@ -990,7 +1055,7 @@
             // previous hard-disk title left behind.
             var floppyLike = /^(dsk|mgt|sad|tap|tzx)$/.test(innerExt);
             if (currentItf > 0 && floppyLike) {
-                switchToFloppyFor(item, { n: name, u: file.u, t: innerExt }, data, isArchive ? file : null);
+                switchToFloppyFor(item, { n: name, u: file.u, t: innerExt }, data, isArchive ? file : null, extraDisk);
                 return;
             }
 
@@ -1001,11 +1066,11 @@
             var mounted = insertMedia(name, data, {});
 
             if (mounted) {
-                showToast('Booting ' + formatLabel(item) + ' from worldofsam.org\u2026');
+                showToast('Booting ' + formatLabel(item) + ' from ' + sourceHost(aboutUrl) + ELLIPSIS);
                 try { if (typeof hasBooted !== 'undefined') hasBooted = true; } catch (e) { }
 
                 // Multi-disk sets: park the second floppy image in Disk 2 / Sec. Master.
-                var other = floppyCompanion(item, file);
+                var other = floppyCompanion(item, file) || extraDisk;
                 if (other) {
                     window.setTimeout(function () { loadSecondaryDisk(other); }, 900);
                 }
@@ -1022,11 +1087,11 @@
             // cached link dies, point straight at the durable product page.
             var detail = aboutUrl
                 ? '<br><br>The file link may have changed. <a href="' + escapeHtml(aboutUrl) +
-                  '" target="_blank" rel="noopener noreferrer">Open the World of SAM page</a> for this title.'
+                  '" target="_blank" rel="noopener noreferrer">Open the ' + state.source.label + ' page</a> for this title.'
                 : '';
-            showToast('Download failed: ' + e.message + (aboutUrl ? ' - check the World of SAM page' : ''), true);
+            showToast('Download failed: ' + e.message + (aboutUrl ? ' - check the ' + state.source.label + ' page' : ''), true);
             if (typeof customAlert === 'function') {
-                customAlert('Failed to download this title from worldofsam.org.<br>Please try again in a moment.' + detail, 'Download Failed');
+                customAlert('Failed to download this title from ' + sourceHost(aboutUrl) + '.<br>Please try again in a moment.' + detail, 'Download Failed');
             }
         } finally {
             state.busy = false;
@@ -1035,7 +1100,7 @@
 
     async function loadSecondaryDisk(file) {
         try {
-            var data = await fetchBytes(file.u);
+            var data = file.bytes ? new Uint8Array(file.bytes) : await fetchBytes(file.u);
             var savedInterface = parseInt(localStorage.getItem('samcoupeweb_interface') || '0');
             var drive = savedInterface === 0 ? 1 : 3; // D2 in floppy mode, Sec. Master in Atom mode
             var path = writeVfs(file.n, data);
@@ -1058,8 +1123,7 @@
                 window.open(url, '_blank', 'noopener');
             } else if (typeof customAlert === 'function') {
                 customAlert('<strong>' + escapeHtml(formatLabel(item)) + '</strong><br><br>' +
-                    'World of SAM does not host a downloadable image for this title ' +
-                    '(copyright restricted or not archived).', 'No Download Available');
+                    state.source.empty, 'No Download Available');
             }
             return;
         }
@@ -1107,7 +1171,7 @@
                 }
                 var data = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
                 if (insertMedia(f.n, data, {})) {
-                    showToast('Booting ' + (pending.title || f.n) + ' from worldofsam.org' + ELLIPSIS);
+                    showToast('Booting ' + (pending.title || f.n) + ' from ' + sourceHost(pending.url) + ELLIPSIS);
                     try { if (typeof hasBooted !== 'undefined') hasBooted = true; } catch (e) { }
                     if (pending.extra) {
                         window.setTimeout(function () { loadSecondaryDisk(pending.extra); }, 900);
@@ -1158,6 +1222,8 @@
         els.next = byId('lib-next');
         els.pages = byId('lib-pages');
         els.crumbTitle = byId('lib-crumb-title');
+        els.siteLink = byId('lib-site-link');
+        els.badge = byId('lib-source-badge');
         els.back = byId('lib-back');
         els.sorts = byId('lib-sorts');
         els.dialog = byId('lib-dialog');
@@ -1294,7 +1360,7 @@
         showCategories: showCategories,
         // Look a title up in the bundled catalogue and start it.
         playTitle: function (title) {
-            var item = (window.SAM_LIBRARY && window.SAM_LIBRARY.items || []).find(function (i) {
+            var item = (currentData() && currentData().items || []).find(function (i) {
                 return i.t === title;
             });
             if (item) playItem(item);

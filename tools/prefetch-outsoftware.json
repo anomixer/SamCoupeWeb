@@ -1,0 +1,194 @@
+[
+  {
+    "path": "wasm/deploy/media/outsoftware/arkanoid-sam-coupe.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/2026/10/arkanoid-sam-coupe.zip",
+    "note": "Outsoftware official SAM Coupé download for Arkanoid",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/balloon-fight-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-games-extra-20261119/balloon-fight-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for Balloon Fight",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/boulder-dash-sam-coupe.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/2026/10/boulder-dash-sam-coupe.zip",
+    "note": "Outsoftware official SAM Coupé download for Boulder Dash",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/devil-world-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-prince-devil-world-20261122/devil-world-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for Devil World",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/donkey-kong-sam-coupe.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/2026/10/donkey-kong-sam-coupe.zip",
+    "note": "Outsoftware official SAM Coupé download for Donkey Kong",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/donkey-kong-3-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-dk3-wrecking-monkey-20261121/donkey-kong-3-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for Donkey Kong 3",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/donkey-kong-jr-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-games-extra-20261119/donkey-kong-jr-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for Donkey Kong Jr.",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/dr-mario-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-dr-mario-sam-20261122/dr-mario-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for Dr. Mario",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/hero-sam-coupe.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/2026/10/hero-sam-coupe.zip",
+    "note": "Outsoftware official SAM Coupé download for H.E.R.O.",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/ice-climber-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-dk3-wrecking-monkey-20261121/ice-climber-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for Ice Climber",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/jetpac-sam-coupe.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/2026/10/jetpac-sam-coupe.zip",
+    "note": "Outsoftware official SAM Coupé download for Jetpac",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/kid-icarus-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-zelda-kidicarus-karate-wolf-20261123/kid-icarus-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for Kid Icarus",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/kings-valley-sam-coupe.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/2026/10/kings-valley-sam-coupe.zip",
+    "note": "Outsoftware official SAM Coupé download for King’s Valley",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/maniac-mansion-sam-coupe.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/2026/10/maniac-mansion-sam-coupe.zip",
+    "note": "Outsoftware official SAM Coupé download for Maniac Mansion",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/mario-bros-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-mario-bros-sam-20261120/mario-bros-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for Mario Bros.",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/metroid-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-metroid-sam-20261125/metroid-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for Metroid",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/montezumas-revenge-sam-coupe.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/2026/10/montezumas-revenge-sam-coupe.zip",
+    "note": "Outsoftware official SAM Coupé download for Montezuma’s Revenge",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/penguin-land-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-novita-20261117/penguin-land-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for Penguin Land",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/popeye-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-games-extra-20261119/popeye-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for Popeye",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/pyramid-warp-sam-coupe.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/2026/10/pyramid-warp-sam-coupe.zip",
+    "note": "Outsoftware official SAM Coupé download for Pyramid Warp",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/skool-daze-sam-coupe.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/2026/10/skool-daze-sam-coupe.zip",
+    "note": "Outsoftware official SAM Coupé download for Skool Daze",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/super-mario-bros-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-games-update-20261120/super-mario-bros-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for Super Mario Bros.",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/tetris-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-games-update-20261122/tetris-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for Tetris",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/tetris-2-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-games-update-20261122/tetris-2-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for Tetris 2",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/the-abbey-of-crime-sam-coupe.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/2026/10/the-abbey-of-crime-sam-coupe.zip",
+    "note": "Outsoftware official SAM Coupé download for The Abbey of Crime",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/the-legend-of-zelda-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-zelda-kidicarus-karate-wolf-20261123/the-legend-of-zelda-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for The Legend of Zelda",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/the-secret-of-monkey-island-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-games-extra-20261119/the-secret-of-monkey-island-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for The Secret of Monkey Island",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/tiny-quest-sam-coupe.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/2026/10/tiny-quest-sam-coupe.zip",
+    "note": "Outsoftware official SAM Coupé download for Tiny Quest",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/westen-house-sam-coupe.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/2026/10/westen-house-sam-coupe.zip",
+    "note": "Outsoftware official SAM Coupé download for Westen House",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/wolfenstein-3d-sam-coupe.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-wolfenstein-sam-20261121/wolfenstein-3d-sam-coupe.zip",
+    "note": "Outsoftware official SAM Coupé download for Wolfenstein 3D",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/wrecking-crew-sam-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-dk3-wrecking-monkey-20261121/wrecking-crew-sam-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for Wrecking Crew",
+    "optional": true
+  },
+  {
+    "path": "wasm/deploy/media/outsoftware/xenon-2-sam-coupe-mode-4.zip",
+    "url": "https://outsoftware.it/wp-content/uploads/outsoftware-games-20261116/xenon-2-sam-coupe-mode-4.zip",
+    "note": "Outsoftware official SAM Coupé download for Xenon 2 Megablast",
+    "optional": true
+  }
+]

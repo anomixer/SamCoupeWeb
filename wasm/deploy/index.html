@@ -518,6 +518,43 @@
             background: #fff;
         }
 
+        /* Experimental Outsoftware catalogue button */
+        .menu-os-btn {
+            padding: 0 10px 0 6px;
+        }
+
+        .os-badge {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .01em;
+            color: #222;
+            background: #eef1f5;
+            padding: 5px 7px;
+            border-radius: 3px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .45);
+            transition: background .15s;
+        }
+
+        .menu-os-btn:hover .os-badge {
+            background: #fff;
+        }
+
+        .lib-source-badge {
+            margin-left: 8px;
+            padding: 1px 6px;
+            border: 1px solid #6b5b2a;
+            border-radius: 10px;
+            color: #e8c96a;
+            font-size: 10px;
+            letter-spacing: .03em;
+            vertical-align: middle;
+        }
+
+        .lib-source-badge[hidden] {
+            display: none;
+        }
+
         .library-panel {
             position: absolute;
             inset: 0;
@@ -1555,10 +1592,14 @@
                 <div class="dropdown-item" onclick="showAbout()">About SamCoupeWeb...</div>
             </div>
         </div>
-        <div class="menu-item menu-logo-btn" onclick="SamLibrary.toggle()"
+        <div class="menu-item menu-logo-btn" onclick="SamLibrary.toggle('wos')"
             title="World of SAM Software Library" aria-label="World of SAM Software Library">
             <img src="https://www.worldofsam.org/themes/custom/worldofsam/images/logo.png"
                 alt="World of SAM" referrerpolicy="no-referrer">
+        </div>
+        <div class="menu-item menu-logo-btn menu-os-btn" onclick="SamLibrary.toggle('outsoftware')"
+            title="Outsoftware SAM Coupé Library (experimental)" aria-label="Outsoftware SAM Coupé Library">
+            <span class="os-badge">Outsoftware</span>
         </div>
     </div>
 
@@ -1573,6 +1614,7 @@
                 <div class="lib-crumb">
                     <span class="lib-back is-hidden" id="lib-back" title="Back to categories">‹</span>
                     <span class="lib-crumb-title" id="lib-crumb-title">World of SAM Library</span>
+                    <span class="lib-source-badge" id="lib-source-badge" hidden>experimental</span>
                     <span class="lib-count" id="lib-count"></span>
                     <div class="lib-search is-hidden" id="lib-search-wrap">
                         <span class="lib-search-glass" aria-hidden="true"></span>
@@ -1585,7 +1627,7 @@
                 </div>
                 <div class="lib-tools">
                     <div class="lib-sorts hidden-view" id="lib-sorts"></div>
-                    <a class="lib-site-link" href="https://www.worldofsam.org/products" target="_blank"
+                    <a class="lib-site-link" id="lib-site-link" href="https://www.worldofsam.org/products" target="_blank"
                         rel="noopener">worldofsam.org ↗</a>
                     <button class="lib-close" id="lib-close" title="Close (Esc)">✕</button>
                 </div>
@@ -1620,7 +1662,7 @@
             <span id="stat-tape" class="stat-item">Tape: Empty</span>
         </div>
         <div id="status-right">
-            <a id="stat-about" hidden target="_blank" rel="noopener noreferrer" title="Read about this software at World of SAM">About this software&hellip;</a>
+            <a id="stat-about" hidden target="_blank" rel="noopener noreferrer" title="Read about this software">About this software&hellip;</a>
             <span id="stat-fps">50 FPS</span>
         </div>
     </div>
@@ -2881,9 +2923,10 @@
         }, 1000);
 
     </script>
-    <!-- Bump this date whenever library-data.js or library.js changes. -->
-    <script src="library-data.js?v=2026-11-25b"></script>
-    <script src="library.js?v=2026-11-25b"></script>
+    <!-- Bump this date whenever a library data file or library.js changes. -->
+    <script src="library-data.js?v=2026-11-26"></script>
+    <script src="outsoftware-data.js?v=2026-11-26"></script>
+    <script src="library.js?v=2026-11-26"></script>
     <script async src="samcoupeweb.js"></script>
 </body>
 

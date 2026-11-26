@@ -69,6 +69,14 @@ The **World of SAM** logo at the right end of the menu bar opens a library of **
 
 `Esc` (or the logo again) closes the library; the emulator is paused while it is open and resumes when the selected title boots. Products with no hosted image show **No download ↗** and open that product's page on worldofsam.org in a new tab (middle-click works too). After a title boots, an **About this software…** link appears in the status bar and points back to its World of SAM product page. The bundled catalogue is an expiring snapshot: opening the library warns once when it is over 14 days old, and a failed download offers the product page as a fallback; a weekly CI job regenerates it. Cloud images live in memory only, so if you want to keep one, use **File ▸ Save Disk 1** (or the matching drive) after it boots. While a title loads, a bright blinking banner at the top of the library reports `Downloading…`, `Extracting…` and `Booting…` (failures are shown in red).
 
+### 8. Experimental Outsoftware Library (`swlib/outsw` branch only)
+
+> Not on `main` yet.
+
+The **Outsoftware** badge to the right of the World of SAM logo opens the same panel with a second catalogue: **32 SAM Coupé games** from [Outsoftware](https://outsoftware.it/games/#sam-coupe). Everything in section 7 applies — search, sort, paging, multi-image picker, the "About this software…" link (pointing at the Outsoftware info page) and saving the mounted image. Click the World of SAM logo to switch back; click the active badge (or press `Esc`) to close.
+
+Titles the publisher marks **DENIED** are excluded. Because that site has no CORS headers, its ZIPs are prefetched from the publisher's own URLs at build time (or by `Run.bat` / `run.sh`) into a gitignored cache; no images or disks are committed. Multi-disk archives boot **Disc 1** and mount **Disc 2** automatically.
+
 ---
 
 <a name="繁體中文"></a>
@@ -133,6 +141,14 @@ SamCoupeWeb 提供多種直覺的載入方式：
 5. **481 個標題中有 398 個具備可開機影像**。目錄由 World of SAM 的 JSON API 產生，另以一份小型手工清單補上 API 沒收錄的標題（Google Drive、Dropbox、GitHub release、archive.org）。版權限制的標題會直接從目錄中濾除，不再以鎖定卡片顯示。
 
 按 `Esc`（或再次點擊標誌）關閉圖書館；開啟期間模擬器會暫停，選定標題開機後恢復。沒有可下載影像的產品標示 **No download ↗**，點擊會另開新分頁前往該作品的 World of SAM 頁面（中鍵點擊亦可）；標題開機後，狀態列右側會出現 **About this software…** 連結，可直接回到該作品的 World of SAM 頁面。內建目錄是有時效的快照：超過 14 天開啟圖書館時會提示一次，下載失敗時也會提供產品頁連結；CI 每週會重新產生。雲端影像只存在記憶體，想留一份的話，開機後用 **File ▸ Save Disk 1**（或對應的磁碟機）即可存回本機。載入期間，圖書館正上方會以發光、閃爍的提示顯示 `Downloading…`、`Extracting…`、`Booting…`（失敗時轉為紅光）。
+
+### 8. 實驗性 Outsoftware 圖書館（僅 `swlib/outsw` 分支）
+
+> 尚未併入 `main`。
+
+World of SAM 標誌右邊的 **Outsoftware** 按鈕會用同一個面板開啟第二份目錄：[Outsoftware](https://outsoftware.it/games/#sam-coupe) 的 **32 款 SAM Coupé 遊戲**。第 7 節的功能都通用 — 搜尋、排序、翻頁、多影像選擇、「About this software…」連結（指向 Outsoftware 資訊頁）以及存回掛載中的影像。點 World of SAM 標誌可切回去；再點一次同一個按鈕或按 `Esc` 可關閉。
+
+發行商標示 **DENIED** 的標題已排除。該站沒有 CORS 標頭，因此 ZIP 會在建置時（或 `Run.bat` / `run.sh` 啟動時）從發行商自己的網址預取到不進版本控制的快取目錄；沒有提交任何影像或磁片。多磁片壓縮檔會以 **Disc 1** 開機並自動掛入 **Disc 2**。
 
 ---
 
