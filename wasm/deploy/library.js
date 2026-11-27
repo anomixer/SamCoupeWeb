@@ -62,7 +62,7 @@
             key: 'outsoftware',
             label: 'Outsoftware',
             host: 'outsoftware.it',
-            siteUrl: 'https://outsoftware.it/games/#sam-coupe',
+            siteUrl: 'https://outsoftware.it/games/sam-coupe/',
             siteLabel: 'outsoftware.it ↗',
             base: OUTSOFTWARE_BASE,
             regen: 'node tools/build-outsoftware.mjs',
@@ -875,34 +875,13 @@
         } catch (e) { /* labels are cosmetic */ }
     }
 
-    // Type BOOT<Enter> into the emulated keyboard. Used by disks whose boot
-    // file is not marked auto-exec; the ROM's own auto-typing runs too early
-    // for those and shows "Wrong file type".
-    function typeBootCommand() {
-        var text = 'BOOT\n';
-        var i = 0;
-        function step() {
-            if (i >= text.length) return;
-            var ch = text.charAt(i);
-            var key = ch === '\n' ? 'Enter' : ch;
-            var code = ch === '\n' ? 'Enter' : 'Key' + ch;
-            var vk = ch === '\n' ? 13 : ch.charCodeAt(0);
-            var init = { key: key, code: code, keyCode: vk, which: vk, bubbles: true };
-            try {
-                window.dispatchEvent(new KeyboardEvent('keydown', Object.assign({ text: ch === '\n' ? '\r' : ch }, init)));
-                window.dispatchEvent(new KeyboardEvent('keyup', init));
-            } catch (e) { return; }
-            i++;
-            window.setTimeout(step, 70);
-        }
-        step();
-    }
-
     function insertMedia(name, data, opts) {
         var ext = (name.match(/\.([a-z0-9]+)$/i) || [, ''])[1].toLowerCase();
         var isTape = ext === 'tap' || ext === 'tzx';
         var isHdf = ext === 'hdf';
-        var drive = isTape ? 2 : (isHdf ? 1 : 0);
+        // A stand-by swap must return to its own drive, not always to D1.
+        var drive = (opts && opts.drive != null) ? Number(opts.drive)
+            : (isTape ? 2 : (isHdf ? 1 : 0));
 
         var path = writeVfs(name, data);
         var res;
@@ -928,13 +907,6 @@
             window.setTimeout(function () {
                 try {
                     if (isHdf) Module.ccall('EMS_Reset', null, [], []);
-                    else if (opts && opts.manualBoot) {
-                        // A few Outsoftware disks use a SYSTEM-type boot file that
-                        // SAMDOS will only run from an explicit BOOT typed at the
-                        // prompt. The engine's auto-Boot injects too early for them.
-                        Module.ccall('EMS_Reset', null, [], []);
-                        window.setTimeout(typeBootCommand, 1200);
-                    }
                     else Module.ccall('EMS_Boot', null, ['number'], [isTape ? 2 : 1]);
                 } catch (e) { }
             }, opts && opts.bootDelay != null ? opts.bootDelay : 450);
@@ -952,19 +924,28 @@
     // no reboot. The active entry mirrors the image mounted in that drive.
     var standby = { 0: [], 1: [], 3: [] };
     var standbyActive = { 0: -1, 1: -1, 3: -1 };
+    var STANDBY_STASH_KEY = '__standby_tray__';
+
+    function driveLabel(drive) {
+        if (drive === 0) return 'Disk 1';
+        if (drive === 2) return 'Tape';
+        var savedInterface = parseInt(localStorage.getItem('samcoupeweb_interface') || '0');
+        if (drive === 3) return savedInterface > 0 ? 'Sec. Master' : 'Disk 2';
+        return savedInterface > 0 ? 'Pri. Master' : 'Disk 2';
+    }
 
     function renderStandbyMenu() {
         var list = byId('standby-list');
         if (!list) return;
         list.textContent = '';
         var any = false;
-        [0, 1].forEach(function (drive) {
+        [0, 1, 3].forEach(function (drive) {
             var disks = standby[drive] || [];
             if (disks.length < 2) return;
             any = true;
             var head = document.createElement('div');
             head.className = 'dropdown-item-header';
-            head.textContent = (drive === 0 ? 'Disk 1' : 'Disk 2') + ' stand-by disks:';
+            head.textContent = driveLabel(drive) + ' stand-by disks:';
             list.appendChild(head);
             disks.forEach(function (disk, idx) {
                 var active = idx === standbyActive[drive];
@@ -1004,6 +985,37 @@
             showToast('Discarded ' + lost + ' stand-by disk(s) with unsaved changes', true);
         }
         renderStandbyMenu();
+        // A full clear (eject / drop / URL load) also drops any parked tray.
+        if (drive == null && typeof idbTake === 'function') {
+            idbTake(STANDBY_STASH_KEY).catch(function () { });
+        }
+    }
+
+    // An interface switch reloads the page, so park the whole tray in IndexedDB
+    // alongside the pending image. Swapping disks after the reload then stays
+    // instant, exactly as it was before the switch.
+    function stashStandby() {
+        var snapshot = {};
+        [0, 1, 3].forEach(function (d) {
+            snapshot[d] = {
+                disks: (standby[d] || []).map(function (x) {
+                    return { n: x.n, t: x.t, bytes: x.bytes, dirty: !!x.dirty };
+                }),
+                active: standbyActive[d]
+            };
+        });
+        return idbPut(STANDBY_STASH_KEY, snapshot);
+    }
+
+    function restoreStandby() {
+        if (typeof idbTake !== 'function') return Promise.resolve();
+        return idbTake(STANDBY_STASH_KEY).then(function (snapshot) {
+            if (!snapshot) return;
+            [0, 1, 3].forEach(function (d) {
+                var part = snapshot[d] || {};
+                setStandby(d, part.disks || [], part.active);
+            });
+        }).catch(function () { });
     }
 
     // Flush a modified disk back to the VFS and keep its bytes in the tray so
@@ -1034,9 +1046,9 @@
         if (!disk || idx === standbyActive[drive]) return;
         syncActiveDisk(drive);
         var data = disk.bytes instanceof Uint8Array ? disk.bytes : new Uint8Array(disk.bytes);
-        if (insertMedia(disk.n, data, { boot: false })) {
+        if (insertMedia(disk.n, data, { boot: false, drive: drive })) {
             standbyActive[drive] = idx;
-            setGlobalStatus('Inserted ' + disk.n + ' in ' + (drive === 0 ? 'Disk 1' : 'Disk 2'));
+            setGlobalStatus('Inserted ' + disk.n + ' in ' + driveLabel(drive));
             renderStandbyMenu();
         }
     }
@@ -1046,9 +1058,13 @@
     // second download (a 256 MB Time Gal image is bad enough once).
     var PENDING_DEFAULT_LIFETIME = 5 * 60 * 1000;
 
-    function switchInterface(item, file, opts) {
+    async function switchInterface(item, file, opts) {
         opts = opts || {};
         var iface = opts.iface != null ? opts.iface : 2;
+        // sessionStorage is only a few MB: never put raw disk bytes in here.
+        // Archive disks live in the IndexedDB stand-by tray instead; only a
+        // URL-based companion (WOS multi-file products) is safe to serialize.
+        var safeExtra = (opts.extra && !opts.extra.bytes) ? opts.extra : null;
         var pending = {
             at: Date.now(),
             title: item && item.t,
@@ -1058,7 +1074,7 @@
             iface: iface,
             stash: !!opts.stash,
             key: opts.key || (file && file.n) || null,
-            extra: opts.extra || null
+            extra: safeExtra
         };
         sessionStorage.setItem(PENDING_KEY, JSON.stringify(pending));
         localStorage.setItem('samcoupeweb_interface', String(iface));
@@ -1066,6 +1082,7 @@
         var label = iface === 0 ? 'Floppy' : 'AtomLite';
         setGlobalStatus('Switching to the ' + label + ' interface for ' + (item && item.t) + '...');
         showToast('Switching to ' + label + ' for ' + formatLabel(item) + '\u2026');
+        try { await stashStandby(); } catch (e) { /* tray is a convenience */ }
         window.location.reload();
     }
 
@@ -1211,24 +1228,25 @@
             pausedBeforeLibrary = null;
             setEnginePause(false);
 
-            // Monkey Island's first directory entry is a SYSTEM-type file with
-            // no auto-exec flag: SAMDOS needs an explicit BOOT at the prompt.
-            var manualBoot = false;
-            if (extractedAll && extractedAll.data && extractedAll.data.length > 11) {
-                var d0 = extractedAll.data;
-                var label = String.fromCharCode.apply(null, d0.slice(1, 7)).toUpperCase();
-                manualBoot = (d0[0] === 0x04 && label === 'SYSTEM');
-            }
-            var mounted = insertMedia(name, data, { manualBoot: manualBoot });
+            var mounted = insertMedia(name, data);
 
             if (mounted) {
                 showToast('Booting ' + formatLabel(item) + ' from ' + sourceHost(aboutUrl) + ELLIPSIS);
+                // The published Monkey Island image has an AUTO file with no
+                // SAMDOS auto-run fields. SAMDOS 2.2 rejects it with
+                // "94 Wrong file type"; tell the user instead of leaving them
+                // staring at an unexplained error or the startup screen.
+                if (/monkey island/i.test(formatLabel(item))) {
+                    window.setTimeout(function () {
+                        showToast('Monkey Island: this image reports "94 Wrong file type" on SAMDOS 2.2', true);
+                    }, 1800);
+                }
                 try { if (typeof hasBooted !== 'undefined') hasBooted = true; } catch (e) { }
 
                 // Multi-disk sets: park the second floppy image in Disk 2 / Sec. Master.
                 var other = floppyCompanion(item, file) || extraDisk;
                 if (other) {
-                    window.setTimeout(function () { loadSecondaryDisk(other); }, manualBoot ? 2800 : 900);
+                    window.setTimeout(function () { loadSecondaryDisk(other); }, 900);
                 }
 
                 closeTimer = window.setTimeout(function () {
@@ -1254,7 +1272,7 @@
         }
     }
 
-    async function loadSecondaryDisk(file) {
+    async function loadSecondaryDisk(file, quiet) {
         try {
             var data = file.bytes ? new Uint8Array(file.bytes) : await fetchBytes(file.u);
             var savedInterface = parseInt(localStorage.getItem('samcoupeweb_interface') || '0');
@@ -1263,10 +1281,132 @@
             var res = Module.ccall('EMS_InsertDisk', 'number', ['number', 'string'], [drive, path]);
             if (res) {
                 updateMediaLabel(drive, file.n);
-                setGlobalStatus('Second disk inserted: ' + file.n);
+                // A local multi-file load already reports the whole set in the
+                // status bar; don't overwrite it with just "Second disk...".
+                if (!quiet) setGlobalStatus('Second disk inserted: ' + file.n);
             }
         } catch (e) {
             console.warn('Secondary disk insert failed:', e);
+        }
+    }
+
+    // Expand one or more local files into a flat list of disk/tape images.
+    // Archives contribute every image they contain, naturally sorted so a
+    // three-disc set comes back as Disc 1, Disc 2, Disc 3.
+    async function expandLocalFiles(files) {
+        var out = [];
+        for (var i = 0; i < files.length; i++) {
+            var f = files[i];
+            var ext = (f.name.match(/\.([a-z0-9]+)$/i) || [, ''])[1].toLowerCase();
+            if (/^(7z|zip|gz)$/.test(ext)) {
+                var mod = await import('https://cdn.jsdelivr.net/npm/7z-wasm@1.2.0/+esm');
+                var SevenZipWasm = mod.default || mod;
+                var sevenZip = await SevenZipWasm();
+                var archiveName = 'input.' + ext;
+                sevenZip.FS.writeFile(archiveName, new Uint8Array(await f.arrayBuffer()));
+                sevenZip.callMain(['e', archiveName, '-y']);
+                var entries = sevenZip.FS.readdir('/').filter(function (e) {
+                    return e !== '.' && e !== '..' && e !== archiveName &&
+                        !sevenZip.FS.isDir(sevenZip.FS.stat(e).mode);
+                });
+                var images = entries.filter(function (e) { return /\.(mgt|dsk|sad|tap|tzx|hdf)$/i.test(e); });
+                if (!images.length) images = entries;
+                if (!images.length) throw new Error('Archive contains no files: ' + f.name);
+                images.sort(function (a, b) {
+                    return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+                });
+                images.forEach(function (name) {
+                    out.push({
+                        n: name,
+                        t: (name.match(/\.([a-z0-9]+)$/i) || [, ''])[1].toLowerCase(),
+                        bytes: sevenZip.FS.readFile(name)
+                    });
+                });
+            } else {
+                out.push({ n: f.name, t: ext, bytes: new Uint8Array(await f.arrayBuffer()) });
+            }
+        }
+        return out;
+    }
+
+    // Multi-select version of the old File ▸ Load Disk dialog. The first image
+    // mounts in the requested drive (the engine's AutoLoad boots D1 at the
+    // startup screen); every remaining floppy image becomes a stand-by disk.
+    async function loadLocalFiles(files, targetType) {
+        var list = Array.prototype.slice.call(files || []);
+        if (!list.length) return false;
+        try {
+            var images = await expandLocalFiles(list);
+            if (!images.length) throw new Error('No disk or tape images found');
+            var first = images[0];
+            var savedInterface = parseInt(localStorage.getItem('samcoupeweb_interface') || '0');
+            var drive = targetType == null
+                ? (first.t === 'tap' || first.t === 'tzx' ? 2 : (first.t === 'hdf' ? 1 : 0))
+                : Number(targetType);
+
+            // Same guardrails the single-file dialog used to apply inline.
+            if ((drive === 0 || (savedInterface === 0 && drive === 1)) && first.t === 'hdf') {
+                if (typeof customAlert === 'function') {
+                    customAlert('Floppy drives do not accept .hdf images. Please switch to Atom interface.', 'Invalid Image Type');
+                }
+                return false;
+            }
+            if (savedInterface > 0 && (drive === 1 || drive === 3) && first.t !== 'hdf' &&
+                !/^(7z|zip|gz)$/i.test(first.t)) {
+                if (typeof customAlert === 'function') {
+                    customAlert('Atom interface only accepts .hdf hard disk images or compressed archives (.7z, .zip, .gz).', 'Invalid Image Type');
+                }
+                return false;
+            }
+
+            setAboutSoftware('');
+            // Replace only the target drive's tray, so a D1 set and a D2 set
+            // can live side by side. Other drives keep their stand-by discs.
+            if (drive === 0 || drive === 1 || drive === 3) clearStandby(drive);
+            // Tapes have no stand-by tray yet; changing one must not discard
+            // the discs parked in the floppy drives.
+            else clearStandby(2);
+
+            // Floppy drives take .dsk/.mgt/.sad; Atom Pri/Sec take .hdf.
+            var wantsHdf = drive !== 0 && savedInterface > 0;
+            var trayImages = images.filter(function (img) {
+                return wantsHdf ? /^hdf$/i.test(img.t) : /^(dsk|mgt|sad)$/i.test(img.t);
+            });
+            if ((drive === 0 || drive === 1 || drive === 3) && trayImages.length > 1) {
+                setStandby(drive, trayImages, 0);
+            }
+
+            var mounted = false;
+            images.forEach(function (img, idx) {
+                var path = writeVfs(img.n, img.bytes);
+                if (idx !== 0) return; // the tray rewrites its own VFS copy on swap
+                if (drive === 2) {
+                    mounted = !!Module.ccall('EMS_InsertTape', 'number', ['string'], [path]);
+                } else {
+                    mounted = !!Module.ccall('EMS_InsertDisk', 'number', ['number', 'string'], [drive, path]);
+                }
+            });
+
+            if (mounted) {
+                updateMediaLabel(drive, first.n);
+                // D1 disc 2 still parks automatically in D2 / Sec. Master.
+                var spare = trayImages[1];
+                if (drive === 0 && savedInterface === 0 && spare) {
+                    window.setTimeout(function () { loadSecondaryDisk(spare, true); }, 900);
+                }
+                updateMenuChecks();
+                setGlobalStatus('Media loaded: ' + first.n +
+                    (trayImages.length > 1 ? ' (+' + (trayImages.length - 1) + ' stand-by)' : ''));
+            }
+            return mounted;
+        } catch (err) {
+            console.error('Local media load failed:', err);
+            if (typeof customAlert === 'function') {
+                customAlert('Failed to load local media: ' + err.message, 'Load Error');
+            } else {
+                setGlobalStatus('Load Error: ' + err.message);
+            }
+            return false;
         }
     }
 
@@ -1329,7 +1469,16 @@
                 if (insertMedia(f.n, data, {})) {
                     showToast('Booting ' + (pending.title || f.n) + ' from ' + sourceHost(pending.url) + ELLIPSIS);
                     try { if (typeof hasBooted !== 'undefined') hasBooted = true; } catch (e) { }
-                    if (pending.extra) {
+                    // The active disc was just mounted. An archive companion with
+                    // raw bytes cannot live in sessionStorage, so pick the next
+                    // disc from the restored stand-by tray instead.
+                    var next = null;
+                    (standby[0] || []).forEach(function (disk, idx) {
+                        if (!next && idx !== standbyActive[0]) next = disk;
+                    });
+                    if (next) {
+                        window.setTimeout(function () { loadSecondaryDisk(next); }, 900);
+                    } else if (pending.extra) {
                         window.setTimeout(function () { loadSecondaryDisk(pending.extra); }, 900);
                     }
                 } else {
@@ -1493,6 +1642,7 @@
         window.setInterval(function () {
             if (engineReady() && !state.engineReady) {
                 state.engineReady = true;
+                restoreStandby();
                 consumePendingLaunch();
             }
         }, 500);
@@ -1530,12 +1680,18 @@
         clearAbout: function () { setAboutSoftware(''); },
         // Eject / drop / URL load drops the stand-by tray with the media.
         clearStandby: function (drive) { clearStandby(drive); },
+        // Local File-Open dialog: many images at once, first mounts and the
+        // rest become stand-by disks for the same drive.
+        loadLocalFiles: function (files, targetType) {
+            return loadLocalFiles(files, targetType);
+        },
         // Exposed for headless tests and advanced UI.
         getStandby: function (drive) {
             return { disks: (standby[drive] || []).slice(), active: standbyActive[drive] };
         },
         onEngineReady: function () {
             state.engineReady = true;
+            restoreStandby();
             consumePendingLaunch();
         }
     };

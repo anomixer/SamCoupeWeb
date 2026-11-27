@@ -404,9 +404,9 @@
 
 ---
 
-## 21. 2026-11-26：實驗性 Outsoftware 圖書館（`swlib/outsw` 分支，尚未併入 main）
+## 21. 2026-11-26～11-27：Outsoftware 圖書館（先於分支開發，已併入 main）
 
-使用者要求「先寫到 `swlib/outsw` 分支」，所以所有改動都在該分支，**`main` 完全沒動、也沒有 force push**。延續 §20 的決定：WOS 圖書館不混進 Outsoftware，也不跟 Andrew 提這件事。
+使用者要求「先寫到 `swlib/outsw` 分支」，所以改動先留在該分支，**`main` 一度完全沒動、也沒有 force push**；11-27 使用者確認後 fast-forward 合併回 `main`（見 §22）。延續 §20 的決定：WOS 圖書館不混進 Outsoftware，也不跟 Andrew 提這件事。
 
 - **可行性調查**：`https://outsoftware.it/games/` 的 `#sam-coupe` 區段有 32 款遊戲，每款都有截圖、格式（`Mode 4 · MGT`）、直接 ZIP 與 Info 頁；32 個 ZIP 全部 HTTP 200，合計 6.91 MiB。ZIP 內含 1～6 個 `.mgt`。Gallery 另外列的 Everyone's a Wally、Tony、Stevedore 被發行商標為 **DENIED**（且沒有 ZIP），一律排除。
 - **新增產生器**：`tools/build-outsoftware.mjs` 只在伺服器端讀取發行商自己的目錄頁，產出 `wasm/deploy/outsoftware-data.js`（`window.OUTSOFTWARE_LIBRARY`，32 筆 / Games 32）與 `tools/prefetch-outsoftware.json`（32 個官方 ZIP URL，`optional: true`）。不解析 HTML 以外的來源、不提交任何 binaries。
@@ -414,10 +414,29 @@
 - **雙資料源面板**：`library.js` 加入 `SOURCES.wos` / `SOURCES.outsoftware` 與 `state.source`；`openPanel(key)` / `togglePanel(key)` 可就地切換資料源、品牌文字、站點連結與 `experimental` 標記。所有寫死的 `window.SAM_LIBRARY`、`worldofsam.org`、`World of SAM` 訊息改走 `currentData()` / `sourceHost()` / `state.source`。同一按鈕再點一次才關閉，點另一顆則直接切換。
 - **多磁片修正**：`extractArchive(name, data, sortDisks)` 對 Outsoftware 的壓縮檔做自然排序，讓 **Disc 1** 先開機；第二個映像以 `extra.bytes` 記住，經過 `floppyCompanion` / `loadSecondaryDisk` 自動掛到 **D2**。WOS 原有的單檔與多檔行為不變。
 - **Stand-by 托盤（仿 apple2ts）**：解壓時把所有 `.mgt/.dsk/.sad/.tap/.tzx/.hdf` 影像保留在 `result.disks`，啟動後放進 `standby[drive]`（每磁碟機一份，含 bytes / dirty / activeIndex）；`File` 選單的 `#standby-list` 會列出影像、打勾目前片，點選即呼叫 `swapStandbyDisk()`，`insertMedia(..., {boot:false})` 只掛片不開機。換片前 `syncActiveDisk()` 會 `EMS_FlushDisk` 並把修改過的 bytes 留在新舊 entry 裡（引擎沒有 set-modified export，所以 dirty 由托盤自己記並用 `*` 顯示）。`clearAboutSoftware()` 同時呼叫 `SamLibrary.clearStandby()`，退出／拖入／URL 載入都會清空托盤。
-- **Monkey Island 開機修正**：該 ZIP 的 MGT 第一個目錄項目是 `type=0x04` / `SYSTEM`、沒有 auto-exec 旗標；引擎的 `EMS_Boot()` 在 READKEY 注入 `BOOT` 的時機太早，SAMDOS 回 `94 Wrong file type, 0:1`。啟動器偵測到此情況時改用 `EMS_Reset()` + 延遲 1.2 秒後由頁面送出合成 `BOOT⏎` 按鍵（純 JS，不需重建 WASM），實測已出現「MONKEY ISLAND SAM」載入畫面；第二片改在 2.8 秒後才掛入 D2。
-- **UI**：選單列 WOS logo 右邊加 Outsoftware 文字徽章；面板標題列多一個 `experimental` 小標記，站點連結隨資料源切換。快取參數統一 bump 到 `2026-11-26`。
-- **文件**：`ReadMe.md` / `Manual.md` 中英都加了「Experimental Outsoftware Library」小節，並明確註記「尚未併入 main」。
-- **驗證**：新增 17 項無頭瀏覽器檢查 `0 failed`（資料源切換、32 筆目錄、DENIED 排除、搜尋 `tetris` 得 2 筆、Tetris 從本機快取開機、About 連結指向 Outsoftware、Monkey Island 的 Disc 1/Disc 2、按鈕 toggle、WOS 回復）；另加 stand-by 換片測試 12 項 `0 failed`（3/6 片托盤、換片不重開機、退出清空、WOS 不受影響），並以截圖確認 Monkey Island 出現載入畫面（不再有 `94 Wrong file type`）。原有煙霧 `0/30`、About／時效 `0/11` 全部通過，WOS 目錄仍是 481 / 398。
+- **Monkey Island 開機問題（尚未解決）**：11-26 晚間以真實 CDP 按鍵與 MGT 位元組分析重新檢驗，之前的「合成 `BOOT⏎` 已出現載入畫面」結論是誤判（畫面其實是 SAM Coupé 啟動彩條）。該 ZIP 的 Disc 1 第一個目錄項目是 `type=0x04` / `SYSTEM`；`AUTO` 項目則是 `type=0x01`，延伸欄位（自動執行行號）全為 0，與其餘 31 款（`type=0x10` / `type=0x13`，且有自動執行行號）不同。SAMDOS 2.2 對 `BOOT` 回 `94 Wrong file type, 0:1`；以真實按鍵輸入 `BOOT` 也一樣。頁面 `window.dispatchEvent` 合成按鍵與 `EMS_DoAction(10)`（Paste）都不會進入模擬器鍵盤，因此「由 JS 打 BOOT」的 workaround 無效，已移除。嘗試將 `AUTO` 改成 `type=0x10` 並補上 16-byte BASIC header / 延伸欄位後，可通過 DOS 的檔案類型檢查，但仍出現 `12 Missing DEF PROC`（或 `29 Not understood`），無法進入官方載入畫面。11-27 另以真實 SAMDOS 2.0 開機片掛 D1、Monkey Disc 1 掛 D2，用 SAMDOS 選單 K（Load File by Number）與 `BOOT1` / `LOADn` 逐片測試：`AUTO` 仍回 `94 Wrong file type`，其餘 type 4 檔只回 `0 OK` 但停在黑屏或載入彩條，始終沒到達遊戲標題；確認不是缺少 SAMDOS 開機片造成。啟動器已改回正常 `EMS_Boot(1)`，並在此標題顯示警告；其餘 31 款不受影響。
+- **UI**：選單列 WOS logo 右邊加 Outsoftware 文字徽章；面板標題列多一個 `experimental` 小標記，站點連結隨資料源切換。快取參數統一 bump 到 `2026-11-26`。11-27 另修復 `index.html` 中被轉成 `??` 的非 ASCII 字形（`✓`、`‹`、`›`、`↗`、`×`），改為 HTML entity；先前 `lib-prev` / `lib-next` 的 `</button>` 因而缺角，造成頁碼按鈕事件冒泡到上一頁（煙測的「Page tab jumps to page 3」失敗），修好後 30/30 通過。快取參數最終為 `2026-11-27i`。11-27 又修復從 AtomLite 啟動多片 Outsoftware 壓縮檔的隱藏錯誤：`switchInterface()` 把整片（甚至整包）磁碟 bytes 放進 `sessionStorage`，超過配額丟出 `QuotaExceededError`，導致介面沒切、pending launch 也沒建立。現在只序列化沒有 bytes 的 URL 型 companion，影像全部交給 IndexedDB 的 stand-by 托盤暫存；`stashStandby()` / `restoreStandby()` 會在介面切換重載前後保存與還原整盤（含 dirty 標記），`consumePendingLaunch()` 再由托盤自動把第二片掛到 D2。新增 9 項切換測試全數通過。
+- **文件**：`ReadMe.md` / `Manual.md` 中英都加了 Outsoftware Library 小節；原本標註「分支限定、尚未併入 main」，合併後改為「自 v1.2.17 起隨 main 發布，面板仍標 experimental」。
+- **驗證**：新增 17 項無頭瀏覽器檢查 `0 failed`（資料源切換、32 筆目錄、DENIED 排除、搜尋 `tetris` 得 2 筆、Tetris 從本機快取開機、About 連結指向 Outsoftware、Monkey Island 的 Disc 1/Disc 2、按鈕 toggle、WOS 回復）；另加 stand-by 換片測試 12 項 `0 failed`（3/6 片托盤、換片不重開機、退出清空、WOS 不受影響），但該次 Monkey Island 截圖後來證實只是 SAM 啟動彩條，並未進入載入畫面（詳見上條）。原有煙霧 `0/30`、About／時效 `0/11` 全部通過，WOS 目錄仍是 481 / 398。
+- **本機多片載入（11-27）**：`File ▸ Insert Disk(s) to D1…` 的檔案輸入框加上 `multiple`，可以一次選多片（也可直接選內含多片的 ZIP，7z-wasm 會解出全部映像並自然排序）。新公開的 `SamLibrary.loadLocalFiles(files, targetType)` 把第一片掛到指定磁碟機（引擎的 AutoLoad 會在啟動畫面自動開機），其餘軟碟映像放進 stand-by 托盤，並把 Disc 2 自動掛到 D2；狀態列顯示 `Media loaded: … (+N stand-by)`。`loadSecondaryDisk(file, quiet)` 加 `quiet` 參數，避免第二片的訊息蓋掉整組狀態。快取參數 bump 到 `2026-11-27b`。新增 10 項 CDP 檢查 `0 failed`（多選屬性、三片托盤、D1/D2 掛載、狀態列、選單打勾、換第 3 片、D2 不變）；原有 30/17/11/12/9 全數通過。11-27 再補上 **D2 多片支援**：`insertMedia()` 接受 `opts.drive`，`swapStandbyDisk()` 明確帶回所屬磁碟機（原本會一律插回 D1）；`loadLocalFiles()` 改為只清掉目標磁碟機的托盤，D1 與 D2 托盤可並存，選單分別列出 `Disk 1` / `Disk 2`（Atom 模式顯示 `Pri. Master` / `Sec. Master`）。新增 13 項 CDP 檢查 `0 failed`（D1 托盤保留、D2 三片、兩邊標題與五個項目、D2 換第 3 片不影響 D1），快取參數改為 `2026-11-27c`。11-27 再修復 **退片誤清兩台**：`ejectMedia()` 原本呼叫無引數的 `clearAboutSoftware()`，連另一台的 stand-by 托盤也一起清掉；現在 `clearAboutSoftware(drive, keepTrays)` 只清指定 drive 的托盤，退錄音帶時完全不清磁碟托盤。File 選單的 Insert / Eject 項目統一改成 `Insert Disk(s) to D1…` / `Insert Disk(s) from URL to D1…` / `Eject Disk(s) from D1` 這種語法，D2 / Sec. 類比；卡帶沒有多片托盤，所以 Tape 項目維持單數（`Insert Tape...` / `Insert Tape from URL...` / `Eject Tape`），且 `loadLocalFiles()` 改呼叫 `clearStandby(2)`，載入卡帶不再連磁碟托盤一起清掉。`updateMenuChecks()` 會依目前介面把 D2 顯示為 `D2` 或 `Pri.`，Sec. 一致。新增 13 項 CDP 檢查 `0 failed`（退 D2 保留 D1、退 D1 保留 D2、退錄音帶兩台都保留、選單標籤與 Atom 模式標籤），快取參數最終為 `2026-11-27i`。
 
-**Status**: 實驗功能完成並提交在 `swlib/outsw` 分支；等使用者確認才會考慮合併或推送。
+- **版名（11-27）**：原本 `main` 仍是 `v1.2.17 WOS Edition`；因為 `swlib/outsw` 已同時提供 WOS 與 Outsoftware 兩個來源，繼續用 WOS 品牌的版名容易讓人以為 WOS 替第二個來源背書。使用者選定改用中性的 **v1.2.17 Software Library Edition**（`SWLib Edition` 對外不易理解，故未採用）。`<title>` 與 About 標題同步更新，About 的來源說明改為「Software catalogues & screenshots from:」並列出 World of SAM（含 Andrew 連結）與 Outsoftware（experimental）；ReadMe / Manual 的中英 experimental 小節也註記新版名。快取參數 bump 到 `2026-11-27i`。
+
+- **Outsoftware 連結（11-27）**：About 的來源連結、Outsoftware 徽章的 `siteUrl`、產生器 fallback 與中英文件統一改用正式頁面 `https://outsoftware.it/games/sam-coupe/`（原本是 `https://outsoftware.it/games/#sam-coupe` 的錨點；已抓回確認 HTTP 200）。快取參數 bump 到 `2026-11-27i`。
+
+**Status**: 功能完成，11-27 經使用者確認後已完整合併回 `main`；當日 Commit 稍後 squash 成單筆（見 §22）。
+
+---
+
+## 22. 2026-11-27：文件對齊、合併 main 與 squash
+
+使用者確認「文件記得更新，整個併入 main」。11-26 的兩筆 Outsoftware commit 保留原狀；11-27 當天的 10 筆 commit 先 fast-forward 合入 `main`，稍後依使用者要求 squash 成單一 commit，並以 `git push --force-with-lease` 更新遠端。全程沒有帶入任何 bot 產生器的 trailer。
+
+- **文件對齊**：`ReadMe.md` / `Manual.md` 中英的 Outsoftware 小節移除「僅 `swlib/outsw` 分支」「尚未併入 main」註記，改為「自 v1.2.17 起隨 `main` 發布；面板仍標示 experimental」。§21 的標題、引言與 Status 同步改寫為「先於分支開發，已併入 main」。
+- **合併方式**：`git checkout main && git merge --ff-only swlib/outsw`；合併後 `main` 與 `swlib/outsw` 指向同一個 commit，再推送至 origin。
+- **版號微調**：推送後使用者要求版號與 upstream SimCoupe 同步，改回 **v1.2.17**；`Software Library Edition` 這個中性的 edition 名稱維持不變（避免讓 WOS 替第二個來源背書）。`<title>`、About 標題、ReadMe / Manual 中英小節同步更新，快取 token bump 到 `2026-11-27i`。
+- **Squash**：以 `git reset --soft 076e994` 保留當天全部變更，重新送出單筆 commit；`swlib/outsw` 也指向同一個 commit。
+- **迴歸**：about / outsw / cdp / eject 四套無頭檢查仍為 0 failed。
+
+**Status**: `main` 已包含完整 v1.2.17 Software Library Edition，11-27 的改動 squash 成單筆並已推送至 origin。
 

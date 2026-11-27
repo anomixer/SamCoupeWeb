@@ -97,7 +97,7 @@ for (const block of blocks) {
   const info = block.match(/href="(https:\/\/outsoftware\.it\/games\/[^"]+)"[^>]*>\s*Info/i);
   if (!h3 || !zip) continue;
 
-  const infoUrl = info ? info[1] : BASE + '/games/#sam-coupe';
+  const infoUrl = info ? info[1] : BASE + '/games/sam-coupe/';
   const infoSlug = infoUrl.split('/').filter(Boolean).pop();
   if (DENIED.includes(infoSlug)) continue;
   if (/DENIED/i.test(block)) continue;

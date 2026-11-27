@@ -18,7 +18,7 @@ To begin, simply visit the [Live Demo](https://anomixer.github.io/samcoupeweb/).
 SamCoupeWeb supports multiple ways to load media:
 
 *   **Drag & Drop (Recommended)**: Drag any supported file (`.dsk`, `.mgt`, `.sad`, `.tap`, `.tzx`, `.hdf`, `.zip`, `.gz`, `.7z`) directly onto the browser window. The emulator will automatically identify the media type and mount it. The first dropped file automatically resets and boots the emulator, while any subsequent drops are purely mounted/inserted without resetting the machine, making it easy to swap disks during gameplay.
-*   **Web Menu Bar**: Click `File -> Open Disk...` or `File -> Open Tape...` to select files from your computer using the standard browser file picker.
+*   **Web Menu Bar**: Click `File -> Insert Disk(s) to D1...`, `File -> Insert Disk(s) to D2...` / `to Pri....` / `to Sec....` or `File -> Insert Tape...` to select files from your computer using the standard browser file picker. Disk drives accept several images at once (or a ZIP containing several images): the first mounts in the chosen drive and the remainder go into that drive's stand-by tray under `File ▸ Disk 1 stand-by disks` / `Disk 2 stand-by disks`. Tape loading takes a single image. The two trays are independent, and a swap always stays in the same drive without a reboot. Loading a D1 set still mounts its second disc automatically in D2. `File -> Eject Disk(s) from D1` / `from D2` / `from Sec.` clears only that drive's tray; the other drive keeps its discs.
 *   **Cloud Loading (URL Parameters)**: You can load games directly from the web by appending parameters to the URL:
     *   `?d1=[URL]` - Mount Disk 1 and Auto-Boot.
     *   `?tape=[URL]` - Mount Tape and Auto-Boot.
@@ -69,13 +69,15 @@ The **World of SAM** logo at the right end of the menu bar opens a library of **
 
 `Esc` (or the logo again) closes the library; the emulator is paused while it is open and resumes when the selected title boots. Products with no hosted image show **No download ↗** and open that product's page on worldofsam.org in a new tab (middle-click works too). After a title boots, an **About this software…** link appears in the status bar and points back to its World of SAM product page. The bundled catalogue is an expiring snapshot: opening the library warns once when it is over 14 days old, and a failed download offers the product page as a fallback; a weekly CI job regenerates it. Cloud images live in memory only, so if you want to keep one, use **File ▸ Save Disk 1** (or the matching drive) after it boots. While a title loads, a bright blinking banner at the top of the library reports `Downloading…`, `Extracting…` and `Booting…` (failures are shown in red).
 
-### 8. Experimental Outsoftware Library (`swlib/outsw` branch only)
+### 8. Outsoftware Library (experimental)
 
-> Not on `main` yet.
+> Shipped on `main` from v1.2.17; still marked experimental in the panel.
 
-The **Outsoftware** badge to the right of the World of SAM logo opens the same panel with a second catalogue: **32 SAM Coupé games** from [Outsoftware](https://outsoftware.it/games/#sam-coupe). Everything in section 7 applies — search, sort, paging, multi-image picker, the "About this software…" link (pointing at the Outsoftware info page) and saving the mounted image. Click the World of SAM logo to switch back; click the active badge (or press `Esc`) to close.
+This build is branded **v1.2.17 Software Library Edition**; the About box credits both World of SAM and Outsoftware (experimental).
 
-Titles the publisher marks **DENIED** are excluded. Because that site has no CORS headers, its ZIPs are prefetched from the publisher's own URLs at build time (or by `Run.bat` / `run.sh`) into a gitignored cache; no images or disks are committed. Multi-disk archives boot **Disc 1** and mount **Disc 2** automatically. To use the remaining disks (for example Disc 3 of Monkey Island or disks 3–6 of Wolfenstein 3D), open **File ▸ Disk 1 stand-by disks** and choose an image; it is inserted into D1 without rebooting. The checked item is the one currently inserted. Any edits to the previous disk are flushed into memory before the swap, but ejecting the drive clears the tray — save first if you need to keep them. Monkey Island's SYSTEM-type boot disk is started with an explicit `BOOT` typed by the launcher.
+The **Outsoftware** badge to the right of the World of SAM logo opens the same panel with a second catalogue: **32 SAM Coupé games** from [Outsoftware](https://outsoftware.it/games/sam-coupe/). Everything in section 7 applies — search, sort, paging, multi-image picker, the "About this software…" link (pointing at the Outsoftware info page) and saving the mounted image. Click the World of SAM logo to switch back; click the active badge (or press `Esc`) to close.
+
+Titles the publisher marks **DENIED** are excluded. Because that site has no CORS headers, its ZIPs are prefetched from the publisher's own URLs at build time (or by `Run.bat` / `run.sh`) into a gitignored cache; no images or disks are committed. Multi-disk archives boot **Disc 1** and mount **Disc 2** automatically. To use the remaining disks (for example Disc 3 of Monkey Island or disks 3–6 of Wolfenstein 3D), open **File ▸ Disk 1 stand-by disks** and choose an image; it is inserted into D1 without rebooting. The checked item is the one currently inserted. Any edits to the previous disk are flushed into memory before the swap, but ejecting the drive clears the tray — save first if you need to keep them. **Known issue:** the published Monkey Island image has an `AUTO` file with no SAMDOS auto-run fields, so SAMDOS 2.2 reports `94 Wrong file type` instead of starting the loader. The launcher now uses the normal boot path and shows a warning; the other 31 titles are unaffected.
 
 ---
 
@@ -91,7 +93,7 @@ Titles the publisher marks **DENIED** are excluded. Because that site has no COR
 SamCoupeWeb 提供多種直覺的載入方式：
 
 *   **拖放載入 (推薦)**：直接將檔案（`.dsk`, `.tap`, `.hdf`, `.zip`, `.7z` 等）**拖入瀏覽器視窗**。系統會自動識別並掛載。第一個拖入的檔案會自動重置並引導開機，而後續拖入的檔案只會進行純掛載/插入（不重置模擬器），方便在遊戲中途進行換片。
-*   **網頁選單**：使用上方選單 `File -> Open Disk...` 從電腦選取檔案。
+*   **網頁選單**：使用上方選單 `File -> Insert Disk(s) to D1...`、`File -> Insert Disk(s) to D2...`／`to Pri....`／`to Sec....` 或 `File -> Insert Tape...` 從電腦選取檔案。磁碟機可以一次選取多片（或直接選取內含多片的 ZIP）：第一片掛到指定磁碟機，其餘放進該磁碟機的 `File ▸ Disk 1 stand-by disks` / `Disk 2 stand-by disks` 托盤；卡帶一次只載入一卷。D1 與 D2 的托盤互相獨立，換片會留在原磁碟機且不需重新開機。載入 D1 磁片組時仍會自動把第二片掛入 D2。`File -> Eject Disk(s) from D1`／`from D2`／`from Sec.` 只會清掉該磁碟機的托盤，另一台的磁片不受影響。
 *   **雲端載入 (URL 參數)**：在網址後加上參數即可自動載入網路上的遊戲：
     *   `?d1=[網址]` - 自動下載、掛載磁碟 1 並引導。
     *   `?tape=[網址]` - 自動載入錄音帶。
@@ -142,13 +144,15 @@ SamCoupeWeb 提供多種直覺的載入方式：
 
 按 `Esc`（或再次點擊標誌）關閉圖書館；開啟期間模擬器會暫停，選定標題開機後恢復。沒有可下載影像的產品標示 **No download ↗**，點擊會另開新分頁前往該作品的 World of SAM 頁面（中鍵點擊亦可）；標題開機後，狀態列右側會出現 **About this software…** 連結，可直接回到該作品的 World of SAM 頁面。內建目錄是有時效的快照：超過 14 天開啟圖書館時會提示一次，下載失敗時也會提供產品頁連結；CI 每週會重新產生。雲端影像只存在記憶體，想留一份的話，開機後用 **File ▸ Save Disk 1**（或對應的磁碟機）即可存回本機。載入期間，圖書館正上方會以發光、閃爍的提示顯示 `Downloading…`、`Extracting…`、`Booting…`（失敗時轉為紅光）。
 
-### 8. 實驗性 Outsoftware 圖書館（僅 `swlib/outsw` 分支）
+### 8. Outsoftware 圖書館（experimental）
 
-> 尚未併入 `main`。
+> 自 v1.2.17 起隨 `main` 發布；面板仍標示為 experimental。
 
-World of SAM 標誌右邊的 **Outsoftware** 按鈕會用同一個面板開啟第二份目錄：[Outsoftware](https://outsoftware.it/games/#sam-coupe) 的 **32 款 SAM Coupé 遊戲**。第 7 節的功能都通用 — 搜尋、排序、翻頁、多影像選擇、「About this software…」連結（指向 Outsoftware 資訊頁）以及存回掛載中的影像。點 World of SAM 標誌可切回去；再點一次同一個按鈕或按 `Esc` 可關閉。
+這個版本的版名是 **v1.2.17 Software Library Edition**；About 視窗會同時致謝 World of SAM 與 Outsoftware（experimental）。
 
-發行商標示 **DENIED** 的標題已排除。該站沒有 CORS 標頭，因此 ZIP 會在建置時（或 `Run.bat` / `run.sh` 啟動時）從發行商自己的網址預取到不進版本控制的快取目錄；沒有提交任何影像或磁片。多磁片壓縮檔會以 **Disc 1** 開機並自動掛入 **Disc 2**。要用剩下的磁片（例如 Monkey Island 的 Disc 3、Wolfenstein 3D 的第 3～6 片），請開 **File ▸ Disk 1 stand-by disks** 選擇影像，會直接換入 D1 而不重新開機；打勾的是目前插入的那片。換片前對舊片的修改會先存到記憶體，但退出磁碟會清空托盤 — 要保留請先存檔。Monkey Island 的 SYSTEM 開機片會由啟動器自動輸入 `BOOT`。
+World of SAM 標誌右邊的 **Outsoftware** 按鈕會用同一個面板開啟第二份目錄：[Outsoftware](https://outsoftware.it/games/sam-coupe/) 的 **32 款 SAM Coupé 遊戲**。第 7 節的功能都通用 — 搜尋、排序、翻頁、多影像選擇、「About this software…」連結（指向 Outsoftware 資訊頁）以及存回掛載中的影像。點 World of SAM 標誌可切回去；再點一次同一個按鈕或按 `Esc` 可關閉。
+
+發行商標示 **DENIED** 的標題已排除。該站沒有 CORS 標頭，因此 ZIP 會在建置時（或 `Run.bat` / `run.sh` 啟動時）從發行商自己的網址預取到不進版本控制的快取目錄；沒有提交任何影像或磁片。多磁片壓縮檔會以 **Disc 1** 開機並自動掛入 **Disc 2**。要用剩下的磁片（例如 Monkey Island 的 Disc 3、Wolfenstein 3D 的第 3～6 片），請開 **File ▸ Disk 1 stand-by disks** 選擇影像，會直接換入 D1 而不重新開機；打勾的是目前插入的那片。換片前對舊片的修改會先存到記憶體，但退出磁碟會清空托盤 — 要保留請先存檔。**已知問題：** 發行商發布的 Monkey Island 影像中，`AUTO` 檔缺少 SAMDOS 自動執行欄位，SAMDOS 2.2 會顯示 `94 Wrong file type`，無法進入載入畫面。啟動器現在使用正常開機流程並顯示警告；其餘 31 款不受影響。
 
 ---
 

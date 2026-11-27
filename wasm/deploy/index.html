@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SamCoupeWeb v1.2.17 WOS Edition</title>
+    <title>SamCoupeWeb v1.2.17 Software Library Edition</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         :root {
@@ -497,7 +497,7 @@
             background: #005a9e;
         }
 
-        /* â”€â”€ Software Library (World of SAM) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+        /* ?€?€ Software Library (World of SAM) ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€ */
         .menu-logo-btn {
             padding: 0 8px 0 12px;
             display: flex;
@@ -1396,40 +1396,40 @@
         <div class="menu-item">
             File
             <div class="dropdown">
-                <div class="dropdown-item" onclick="openFilePicker(0)">Insert Disk 1... <span class="shortcut">F1</span>
+                <div class="dropdown-item" id="insert-d1" onclick="openFilePicker(0)">Insert Disk(s) to D1... <span class="shortcut">F1</span>
                 </div>
-                <div class="dropdown-item" onclick="insertDiskFromUrl(0)">Insert Disk 1 from URL...</div>
-                <div class="dropdown-item" id="eject-d1" onclick="ejectMedia(0)">Eject Disk 1</div>
+                <div class="dropdown-item" id="insert-url-d1" onclick="insertDiskFromUrl(0)">Insert Disk(s) from URL to D1...</div>
+                <div class="dropdown-item" id="eject-d1" onclick="ejectMedia(0)">Eject Disk(s) from D1</div>
                 <div class="dropdown-divider" id="standby-divider" hidden></div>
                 <div id="standby-list" hidden></div>
 
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item-header">Disk 2 Type:</div>
                 <div class="dropdown-item opt-item" data-opt="interface" data-val="0" onclick="setInterface(0)"><span
-                        class="check">âœ“</span>Floppy</div>
+                        class="check">&#10003;</span>Floppy</div>
                 <div class="dropdown-item opt-item" data-opt="interface" data-val="1" onclick="setInterface(1)"><span
-                        class="check">âœ“</span>Atom Classic</div>
+                        class="check">&#10003;</span>Atom Classic</div>
                 <div class="dropdown-item opt-item" data-opt="interface" data-val="2" onclick="setInterface(2)"><span
-                        class="check">âœ“</span>Atom Lite</div>
+                        class="check">&#10003;</span>Atom Lite</div>
 
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item-header" id="label-pri">Pri.:</div>
-                <div class="dropdown-item" onclick="openFilePicker(1)">Insert Disk... <span class="shortcut">F2</span>
+                <div class="dropdown-item" id="insert-pri" onclick="openFilePicker(1)">Insert Disk(s) to D2... <span class="shortcut">F2</span>
                 </div>
-                <div class="dropdown-item" onclick="insertDiskFromUrl(1)">Insert Disk from URL...</div>
-                <div class="dropdown-item" id="eject-pri" onclick="ejectMedia(1)">Eject Disk</div>
+                <div class="dropdown-item" id="insert-url-pri" onclick="insertDiskFromUrl(1)">Insert Disk(s) from URL to D2...</div>
+                <div class="dropdown-item" id="eject-pri" onclick="ejectMedia(1)">Eject Disk(s) from D2</div>
 
                 <div class="dropdown-divider secondary-section"></div>
                 <div class="dropdown-item-header secondary-section" id="label-sec">Sec.:</div>
-                <div class="dropdown-item secondary-section" onclick="openFilePicker(3)">Insert Disk...</div>
-                <div class="dropdown-item secondary-section" onclick="insertDiskFromUrl(3)">Insert Disk from URL...
+                <div class="dropdown-item secondary-section" id="insert-sec" onclick="openFilePicker(3)">Insert Disk(s) to Sec....</div>
+                <div class="dropdown-item secondary-section" id="insert-url-sec" onclick="insertDiskFromUrl(3)">Insert Disk(s) from URL to Sec....
                 </div>
-                <div class="dropdown-item secondary-section" id="eject-sec" onclick="ejectMedia(3)">Eject Disk</div>
+                <div class="dropdown-item secondary-section" id="eject-sec" onclick="ejectMedia(3)">Eject Disk(s) from Sec.</div>
 
                 <div class="dropdown-divider"></div>
-                <div class="dropdown-item" onclick="openFilePicker(2)">Insert Tape... <span class="shortcut">F3</span>
+                <div class="dropdown-item" id="insert-tape" onclick="openFilePicker(2)">Insert Tape... <span class="shortcut">F3</span>
                 </div>
-                <div class="dropdown-item" onclick="insertDiskFromUrl(2)">Insert Tape from URL...</div>
+                <div class="dropdown-item" id="insert-url-tape" onclick="insertDiskFromUrl(2)">Insert Tape from URL...</div>
                 <div class="dropdown-item" id="eject-tape" onclick="ejectMedia(2)">Eject Tape</div>
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item-header">Save to Local Disk:</div>
@@ -1451,45 +1451,45 @@
                 </div>
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item" id="menu-scanline" onclick="doAction(Action.ToggleTV)"><span
-                        class="check">âœ“</span>TV Aspect Ratio <span class="shortcut">F5</span></div>
+                        class="check">&#10003;</span>TV Aspect Ratio <span class="shortcut">F5</span></div>
                 <div class="dropdown-item" id="menu-smoothing" onclick="doAction(Action.ToggleSmoothing)"><span
-                        class="check">âœ“</span>Smooth Image <span class="shortcut">F6</span></div>
+                        class="check">&#10003;</span>Smooth Image <span class="shortcut">F6</span></div>
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item opt-item" data-opt="status" onclick="toggleOption('status')"><span
-                        class="check">âœ“</span>Show Status Messages</div>
+                        class="check">&#10003;</span>Show Status Messages</div>
                 <div class="dropdown-item opt-item" data-opt="profile" onclick="toggleOption('profile')"><span
-                        class="check">âœ“</span>Show Emulation Speed</div>
+                        class="check">&#10003;</span>Show Emulation Speed</div>
                 <div class="dropdown-item opt-item" data-opt="drivelights" onclick="toggleOption('drivelights', 1, 0)">
-                    <span class="check">âœ“</span>Show Drive LEDs
+                    <span class="check">&#10003;</span>Show Drive LEDs
                 </div>
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item zoom-item" data-zoom="0.5" onclick="setZoom(0.5)"><span
-                        class="check">âœ“</span>Window Zoom 50%</div>
+                        class="check">&#10003;</span>Window Zoom 50%</div>
                 <div class="dropdown-item zoom-item" data-zoom="1.0" onclick="setZoom(1.0)"><span
-                        class="check">âœ“</span>Window Zoom 100%</div>
+                        class="check">&#10003;</span>Window Zoom 100%</div>
                 <div class="dropdown-item zoom-item" data-zoom="2.0" onclick="setZoom(2.0)"><span
-                        class="check">âœ“</span>Window Zoom 200%</div>
+                        class="check">&#10003;</span>Window Zoom 200%</div>
                 <div class="dropdown-item zoom-item" data-zoom="3.0" onclick="setZoom(3.0)"><span
-                        class="check">âœ“</span>Window Zoom 300%</div>
+                        class="check">&#10003;</span>Window Zoom 300%</div>
                 <div class="dropdown-item zoom-item" data-zoom="4.0" onclick="setZoom(4.0)"><span
-                        class="check">âœ“</span>Window Zoom 400%</div>
+                        class="check">&#10003;</span>Window Zoom 400%</div>
                 <div class="dropdown-item zoom-item" data-zoom="5.0" onclick="setZoom(5.0)"><span
-                        class="check">âœ“</span>Window Zoom 500%</div>
-                <div class="dropdown-item zoom-item" data-zoom="0" onclick="setZoom(0)"><span class="check">âœ“</span>Fit
+                        class="check">&#10003;</span>Window Zoom 500%</div>
+                <div class="dropdown-item zoom-item" data-zoom="0" onclick="setZoom(0)"><span class="check">&#10003;</span>Fit
                     to Window (Auto)</div>
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item-header">Visible Area:</div>
                 <div class="dropdown-item varea-item" data-varea="0" onclick="setVisibleArea(0)"><span
-                        class="check">âœ“</span>No Border</div>
+                        class="check">&#10003;</span>No Border</div>
                 <div class="dropdown-item varea-item" data-varea="1" onclick="setVisibleArea(1)"><span
-                        class="check">âœ“</span>Small Border</div>
+                        class="check">&#10003;</span>Small Border</div>
                 <div class="dropdown-item varea-item" data-varea="2" onclick="setVisibleArea(2)"><span
-                        class="check">âœ“</span>TV Visible</div>
+                        class="check">&#10003;</span>TV Visible</div>
                 <div class="dropdown-item varea-item" data-varea="3" onclick="setVisibleArea(3)"><span
-                        class="check">âœ“</span>Full Active</div>
+                        class="check">&#10003;</span>Full Active</div>
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item opt-item" data-opt="usewebgl" onclick="toggleOption('usewebgl')"><span
-                        class="check">âœ“</span>Use WebGL Acceleration</div>
+                        class="check">&#10003;</span>Use WebGL Acceleration</div>
             </div>
         </div>
         <div class="menu-item">
@@ -1514,20 +1514,20 @@
             System
             <div class="dropdown">
                 <div class="dropdown-item" id="menu-pause" onclick="doAction(Action.Pause)"><span
-                        class="check">âœ“</span>Pause / Resume <span class="shortcut">Pause</span></div>
+                        class="check">&#10003;</span>Pause / Resume <span class="shortcut">Pause</span></div>
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item speed-item" data-speed="50" onclick="setSpeed(50)"><span
-                        class="check">âœ“</span>Speed: 50%</div>
+                        class="check">&#10003;</span>Speed: 50%</div>
                 <div class="dropdown-item speed-item" data-speed="100" onclick="setSpeed(100)"><span
-                        class="check">âœ“</span>Speed: 100%</div>
+                        class="check">&#10003;</span>Speed: 100%</div>
                 <div class="dropdown-item speed-item" data-speed="200" onclick="setSpeed(200)"><span
-                        class="check">âœ“</span>Speed: 200%</div>
+                        class="check">&#10003;</span>Speed: 200%</div>
                 <div class="dropdown-item speed-item" data-speed="300" onclick="setSpeed(300)"><span
-                        class="check">âœ“</span>Speed: 300%</div>
+                        class="check">&#10003;</span>Speed: 300%</div>
                 <div class="dropdown-item speed-item" data-speed="500" onclick="setSpeed(500)"><span
-                        class="check">âœ“</span>Speed: 500%</div>
+                        class="check">&#10003;</span>Speed: 500%</div>
                 <div class="dropdown-item speed-item" data-speed="1000" onclick="setSpeed(1000)"><span
-                        class="check">âœ“</span>Speed: 1000%</div>
+                        class="check">&#10003;</span>Speed: 1000%</div>
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item" onclick="doAction(Action.Nmi)">Generate NMI <span class="shortcut">F11</span>
                 </div>
@@ -1538,55 +1538,55 @@
             Tool
             <div class="dropdown">
                 <div class="dropdown-item opt-item" data-opt="mainmem" data-val="256"
-                    onclick="setOption('mainmem', 256)"><span class="check">âœ“</span>Memory: 256K</div>
+                    onclick="setOption('mainmem', 256)"><span class="check">&#10003;</span>Memory: 256K</div>
                 <div class="dropdown-item opt-item" data-opt="mainmem" data-val="512"
-                    onclick="setOption('mainmem', 512)"><span class="check">âœ“</span>Memory: 512K</div>
+                    onclick="setOption('mainmem', 512)"><span class="check">&#10003;</span>Memory: 512K</div>
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item opt-item" data-opt="joytype1" data-val="0" onclick="setOption('joytype1', 0)">
-                    <span class="check">âœ“</span>Joystick: None
+                    <span class="check">&#10003;</span>Joystick: None
                 </div>
                 <div class="dropdown-item opt-item" data-opt="joytype1" data-val="1" onclick="setOption('joytype1', 1)">
-                    <span class="check">âœ“</span>Joystick: Keyboard 1
+                    <span class="check">&#10003;</span>Joystick: Keyboard 1
                 </div>
                 <div class="dropdown-item opt-item" data-opt="joytype1" data-val="2" onclick="setOption('joytype1', 2)">
-                    <span class="check">âœ“</span>Joystick: Keyboard 2
+                    <span class="check">&#10003;</span>Joystick: Keyboard 2
                 </div>
                 <div class="dropdown-item opt-item" data-opt="joytype1" data-val="3" onclick="setOption('joytype1', 3)">
-                    <span class="check">âœ“</span>Joystick: Kempston
+                    <span class="check">&#10003;</span>Joystick: Kempston
                 </div>
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item opt-item" data-opt="sid" data-val="0" onclick="setOption('sid', 0)"><span
-                        class="check">âœ“</span>SID: None</div>
+                        class="check">&#10003;</span>SID: None</div>
                 <div class="dropdown-item opt-item" data-opt="sid" data-val="1" onclick="setOption('sid', 1)"><span
-                        class="check">âœ“</span>SID: MOS 6581</div>
+                        class="check">&#10003;</span>SID: MOS 6581</div>
                 <div class="dropdown-item opt-item" data-opt="sid" data-val="2" onclick="setOption('sid', 2)"><span
-                        class="check">âœ“</span>SID: MOS 8580</div>
+                        class="check">&#10003;</span>SID: MOS 8580</div>
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item opt-item" data-opt="voicebox" onclick="toggleOption('voicebox')"><span
-                        class="check">âœ“</span>Enable VoiceBox</div>
+                        class="check">&#10003;</span>Enable VoiceBox</div>
                 <div class="dropdown-item opt-item" data-opt="dac7c" data-val="0" onclick="setOption('dac7c', 0)"><span
-                        class="check">âœ“</span>DAC: None</div>
+                        class="check">&#10003;</span>DAC: None</div>
                 <div class="dropdown-item opt-item" data-opt="dac7c" data-val="1" onclick="setOption('dac7c', 1)"><span
-                        class="check">âœ“</span>DAC: BlueAlpha</div>
+                        class="check">&#10003;</span>DAC: BlueAlpha</div>
                 <div class="dropdown-item opt-item" data-opt="dac7c" data-val="2" onclick="setOption('dac7c', 2)"><span
-                        class="check">âœ“</span>DAC: SAMVox</div>
+                        class="check">&#10003;</span>DAC: SAMVox</div>
                 <div class="dropdown-item opt-item" data-opt="dac7c" data-val="3" onclick="setOption('dac7c', 3)"><span
-                        class="check">âœ“</span>DAC: Paula (Amiga)</div>
+                        class="check">&#10003;</span>DAC: Paula (Amiga)</div>
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item opt-item" data-opt="turbodisk" onclick="toggleOption('turbodisk')"><span
-                        class="check">âœ“</span>Turbo Disk Access</div>
+                        class="check">&#10003;</span>Turbo Disk Access</div>
                 <div class="dropdown-item opt-item" data-opt="dosboot" onclick="toggleOption('dosboot')"><span
-                        class="check">âœ“</span>Auto-boot DOS</div>
+                        class="check">&#10003;</span>Auto-boot DOS</div>
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item opt-item" data-opt="turbotape" onclick="toggleOption('turbotape')"><span
-                        class="check">âœ“</span>Turbo Tape Loading</div>
+                        class="check">&#10003;</span>Turbo Tape Loading</div>
                 <div class="dropdown-item opt-item" data-opt="tapetraps" onclick="toggleOption('tapetraps')"><span
-                        class="check">âœ“</span>Tape Traps (Instant)</div>
+                        class="check">&#10003;</span>Tape Traps (Instant)</div>
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item opt-item" data-opt="fastreset" onclick="toggleOption('fastreset')"><span
-                        class="check">âœ“</span>Fast Reset (Skip Test)</div>
+                        class="check">&#10003;</span>Fast Reset (Skip Test)</div>
                 <div class="dropdown-item opt-item" data-opt="asicdelay" onclick="toggleOption('asicdelay')"><span
-                        class="check">âœ“</span>Enforce ASIC Delay</div>
+                        class="check">&#10003;</span>Enforce ASIC Delay</div>
             </div>
         </div>
         <div class="menu-item">
@@ -1615,11 +1615,11 @@
             <canvas id="canvas" width="512" height="192" tabindex="0" oncontextmenu="event.preventDefault()"></canvas>
         </div>
 
-        <!-- â”€â”€ Software Library (World of SAM) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+        <!-- ?€?€ Software Library (World of SAM) ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€ -->
         <div id="library-panel" class="library-panel" aria-hidden="true">
             <div class="lib-header">
                 <div class="lib-crumb">
-                    <span class="lib-back is-hidden" id="lib-back" title="Back to categories">â€¹</span>
+                    <span class="lib-back is-hidden" id="lib-back" title="Back to categories">&#8249;</span>
                     <span class="lib-crumb-title" id="lib-crumb-title">World of SAM Library</span>
                     <span class="lib-source-badge" id="lib-source-badge" hidden>experimental</span>
                     <span class="lib-count" id="lib-count"></span>
@@ -1635,8 +1635,8 @@
                 <div class="lib-tools">
                     <div class="lib-sorts hidden-view" id="lib-sorts"></div>
                     <a class="lib-site-link" id="lib-site-link" href="https://www.worldofsam.org/products" target="_blank"
-                        rel="noopener">worldofsam.org â†—</a>
-                    <button class="lib-close" id="lib-close" title="Close (Esc)">âœ•</button>
+                        rel="noopener">worldofsam.org &#8599;</a>
+                    <button class="lib-close" id="lib-close" title="Close (Esc)">&times;</button>
                 </div>
             </div>
             <div class="lib-toast" id="lib-toast" role="status" aria-live="polite"></div>
@@ -1653,9 +1653,9 @@
                 </div>
             </div>
             <div class="lib-footer" id="lib-footer">
-                <button class="lib-nav" id="lib-prev" title="Previous page">â€¹</button>
+                <button class="lib-nav" id="lib-prev" title="Previous page">&#8249;</button>
                 <div class="lib-pages" id="lib-pages"></div>
-                <button class="lib-nav" id="lib-next" title="Next page">â€º</button>
+                <button class="lib-nav" id="lib-next" title="Next page">&#8250;</button>
             </div>
         </div>
     </div>
@@ -1674,7 +1674,7 @@
         </div>
     </div>
 
-    <input type="file" id="file-input" style="display: none;" accept=".dsk,.tap,.sad,.mgt,.zip,.gz,.tzx,.hdf,.7z">
+    <input type="file" id="file-input" style="display: none;" multiple accept=".dsk,.tap,.sad,.mgt,.zip,.gz,.tzx,.hdf,.7z">
 
     <!-- About Modal -->
     <div id="aboutModal" class="modal">
@@ -1689,11 +1689,12 @@
                     <img src="logo.png" style="height:40px; vertical-align:middle;">
                 </div>
                 <div style="border-top: 1px solid #ccc; margin: 10px 0; padding-top: 10px;"></div>
-                <h2 style="margin:0;">SamCoupeWeb v1.2.17 WOS Edition</h2>
+                <h2 style="margin:0;">SamCoupeWeb v1.2.17 Software Library Edition</h2>
                 <p><a href="https://github.com/anomixer/SamCoupeWeb"
                         target="_blank">https://github.com/anomixer/SamCoupeWeb</a></p>
-                <p style="margin:5px 0;">Software Library data &amp; screenshots from:<br>
-                    <a href="https://www.worldofsam.org" target="_blank">World of SAM</a> (Thanks to: <a href="https://www.worldofsam.org/people/andrew-collier" target="_blank">Andrew Collier</a>)</p>
+                <p style="margin:5px 0;">Software catalogues &amp; screenshots from:<br>
+                    <a href="https://www.worldofsam.org" target="_blank">World of SAM</a> (Thanks to: <a href="https://www.worldofsam.org/people/andrew-collier" target="_blank">Andrew Collier</a>)<br>
+                    <a href="https://outsoftware.it/games/sam-coupe/" target="_blank">Outsoftware</a> (experimental)</p>
                 <p style="margin:5px 0;">CORS Proxy by <a href="https://corsfix.com" target="_blank">Corsfix</a></p>
 
                 <div class="credits">
@@ -1732,9 +1733,11 @@
         var fileInput = document.getElementById('file-input');
         var targetType = 0; // 0: D1, 1: D2, 2: Tape
 
-        function clearAboutSoftware() {
+        function clearAboutSoftware(drive, keepTrays) {
             try { if (window.SamLibrary && window.SamLibrary.clearAbout) window.SamLibrary.clearAbout(); } catch (e) { }
-            try { if (window.SamLibrary && window.SamLibrary.clearStandby) window.SamLibrary.clearStandby(); } catch (e) { }
+            if (!keepTrays) {
+                try { if (window.SamLibrary && window.SamLibrary.clearStandby) window.SamLibrary.clearStandby(drive); } catch (e) { }
+            }
         }
 
         // Action IDs from Actions.h
@@ -1935,7 +1938,7 @@
             try { Module.ccall('EMS_StartAudio', null, [], []); } catch (e) { }
         }
 
-        // â”€â”€ First-Run & Splash Logic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ?€?€ First-Run & Splash Logic ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
         var isVeryFirstRun = !localStorage.getItem('samcoupeweb_ready');
         if (isVeryFirstRun) {
             // Set defaults silently if they don't exist
@@ -1944,7 +1947,7 @@
             if (localStorage.getItem('samcoupeweb_visiblearea') === null) localStorage.setItem('samcoupeweb_visiblearea', '1');
         }
 
-        // â”€â”€ Module Definition â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ?€?€ Module Definition ?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€?€
         var Module = {
             arguments: (function () {
                 var args = [];
@@ -2154,6 +2157,27 @@
                 // Generic Options Sync
                 var items = document.querySelectorAll('.opt-item');
                 var savedInterface = parseInt(localStorage.getItem('samcoupeweb_interface') || "0");
+
+                // Drive names in insert/eject labels follow the selected interface.
+                var priName = savedInterface === 0 ? 'D2' : 'Pri.';
+                var menuLabels = {
+                    'insert-d1': 'Insert Disk(s) to D1... ',
+                    'insert-pri': 'Insert Disk(s) to ' + priName + '... ',
+                    'insert-sec': 'Insert Disk(s) to Sec....',
+                    'insert-tape': 'Insert Tape... ',
+                    'insert-url-d1': 'Insert Disk(s) from URL to D1...',
+                    'insert-url-pri': 'Insert Disk(s) from URL to ' + priName + '...',
+                    'insert-url-sec': 'Insert Disk(s) from URL to Sec....',
+                    'insert-url-tape': 'Insert Tape from URL...',
+                    'eject-d1': 'Eject Disk(s) from D1',
+                    'eject-pri': 'Eject Disk(s) from ' + priName,
+                    'eject-sec': 'Eject Disk(s) from Sec.',
+                    'eject-tape': 'Eject Tape'
+                };
+                Object.keys(menuLabels).forEach(function (id) {
+                    var el = document.getElementById(id);
+                    if (el && el.childNodes.length) el.childNodes[0].textContent = menuLabels[id];
+                });
 
                 items.forEach(item => {
                     var opt = item.getAttribute('data-opt');
@@ -2562,7 +2586,9 @@
             var savedInterface = parseInt(localStorage.getItem('samcoupeweb_interface') || "0");
 
             const performEject = () => {
-                clearAboutSoftware();
+                // Ejecting one drive must not drop the other drive's stand-by tray.
+                if (type === 2) clearAboutSoftware(undefined, true);
+                else clearAboutSoftware(type);
                 if (type === 0 || type === 1 || type === 3) {
                     Module.ccall('EMS_EjectDisk', null, ['number'], [type]);
                 } else {
@@ -2697,6 +2723,27 @@
 
                 var savedInterface = parseInt(localStorage.getItem('samcoupeweb_interface') || "0");
 
+                // Drive names in insert/eject labels follow the selected interface.
+                var priName = savedInterface === 0 ? 'D2' : 'Pri.';
+                var menuLabels = {
+                    'insert-d1': 'Insert Disk(s) to D1... ',
+                    'insert-pri': 'Insert Disk(s) to ' + priName + '... ',
+                    'insert-sec': 'Insert Disk(s) to Sec....',
+                    'insert-tape': 'Insert Tape... ',
+                    'insert-url-d1': 'Insert Disk(s) from URL to D1...',
+                    'insert-url-pri': 'Insert Disk(s) from URL to ' + priName + '...',
+                    'insert-url-sec': 'Insert Disk(s) from URL to Sec....',
+                    'insert-url-tape': 'Insert Tape from URL...',
+                    'eject-d1': 'Eject Disk(s) from D1',
+                    'eject-pri': 'Eject Disk(s) from ' + priName,
+                    'eject-sec': 'Eject Disk(s) from Sec.',
+                    'eject-tape': 'Eject Tape'
+                };
+                Object.keys(menuLabels).forEach(function (id) {
+                    var el = document.getElementById(id);
+                    if (el && el.childNodes.length) el.childNodes[0].textContent = menuLabels[id];
+                });
+
                 // Validate HDF or Archives for Atom mode
                 if (savedInterface > 0 && (type === 1 || type === 3)) {
                     if (!filename.toLowerCase().endsWith('.hdf') && !filename.toLowerCase().match(/\.(7z|zip|gz)$/)) {
@@ -2760,105 +2807,19 @@
         }
 
         fileInput.addEventListener('change', async function (e) {
-            var file = e.target.files[0];
-            if (!file) return;
-
-            clearAboutSoftware();
-            statusLeft.innerText = 'Processing file: ' + file.name;
-
-            let data;
-            let filename = file.name;
-
-            const isArchive = file.name.toLowerCase().match(/\.(7z|zip|gz)$/);
-            if (isArchive) {
-                try {
-                    console.log('Archive: Initializing 7z-wasm for', file.name);
-                    statusLeft.innerText = 'Initializing extraction engine...';
-
-                    const SevenZipWasm = (await import('https://cdn.jsdelivr.net/npm/7z-wasm@1.2.0/+esm')).default;
-                    const sevenZip = await SevenZipWasm();
-
-                    const buffer = await file.arrayBuffer();
-                    const archiveName = 'input' + isArchive[0];
-                    sevenZip.FS.writeFile(archiveName, new Uint8Array(buffer));
-
-                    statusLeft.innerText = 'Extracting archive...';
-                    // Command 'e' for extract to current dir, '-y' for assume yes
-                    sevenZip.callMain(['e', archiveName, '-y']);
-
-                    // Find the first extracted file (excluding the input and metadata)
-                    const files = sevenZip.FS.readdir('/');
-                    console.log('7z: Files in virtual FS:', files);
-
-                    const firstFileName = files.find(name =>
-                        name !== '.' && name !== '..' && name !== archiveName &&
-                        !sevenZip.FS.isDir(sevenZip.FS.stat(name).mode)
-                    );
-
-                    if (!firstFileName) throw new Error('Archive is empty or contains no files');
-
-                    data = sevenZip.FS.readFile(firstFileName);
-                    filename = firstFileName;
-                    console.log('7z: Selected file:', filename, 'size:', data.length);
-                    statusLeft.innerText = 'Extracted: ' + filename;
-                } catch (err) {
-                    console.error("7z extraction failed:", err);
-                    statusLeft.innerText = '7z Error: ' + err.message;
-                    customAlert("Failed to extract 7z archive: " + err.message, "Extraction Error");
-                    return;
+            var files = e.target.files;
+            if (!files || !files.length) return;
+            statusLeft.innerText = files.length > 1
+                ? 'Loading ' + files.length + ' local files...'
+                : 'Processing file: ' + files[0].name;
+            try {
+                if (window.SamLibrary && typeof window.SamLibrary.loadLocalFiles === 'function') {
+                    await window.SamLibrary.loadLocalFiles(files, targetType);
                 }
-            } else {
-                data = new Uint8Array(await file.arrayBuffer());
+            } finally {
+                fileInput.value = "";
             }
-
-            var vfsPath = "/tmp/" + filename;
-            try { FS.mkdir('/tmp'); } catch (e) { }
-            FS.writeFile(vfsPath, data);
-
-            var savedInterface = parseInt(localStorage.getItem('samcoupeweb_interface') || "0");
-
-            // Validate HDF for Atom mode
-            if (targetType === 0 || (savedInterface === 0 && targetType === 1)) {
-                if (filename.toLowerCase().endsWith('.hdf')) {
-                    customAlert('Floppy drives do not accept .hdf images. Please switch to Atom interface.', 'Invalid Image Type');
-                    fileInput.value = "";
-                    return;
-                }
-            } else if (savedInterface > 0 && (targetType === 1 || targetType === 3)) {
-                const isHdf = filename.toLowerCase().endsWith('.hdf');
-                const isArchive = file.name.toLowerCase().match(/\.(7z|zip|gz)$/);
-                if (!isHdf && !isArchive) {
-                    customAlert('Atom interface only accepts .hdf hard disk images or compressed archives (.7z, .zip, .gz).', 'Invalid Image Type');
-                    fileInput.value = "";
-                    return;
-                }
-            }
-
-            if (targetType === 0 || targetType === 1 || targetType === 3) {
-                var res = Module.ccall('EMS_InsertDisk', 'number', ['number', 'string'], [targetType, vfsPath]);
-                if (res) {
-                    mediaNames[targetType] = filename;
-                    if (targetType === 0) {
-                        statElements[0].innerText = 'D1: ' + truncatePath(filename);
-                    } else if (targetType === 1) {
-                        var label = (savedInterface === 0) ? 'D2: ' : 'Pri: ';
-                        statElements[1].innerText = label + truncatePath(filename);
-                    } else if (targetType === 3) {
-                        statElements[3].innerText = 'Sec: ' + truncatePath(filename);
-                    }
-                }
-            } else {
-                var res = Module.ccall('EMS_InsertTape', 'number', ['string'], [vfsPath]);
-                if (res) {
-                    mediaNames[2] = filename;
-                    statElements[2].innerText = 'Tape: ' + truncatePath(filename);
-                }
-            }
-            statusLeft.innerText = 'Media loaded: ' + filename;
-            updateMenuChecks();
-            fileInput.value = "";
         });
-
         window.addEventListener('keydown', (e) => {
             if (!isEngineReady) return;
             // Prevent browser shortcuts for F-keys and other game keys
@@ -2932,9 +2893,9 @@
 
     </script>
     <!-- Bump this date whenever a library data file or library.js changes. -->
-    <script src="library-data.js?v=2026-11-26b"></script>
-    <script src="outsoftware-data.js?v=2026-11-26b"></script>
-    <script src="library.js?v=2026-11-26b"></script>
+    <script src="library-data.js?v=2026-11-27i"></script>
+    <script src="outsoftware-data.js?v=2026-11-27i"></script>
+    <script src="library.js?v=2026-11-27i"></script>
     <script async src="samcoupeweb.js"></script>
 </body>
 
